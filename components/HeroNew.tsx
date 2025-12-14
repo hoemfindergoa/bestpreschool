@@ -1,170 +1,262 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Heart } from "lucide-react";
-import Image from "next/image";
-import { Titan_One, Nunito, Caveat } from 'next/font/google';
-import maineimage from "../public/mainimage.png";
-import Link from "next/link";
+import React, { useCallback, useRef, useState, useEffect } from 'react';
+import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
+import type { Engine } from "tsparticles-engine";
+import Image from 'next/image';
+import { Titan_One, Nunito } from 'next/font/google';
+import { Rocket, Play, Sparkles, ChevronDown, ArrowRight } from 'lucide-react';
 
-// --- FONT CONFIGURATION ---
-const titleFont = Titan_One({ 
-  weight: '400', 
-  subsets: ['latin'],
-  display: 'swap',
-});
+// --- PLACEHOLDER IMAGES ---
+// Replace with your best, highest quality "Hero" image.
+// A transparent PNG of a kid astronaut + dragon works best here.
+import heroImage from "../public/dragonwithastronoutstudy.png"; 
 
-const bodyFont = Nunito({ 
-  subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  display: 'swap',
-});
+// --- FONTS ---
+const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700'], display: 'swap' });
 
-const handwritingFont = Caveat({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  display: 'swap',
-});
+// --- HOOK FOR MOUSE POSITION ---
+function useMouseTilt(ref: React.RefObject<HTMLDivElement>) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-const Hero = () => {
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return { x, y, handleMouseMove, handleMouseLeave };
+}
+
+const InteractiveHero: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { x, y, handleMouseMove, handleMouseLeave } = useMouseTilt(containerRef);
+
+  // Smooth out the mouse movements
+  const springConfig = { damping: 30, stiffness: 100 };
+  const mouseX = useSpring(x, springConfig);
+  const mouseY = useSpring(y, springConfig);
+
+  // 3D Tilt Transforms
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [15, -15]);
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-15, 15]);
+  
+  // Parallax Movement Transforms
+  const moveX = useTransform(mouseX, [-0.5, 0.5], [40, -40]);
+  const moveY = useTransform(mouseY, [-0.5, 0.5], [40, -40]);
+  const moveXReverse = useTransform(mouseX, [-0.5, 0.5], [-30, 30]);
+  const moveYReverse = useTransform(mouseY, [-0.5, 0.5], [-30, 30]);
+
+  // --- PARTICLES INIT ---
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
+  }, []);
+
+  // --- TYPEWRITER EFFECT STATE ---
+  const [displayText, setDisplayText] = useState('');
+  const fullText = "Where Curiosity Takes Flight.";
+  useEffect(() => {
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < fullText.length) {
+        setDisplayText((prev) => prev + fullText.charAt(i));
+        i++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 50); // Speed of typing
+    return () => clearInterval(timer);
+  }, []);
+
+
   return (
-    <section className="w-full md:h-[900px]  mt-[80px] flex flex-col md:relative md:block overflow-hidden bg-white">
+    <section 
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`relative min-h-[95vh] flex items-center justify-center overflow-hidden ${bodyFont.className} perspective-2000`}
+    >
       
-      {/* --- HANGING HEART DECORATION (UPDATED) --- 
-          Hidden on mobile, hangs from top on desktop.
-          Replaced social icons with a bobbing heart.
-      */}
-      <div className="hidden xl:flex absolute left-12 top-0 bottom-0 flex-col items-center z-30">
-        {/* The String/Rope - Grows down */}
-        <motion.div 
-          initial={{ height: 0 }}
-          animate={{ height: "240px" }} // A bit longer to give room for bobbing
-          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-          className="w-[3px] bg-rose-300/70 rounded-b-full"
-        ></motion.div>
+      {/* =========================================
+          LAYER 1: INTERACTIVE PARTICLE FIELD
+      ========================================= */}
+      <Particles
+        id="hero-particles"
+        init={particlesInit}
+        className="absolute inset-0 z-0"
+        options={{
+          fullScreen: false,
+          fpsLimit: 120,
+          interactivity: {
+            events: {
+              onHover: { enable: true, mode: "repulse" }, // Stars flee the mouse
+              resize: true,
+            },
+            modes: {
+              repulse: { distance: 150, duration: 0.4 },
+            },
+          },
+          particles: {
+            color: { value: "#ffffff" },
+            links: { color: "#ffffff", distance: 150, enable: true, opacity: 0.2, width: 1 },
+            move: { enable: true, speed: 1, direction: "none", random: true, outModes: "out" },
+            number: { value: 120, density: { enable: true, area: 800 } },
+            opacity: { value: { min: 0.1, max: 0.5 }, animation: { enable: true, speed: 1, minimumValue: 0.1 } },
+            shape: { type: "circle" },
+            size: { value: { min: 1, max: 3 } },
+          },
+        }}
+      />
 
-        {/* The Bobbing Heart Container */}
-        <motion.div
-          // Initial State (before dropping in)
-          initial={{ opacity: 0, scale: 0.8, y: -30 }}
-          // Animation States
-          animate={{ 
-            opacity: 1, 
-            scale: 1,
-            // Keyframes for continuous up and down motion relative to resting point
-            y: [0, 25, 0] 
-          }}
-          // Transition Configurations
-          transition={{
-            // Initial drop-in fade/scale transition
-            opacity: { duration: 0.5, delay: 1.6 },
-            scale: { duration: 0.5, delay: 1.6 },
-            // Continuous bobbing transition
-            y: {
-              duration: 4, // Very slow cycle (4 seconds)
-              repeat: Infinity, // Loop forever
-              repeatType: "reverse", // Go back and forth smoothly
-              ease: "easeInOut",
-              delay: 1.6 // Wait for the string to finish growing before starting to bob
-            }
-          }}
-          className="relative -mt-2 filter drop-shadow-[0_10px_15px_rgba(244,63,94,0.3)]"
-        >
-          {/* A little "knot" or bow at the top of the heart */}
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-5 h-5 bg-rose-400 rounded-full z-10"></div>
-          
-          {/* The Heart Icon Itself */}
-          <div className="bg-gradient-to-br from-white to-rose-50 p-5 rounded-full border-[3px] border-rose-200 relative z-0">
-             <Heart className="w-12 h-12 text-rose-500 fill-rose-500/80" />
-          </div>
-        </motion.div>
-      </div>
+      {/* Deep Space Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#02040a]/80 to-[#02040a] z-0 pointer-events-none" />
 
 
-      {/* --- IMAGE SECTION --- */}
-      <div className="relative w-full h-[250px]  md:h-[930px] md:absolute md:inset-0  z-0">
-        <Image 
-          src={maineimage}
-          alt="Happy children at Little Dreamers" 
-          fill
-          className="object-cover"
-          priority
-        />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 md:bg-gradient-to-r md:from-white/90 md:via-white/40 md:to-transparent"></div>
-      </div>
-
-      {/* --- CONTENT SECTION --- */}
-      <div className="relative z-10  mt-8  flex-1 md:h-full md:flex md:ml-[120px]  max-w-8xl mx-auto md:px-2 lg:px-8">
+      {/* =========================================
+          LAYER 2: MAIN CONTENT
+      ========================================= */}
+      <div className="container mx-auto px-6 lg:px-12 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
         
-        {/* Content Card Wrapper */}
+        {/* --- LEFT COLUMN: TEXT & CTAs --- */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className={`
-            w-full bg-white px-6 py-10 -mt-10 rounded-t-[40px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)]
-            md:mt-0 md:bg-white/0     backdrop-blur-md  md:backdrop-blur-none  md:rounded-[50px] md:p-12 md:max-w-2xl  md:shadow-none md:border-none  border-2  border-white/50
-          `}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="max-w-2xl"
         >
-          
-          {/* Badge */}
+          {/* Animated Badge */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex  items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 px-4 py-1.5 rounded-full shadow-md mb-6"
+            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", delay: 1 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/50 text-orange-300 mb-6 backdrop-blur-md"
           >
-            <Sparkles className="w-4 h-4 text-yellow-200 fill-yellow-200" />
-            <span className={`text-xs font-bold text-white tracking-widest uppercase ${bodyFont.className}`}>Admissions Open 2025</span>
+            <Sparkles className="w-4 h-4 animate-pulse" />
+            <span className="text-sm font-bold tracking-wider uppercase">Admissions Open 2025</span>
           </motion.div>
 
-          {/* Heading */}
-          <h1 className={`text-4xl sm:text-5xl lg:text-6xl leading-[1.15] mb-4 ${titleFont.className}`}>
-            <span className="text-gray-800">Welcome to</span>
-            <br />
-            <span className="text-rose-500 relative inline-block">
-              Little Dreamers
-              {/* Desktop Only Heart Decoration next to text */}
-              <Heart className="hidden md:block  absolute -top-4 -right-10 w-8 h-8 text-pink-400 fill-pink-400 animate-bounce" />
-            </span>
-              <span className="text-rose-500 right text-lg inline-block ml-2 align-top">
-             At cambridge
+          {/* Main Headline with Gradient */}
+          <h1 className={`text-5xl lg:text-7xl text-white leading-[1.1] mb-6 ${titleFont.className}`}>
+            Launch Your Child’s <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 animate-gradient-x">
+              Future Today
             </span>
           </h1>
 
-          {/* Tagline */}
-          <h2 className={`text-2xl sm:text-3xl  text-rose-500 mb-6 font-bold ${handwritingFont.className}`}>
-            Where Little Dreams Begin to Shine!
+          {/* Typewriter Subheadline */}
+          <h2 className={`text-2xl md:text-3xl text-cyan-300 mb-8 h-[40px] `}>
+            {displayText}
+            <span className="animate-blink">|</span>
           </h2>
 
-          {/* Description */}
-          <p className={`text-gray-600 text-base sm:text-lg leading-relaxed font-semibold mb-8 ${bodyFont.className}`}>
-            We cherish the magical early years of childhood — a phase where curiosity sparks, imagination takes flight, and the foundation for lifelong learning is built with love, care, and laughter.
+          <p className="text-lg text-slate-300 mb-10 leading-relaxed max-w-lg">
+            Welcome to the Galactic Dragon Riders academy. A universe where education meets imagination, preparing little explorers for big adventures.
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/admission">
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249, 115, 22, 0.6)" }}
               whileTap={{ scale: 0.95 }}
-              className={`bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg flex items-center justify-center gap-2 transition-all ${bodyFont.className}`}
-              >
-              Enroll Your Child <ArrowRight className="w-5 h-5" />
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-pink-600 text-white font-bold flex items-center gap-2 shadow-lg relative overflow-hidden group"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                Start The Adventure <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform"/>
+              </span>
+              {/* Hover shine effect */}
+              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-shimmer" />
             </motion.button>
-              </Link>
+            
+   
           </div>
-
         </motion.div>
+
+
+        {/* --- RIGHT COLUMN: 3D INTERACTIVE VISUAL --- */}
+        <div className="relative perspective-1000">
+          {/* The 3D Tilting Container */}
+          <motion.div
+            style={{ 
+              rotateX: rotateX, 
+              rotateY: rotateY,
+              transformStyle: "preserve-3d"
+            }}
+            initial={{ opacity: 0, scale: 0.8, y: 50 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1.2, type: "spring" }}
+            className="relative z-20"
+          >
+            {/* The Main Hero Image */}
+            <motion.div 
+              style={{ x: moveX, y: moveY, transform: "translateZ(50px)" }}
+              className="relative z-30  pointer-events-none drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+            >
+              <Image 
+                src={heroImage} 
+                alt="Cosmic Explorer"
+                width={700}
+                height={700}
+                priority
+                className="w-full  h-auto"
+              />
+            </motion.div>
+
+            {/* Floating Orbiting Elements (Decorative) */}
+          
+
+            {/* 2. Planet/Orb */}
+            <motion.div
+               animate={{ rotate: 360 }}
+               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+               style={{ x: moveX, y: moveY, transform: "translateZ(20px)" }}
+               className="absolute bottom-10 -left-10 z-10"
+            >
+               <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 blur-sm opacity-80 shadow-[0_0_40px_rgba(192,38,211,0.6)]"></div>
+            </motion.div>
+
+            {/* 3. Background Glow behind image */}
+            <div style={{ transform: "translateZ(-50px)" }} className="absolute inset-0 bg-gradient-to-tr from-orange-500/30 to-purple-500/30 blur-[100px] rounded-full -z-10 scale-150" />
+
+          </motion.div>
+        </div>
+
       </div>
 
-      {/* Decorative Floating Blobs (Desktop Only) */}
-      <div className="hidden md:block absolute top-20 right-20 w-32 h-32 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-      <div className="hidden md:block absolute bottom-20 right-40 w-32 h-32 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+
+      {/* =========================================
+          LAYER 3: SCROLL INDICATOR
+      ========================================= */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 text-slate-400"
+      >
+        <span className="text-sm font-semibold tracking-widest uppercase">Explore</span>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown className="w-6 h-6" />
+        </motion.div>
+      </motion.div>
+      
     </section>
   );
 };
 
-export default Hero;
+export default InteractiveHero;

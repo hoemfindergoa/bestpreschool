@@ -2,17 +2,16 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, ArrowRight, Rocket, Moon, Trophy, Atom } from 'lucide-react'; 
+import { Play, ArrowRight, Rocket, Moon, Trophy, Atom, Star, Sparkles } from 'lucide-react'; 
 import { Titan_One, Nunito, Caveat } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// --- PLACEHOLDER IMAGES (Replace these imports with your actual assets) ---
-// You can keep using the ones you have, or swap for space-themed vectors
-import boywithcup from "../public/boywithcup.png"; 
-import girlwithbook from "../public/girlwithbook.png";
-import boywithelephant from "../public/boywithelephent.png";
-import girlonswing from "../public/girlonwing.png";
+// --- PLACEHOLDER IMAGES ---
+import boywithcup from "../public/dragonastrostudy.png"; 
+import girlwithbook from "../public/dragonwithearth.png";
+import boywithelephant from "../public/dragonwithbody.png";
+import girlonswing from "../public/playingwithrock.png";
 
 // --- FONT CONFIGURATION ---
 const titleFont = Titan_One({ 
@@ -45,19 +44,18 @@ interface Program {
   fullDescription: string;
   theme: ThemeColor;
   image: any;
-  icon: any; // Added an icon for the header
   linkId: string;
 }
 
 interface ThemeStyles {
   text: string;
-  bg: string;
+  glow: string;
   border: string;
-  btn: string;
-  shadow: string;
+  btnGrad: string;
+  iconColor: string;
 }
 
-// --- DATA (UPDATED WITH COSMIC CONTENT) ---
+// --- DATA ---
 const programs: Program[] = [
   {
     id: 1,
@@ -67,8 +65,7 @@ const programs: Program[] = [
     description: "Our Little Rockets begin their learning journey with joyful discoveries and hands-on exploration.",
     fullDescription: "Focuses on early social skills, motor abilities, and sensory awareness through structured play.",
     theme: "rose", 
-    image: boywithcup, // Replace with your vector image
-    icon: Rocket,
+    image: boywithcup, 
     linkId: "rockets"
   },
   {
@@ -79,8 +76,7 @@ const programs: Program[] = [
     description: "Step into a world of imagination! Children engage in early literacy, numeracy, and thematic play.",
     fullDescription: "Through guided exploration and storytelling, learners develop essential communication skills.",
     theme: "sky",
-    image: girlwithbook, // Replace with your vector image
-    icon: Moon,
+    image: girlwithbook, 
     linkId: "explorers"
   },
   {
@@ -91,8 +87,7 @@ const programs: Program[] = [
     description: "Building stronger academic readiness through structured yet enjoyable learning experiences.",
     fullDescription: "Hands-on projects strengthen cognitive growth while shaping discipline and curiosity.",
     theme: "purple",
-    image: boywithelephant, // Replace with your vector image
-    icon: Trophy,
+    image: boywithelephant, 
     linkId: "champs"
   },
   {
@@ -103,8 +98,7 @@ const programs: Program[] = [
     description: "Preparing for formal schooling with advanced foundational learning and logical thinking.",
     fullDescription: "Engages children in real-world explorations that build independence and readiness for Grade 1.",
     theme: "teal",
-    image: girlonswing, // Replace with your vector image
-    icon: Atom,
+    image: girlonswing, 
     linkId: "innovators"
   }
 ];
@@ -112,42 +106,30 @@ const programs: Program[] = [
 // --- MAIN COMPONENT ---
 const CosmicPrograms: React.FC = () => {
   return (
-    <section id='programs' className={`py-16 relative overflow-hidden bg-white ${bodyFont.className}`}>
-      
-      {/* Background Decor (Subtle Doodles) */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-             <path d="M0,0 Q50,50 100,0 V100 H0 Z" fill="url(#grad1)" />
-        </svg>
-      </div>
+    <section id='programs' className={`py-20 relative overflow-hidden  ${bodyFont.className}`}>
+    
 
       <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* --- HEADER --- */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-20 relative">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
-            <p className={`text-xl text-purple-600 mb-2 ${handwritingFont.className} font-bold`}>
-              Your Child's Flight Path
-            </p>
-            <h2 className={`text-5xl md:text-7xl uppercase leading-tight ${titleFont.className}`}>
-              <span className="text-black">Our </span>{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-rose-500">
+            <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-900/20 backdrop-blur-sm">
+                <Sparkles className="w-4 h-4 text-purple-300" />
+                <span className={`text-lg text-purple-200 ${handwritingFont.className} font-bold`}>
+                  Your Child's Flight Path
+                </span>
+            </div>
+            
+            <h2 className={`text-5xl md:text-7xl uppercase leading-tight text-white ${titleFont.className}`}>
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 animate-gradient-x">
                 Programs
               </span>
             </h2>
-          </motion.div>
-          
-          {/* Decorative Floating Element */}
-          <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="hidden md:block absolute top-10 right-20 text-6xl opacity-20 rotate-12"
-          >
-             🚀
           </motion.div>
         </div>
 
@@ -172,98 +154,94 @@ interface ProgramCardProps {
 
 const ProgramCard: React.FC<ProgramCardProps> = ({ data, index }) => {
   
+  // Updated Styles for Dark Mode / Neon Theme
   const colors: Record<ThemeColor, ThemeStyles> = {
-    rose:   { text: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-200', btn: 'bg-rose-500', shadow: 'shadow-rose-100' },
-    sky:    { text: 'text-sky-600', bg: 'bg-sky-50', border: 'border-sky-200', btn: 'bg-sky-500', shadow: 'shadow-sky-100' },
-    purple: { text: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-200', btn: 'bg-purple-500', shadow: 'shadow-purple-100' },
-    teal:   { text: 'text-teal-600', bg: 'bg-teal-50', border: 'border-teal-200', btn: 'bg-teal-500', shadow: 'shadow-teal-100' },
+    rose:   { text: 'text-rose-400', glow: 'shadow-rose-500/20 hover:shadow-rose-500/40', border: 'border-rose-500/30', btnGrad: 'from-rose-500 to-pink-600', iconColor: 'text-rose-300' },
+    sky:    { text: 'text-sky-400', glow: 'shadow-sky-500/20 hover:shadow-sky-500/40', border: 'border-sky-500/30', btnGrad: 'from-sky-500 to-blue-600', iconColor: 'text-sky-300' },
+    purple: { text: 'text-purple-400', glow: 'shadow-purple-500/20 hover:shadow-purple-500/40', border: 'border-purple-500/30', btnGrad: 'from-purple-500 to-violet-600', iconColor: 'text-purple-300' },
+    teal:   { text: 'text-teal-400', glow: 'shadow-teal-500/20 hover:shadow-teal-500/40', border: 'border-teal-500/30', btnGrad: 'from-teal-400 to-emerald-600', iconColor: 'text-teal-300' },
   };
 
   const theme = colors[data.theme];
-  const Icon = data.icon;
 
   return (
     <motion.div
       className={`
-        w-full h-full flex flex-col items-center gap-6 
+        w-full flex flex-col items-center gap-6 
         p-6 md:p-8
-        bg-white border-[3px] ${theme.border} 
-        rounded-[50px]
-        shadow-xl ${theme.shadow}
-        hover:shadow-2xl transition-all duration-300
-        hover:-translate-y-2 relative group overflow-hidden
+        bg-[#131625]/80 backdrop-blur-md 
+        border ${theme.border}
+        rounded-[3rem]
+        shadow-2xl ${theme.glow}
+        transition-all duration-500
+        hover:-translate-y-3 relative group overflow-hidden
       `}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ delay: index * 0.15, duration: 0.6 }}
       viewport={{ once: true }}
     >
-      {/* Top Banner with Age */}
-      <div className={`absolute top-0 inset-x-0 h-24 ${theme.bg} rounded-t-[45px] -z-0`} />
+      {/* Radial Gradient Glow in background */}
+      <div className={`absolute top-0 inset-x-0 h-40 bg-gradient-to-b ${theme.text.replace('text-', 'from-')}/20 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500`} />
 
       {/* --- CHARACTER IMAGE --- */}
-      <div className="relative mt-4 mb-2 z-10">
-        <div className="w-40 h-40 sm:w-44 sm:h-44 flex items-center justify-center relative">
-            
-            {/* White Halo behind image for separation from bg banner */}
-            <div className="absolute inset-0 bg-white rounded-full blur-md opacity-70 transform scale-90"></div>
-            
-            <Image 
-                src={data.image} 
-                alt={data.title} 
-                width={200}
-                height={200}
-                className="object-contain drop-shadow-md transform group-hover:scale-110 transition-transform duration-500" 
-            />
-        </div>
+      <div className="relative mt-2 mb-2 z-10 w-full flex justify-center">
+        {/* Animated Glow behind image */}
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full ${theme.text.replace('text-', 'bg-')}/20 blur-[40px] group-hover:blur-[60px] transition-all duration-700`} />
         
-        {/* Floating Icon Badge */}
-        <div className={`absolute -bottom-2 -right-2 w-12 h-12 rounded-full ${theme.btn} flex items-center justify-center text-white border-4 border-white shadow-lg`}>
-            <Icon size={20} />
-        </div>
+        <motion.div 
+           className="w-44 h-44 relative"
+           animate={{ y: [0, -10, 0] }}
+           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: index * 1 }}
+        >
+          <Image 
+             src={data.image} 
+             alt={data.title} 
+             width={250}
+             height={250}
+             className="object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform group-hover:scale-110 transition-transform duration-500" 
+          />
+        </motion.div>
       </div>
 
       {/* --- CONTENT --- */}
       <div className="flex-1 text-center space-y-3 w-full flex flex-col justify-between z-10">
         <div>
-          <h3 className={`text-2xl lg:text-3xl ${theme.text} mb-1 ${titleFont.className} tracking-wide`}>
+          <h3 className={`text-3xl ${theme.text} mb-2 ${titleFont.className} tracking-wide drop-shadow-sm`}>
             {data.title}
           </h3>
-          <p className={`text-gray-500 font-bold text-xs uppercase tracking-widest ${bodyFont.className}`}>
-            {data.age}
-          </p>
-          <p className={`text-gray-400 ${handwritingFont.className} text-xl mt-1`}>
-             "{data.subtitle}"
+          
+          <div className="inline-block px-3 py-1 rounded-full border border-white/10 bg-white/5 mb-3">
+             <p className={`text-gray-300 font-bold text-xs uppercase tracking-widest ${bodyFont.className}`}>
+               {data.age}
+             </p>
+          </div>
+
+          <p className={`text-gray-400 ${handwritingFont.className} text-xl mt-1 min-h-[3rem]`}>
+              "{data.subtitle}"
           </p>
           
-          <div className="w-12 h-1 mx-auto rounded-full bg-gray-100 my-4 group-hover:w-24 transition-all duration-500" />
+          {/* Separator Line */}
+          <div className={`w-12 h-1 mx-auto rounded-full bg-gradient-to-r ${theme.btnGrad} my-4 opacity-50 group-hover:w-24 transition-all duration-500`} />
 
-          <p className={`text-gray-600 text-sm leading-relaxed font-semibold px-1 ${bodyFont.className}`}>
+          <p className={`text-gray-300 text-sm leading-relaxed font-medium px-1 ${bodyFont.className}`}>
             {data.description}
           </p>
         </div>
 
-        {/* --- ACTION BUTTONS --- */}
-        <Link href={`#${data.linkId}`} className="w-full pt-6">
-          <div className="flex items-center justify-center gap-3">
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`flex-1 py-3 rounded-full ${theme.btn} text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:brightness-110 transition-all ${bodyFont.className}`}
-            >
-              Curriculum
-              <ArrowRight className="w-4 h-4" />
-            </motion.button>
-
-            <motion.button 
-              whileHover={{ scale: 1.15, rotate: 10 }}
-              whileTap={{ scale: 0.9 }}
-              className="w-11 h-11 rounded-full bg-white border-2 border-gray-100 flex items-center justify-center shadow-md text-gray-400 hover:text-rose-500 transition-colors"
-            >
-              <Play className="w-4 h-4 ml-0.5 fill-current" />
-            </motion.button>
-          </div>
-        </Link>
+        {/* --- ACTION BUTTON --- */}
+        <div className="pt-6 w-full">
+            <Link href={`#${data.linkId}`} className="block w-full">
+              <motion.button 
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                className={`w-full py-3.5 rounded-2xl bg-gradient-to-r ${theme.btnGrad} text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all ${bodyFont.className}`}
+              >
+                Curriculum
+                <ArrowRight className="w-4 h-4" />
+              </motion.button>
+            </Link>
+        </div>
       </div>
     </motion.div>
   );

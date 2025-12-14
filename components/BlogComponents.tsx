@@ -4,9 +4,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Calendar, User, ArrowRight, Tag } from "lucide-react";
-import blog1 from "../public/blog1.png";
-import blog2 from "../public/blog4.png";
-import blog3 from "../public/blog3.png";
+import blog1 from "../public/dragonastrostudy.png";
+import blog2 from "../public/dragononastroid.png";
+import blog3 from "../public/dragonplayingfootball.png";
 import Link from "next/link";
 
 // Placeholder image - replace with your actual blog thumbnails

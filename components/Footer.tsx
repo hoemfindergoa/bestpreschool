@@ -14,71 +14,60 @@ import {
   Heart,
   ArrowRight,
   Youtube,
-  Globe
+  Globe,
+  Star
 } from "lucide-react";
 import { Titan_One, Nunito, Caveat } from 'next/font/google';
 
-import logo from "../public/logo.png"; 
+// --- LOGO ---
 
 // --- FONTS ---
-const titleFont = Titan_One({ 
-  weight: '400', 
-  subsets: ['latin'],
-  display: 'swap',
-});
-
-const bodyFont = Nunito({ 
-  subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  display: 'swap',
-});
-
-const handwritingFont = Caveat({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  display: 'swap',
-});
+const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
+const handwritingFont = Caveat({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
 
 const Footer = () => {
   
   // Animation Variants
-    const containerVariants: Variants = {
-      hidden: { opacity: 0 },
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: 0.1,
-          delayChildren: 0.2,
-        },
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
-    };
+    },
+  };
   
-    const itemVariants: Variants = {
-      hidden: { y: 20, opacity: 0 },
-      visible: { 
-        y: 0, 
-        opacity: 1,
-        transition: { type: "spring", stiffness: 100 }
-      },
-    };
+  const itemVariants: Variants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { type: "spring", stiffness: 100 }
+    },
+  };
 
   return (
-    <footer className={`relative bg-gradient-to-br from-violet-900 via-purple-900 to-fuchsia-900 pt-32 pb-10 overflow-hidden text-white ${bodyFont.className}`}>
+    <footer className={`relative bg-[#050505] pt-32 pb-10 overflow-hidden text-white ${bodyFont.className}`}>
       
-      {/* 0. DECORATIVE TOP WAVE (SVG) */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-20">
-        <svg 
-            className="relative block w-[calc(100%+1.3px)] h-[60px] md:h-[100px]" 
-            data-name="Layer 1" 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 1200 120" 
-            preserveAspectRatio="none"
-        >
-            <path 
-                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-                className="fill-white" 
-            ></path>
-        </svg>
+      {/* 0. DECORATIVE TOP GRADIENT FADE */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#0B0D17] to-transparent z-20 pointer-events-none" />
+
+      {/* 1. BACKGROUND STARS & GLOWS */}
+      <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#050505] to-[#050505]" />
+          {/* Animated Stars (Simple CSS) */}
+          {[...Array(20)].map((_, i) => (
+             <div key={i} className="absolute bg-white rounded-full opacity-30 animate-pulse" 
+                  style={{
+                    top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`,
+                    width: Math.random() * 3 + 'px', height: Math.random() * 3 + 'px',
+                    animationDuration: Math.random() * 3 + 2 + 's'
+                  }} 
+             />
+          ))}
       </div>
 
       <motion.div 
@@ -93,55 +82,46 @@ const Footer = () => {
           {/* --- BRAND / ABOUT --- */}
           <motion.div variants={itemVariants} className="space-y-6">
             <Link href="/" className="flex items-center gap-3 group">
-              {/* Logo Icon Container */}
-              <div className="relative w-auto h-auto flex items-center justify-center bg-white rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.3)] rotate-0 group-hover:rotate-6 transition-transform duration-300 p-2">
-                <Image 
-                  src={logo} 
-                  alt="Little Dreamers Logo" 
-                  className="w-[150px] h-auto object-contain"
-                />
+              {/* Logo Container */}
+              <div className="relative w-40 transition-transform duration-300 group-hover:scale-105">
+           <h1>Best day care</h1>
               </div>
             </Link>
             
-            <p className="text-purple-100/90 text-sm leading-relaxed font-semibold max-w-xs">
-              Creating a foundation for lifelong learning through play, creativity, and exploration in a safe, loving environment.
+            <p className="text-gray-400 text-sm leading-relaxed font-medium max-w-xs">
+              Launching little astronauts into a universe of learning through play, creativity, and exploration.
             </p>
             
-            {/* Social Icons - Colorful on hover */}
-            <div className="flex gap-6">
-               {/* Facebook */}
-                <button className="w-10 h-10 rounded-full  bg-[#1877F2] text-white flex items-center justify-center transition-all duration-300 shadow-lg hover:-translate-y-1 hover:scale-110 border border-white/10 group">
-                  <Facebook className="w-5 h-5 group-hover:text-white" />
-                </button>
-                {/* Instagram */}
-                <button className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#fdf497] via-[#fd5949] to-[#d6249f] text-white flex items-center justify-center transition-all duration-300 shadow-lg hover:-translate-y-1 hover:scale-110 border border-white/10 group">
-                  <Instagram className="w-5 h-5 group-hover:text-white" />
-                </button>
-                {/* Youtube */}
-                <button className="w-10 h-10 rounded-full bg-[#FF0000] text-white flex items-center justify-center transition-all duration-300 shadow-lg hover:-translate-y-1 hover:scale-110 border border-white/10 group">
-                  <Youtube className="w-5 h-5 group-hover:text-white" />
-                </button>
+            {/* Social Icons */}
+            <div className="flex gap-4">
+               {[
+                 { Icon: Facebook, color: "bg-blue-600", hover: "hover:bg-blue-500" },
+                 { Icon: Instagram, color: "bg-pink-600", hover: "hover:bg-pink-500" },
+                 { Icon: Youtube, color: "bg-red-600", hover: "hover:bg-red-500" }
+               ].map((item, idx) => (
+                 <a key={idx} href="#" className={`w-10 h-10 rounded-full ${item.color} ${item.hover} text-white flex items-center justify-center transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-cyan-500/20`}>
+                   <item.Icon className="w-5 h-5" />
+                 </a>
+               ))}
             </div>
           </motion.div>
 
           {/* --- QUICK LINKS --- */}
           <motion.div variants={itemVariants}>
-            <h3 className={`text-[#fad06e] text-2xl mb-6 ${titleFont.className} tracking-wide`}>
+            <h3 className={`text-cyan-400 text-2xl mb-6 ${titleFont.className} tracking-wide text-shadow-glow`}>
                Quick Links
             </h3>
             <ul className="space-y-3">
               {[
-                { name: 'About Us', href: '/about' },
-                { name: 'Our Programs', href: '/#programs' }, // Assuming this scrolls to a section
-                { name: 'Admissions', href: '/admission' },
+                { name: 'About Mission', href: '/about' },
+                { name: 'Flight Programs', href: '/#programs' },
+                { name: 'Join The Crew', href: '/admission' },
                 { name: 'Franchise', href: '/franchise' },
-                { name: 'Contact', href: '/contact' }
+                { name: 'Contact Base', href: '/contact' }
               ].map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-purple-100/80 hover:text-white hover:translate-x-2 transition-all duration-300 inline-flex items-center gap-2 text-sm font-bold group">
-                    <span className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#9dcedc] group-hover:text-purple-900 transition-colors">
-                        <ArrowRight className="w-3 h-3" />
-                    </span>
+                  <Link href={item.href} className="text-gray-400 hover:text-cyan-300 hover:translate-x-2 transition-all duration-300 inline-flex items-center gap-2 text-sm font-semibold group">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/50 group-hover:bg-cyan-400 transition-colors"></span>
                     {item.name}
                   </Link>
                 </li>
@@ -151,33 +131,33 @@ const Footer = () => {
 
           {/* --- CONTACT INFO --- */}
           <motion.div variants={itemVariants}>
-             <h3 className={`text-[#9dcedc] text-2xl mb-6 ${titleFont.className} tracking-wide`}>
-               Contact Us
+             <h3 className={`text-purple-400 text-2xl mb-6 ${titleFont.className} tracking-wide text-shadow-glow`}>
+               Contact Base
             </h3>
             <ul className="space-y-5">
-              <li className="flex items-start gap-4 text-sm group cursor-pointer">
-                <div className="w-10 h-10 rounded-xl bg-[#f7a7b4] text-white flex items-center justify-center shrink-0 shadow-md group-hover:rotate-12 transition-transform">
+              <li className="flex items-start gap-4 text-sm group">
+                <div className="w-10 h-10 rounded-xl bg-purple-900/30 border border-purple-500/30 text-purple-300 flex items-center justify-center shrink-0 group-hover:bg-purple-500 group-hover:text-white transition-all">
                   <Globe className="w-5 h-5" />
                 </div>
-                <a href="https://www.littledreamersatcambridge.com" target="_blank" rel="noopener noreferrer" className="mt-1 font-bold text-purple-100 group-hover:text-white transition-colors leading-relaxed break-words max-w-[200px]">
+                <a href="https://www.littledreamersatcambridge.com" target="_blank" rel="noopener noreferrer" className="mt-1 font-medium text-gray-300 group-hover:text-white transition-colors break-words max-w-[200px]">
                     www.littledreamersatcambridge.com
                 </a>
               </li>
               
-              <li className="flex items-center gap-4 text-sm group cursor-pointer">
-                 <div className="w-10 h-10 rounded-xl bg-[#06D6A0] text-white flex items-center justify-center shrink-0 shadow-md group-hover:rotate-12 transition-transform">
+              <li className="flex items-center gap-4 text-sm group">
+                 <div className="w-10 h-10 rounded-xl bg-cyan-900/30 border border-cyan-500/30 text-cyan-300 flex items-center justify-center shrink-0 group-hover:bg-cyan-500 group-hover:text-white transition-all">
                   <Mail className="w-5 h-5" />
                 </div>
-                <a href="mailto:info@littledreamersatcambridge.com" className="font-bold text-purple-100 group-hover:text-white transition-colors break-words max-w-[200px]">
+                <a href="mailto:info@littledreamersatcambridge.com" className="font-medium text-gray-300 group-hover:text-white transition-colors break-words max-w-[200px]">
                     info@littledreamersatcambridge.com
                 </a>
               </li>
 
-              <li className="flex items-center gap-4 text-sm group cursor-pointer">
-                <div className="w-10 h-10 rounded-xl bg-[#fad06e] text-[#5c4d26] flex items-center justify-center shrink-0 shadow-md group-hover:-rotate-12 transition-transform">
+              <li className="flex items-center gap-4 text-sm group">
+                <div className="w-10 h-10 rounded-xl bg-orange-900/30 border border-orange-500/30 text-orange-300 flex items-center justify-center shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all">
                   <Phone className="w-5 h-5" />
                 </div>
-                <a href="tel:+919999996266" className="font-bold text-purple-100 group-hover:text-white transition-colors">
+                <a href="tel:+919999996266" className="font-medium text-gray-300 group-hover:text-white transition-colors">
                     +91-999 999 6266
                 </a>
               </li>
@@ -186,27 +166,26 @@ const Footer = () => {
 
           {/* --- NEWSLETTER --- */}
           <motion.div variants={itemVariants}>
-             <h3 className={`text-[#f7a7b4] text-2xl mb-6 ${titleFont.className} tracking-wide`}>
-               Newsletter
+             <h3 className={`text-orange-400 text-2xl mb-6 ${titleFont.className} tracking-wide text-shadow-glow`}>
+               Comms Channel
             </h3>
-            <p className="text-sm text-purple-100/80 mb-5 font-bold leading-relaxed">
-              Subscribe for updates, parenting tips, and special event invites!
+            <p className="text-sm text-gray-400 mb-5 font-medium leading-relaxed">
+              Subscribe for mission updates, parenting tips, and special event invites!
             </p>
             <div className="relative group">
               <input 
                 type="email" 
-                placeholder="Your email address..." 
-                className="w-full bg-white/10 border-2 border-white/10 rounded-2xl pl-5 pr-14 py-4 text-sm text-white placeholder:text-purple-300 focus:outline-none focus:border-[#fad06e] focus:bg-white/20 transition-all font-bold backdrop-blur-sm"
+                placeholder="Enter frequency (email)..." 
+                className="w-full bg-[#0a0c14] border border-white/10 rounded-xl pl-5 pr-14 py-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all font-medium"
               />
-              <button className="absolute right-2 top-2 bottom-2 w-10 h-10 bg-[#fad06e] rounded-xl flex items-center justify-center text-[#5c4d26] hover:scale-105 active:scale-95 transition-transform shadow-lg group-hover:rotate-3">
-                <Send className="w-5 h-5 ml-0.5" />
+              <button className="absolute right-2 top-2 bottom-2 w-10 h-10 bg-cyan-600 rounded-lg flex items-center justify-center text-white hover:bg-cyan-500 active:scale-95 transition-all shadow-lg group-hover:shadow-cyan-500/25">
+                <Send className="w-4 h-4 ml-0.5" />
               </button>
             </div>
             
-            {/* Trust Badge / Small Text */}
-            <p className="mt-4 text-xs text-purple-300 flex items-center gap-1">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                We respect your privacy. No spam.
+            <p className="mt-4 text-xs text-gray-500 flex items-center gap-2">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                Secure transmission. No spam.
             </p>
           </motion.div>
 
@@ -215,24 +194,24 @@ const Footer = () => {
         {/* --- BOTTOM BAR --- */}
         <motion.div 
           variants={itemVariants}
-          className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4"
+          className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4"
         >
-          <p className="text-sm text-purple-200 font-bold flex flex-wrap justify-center items-center gap-1">
-              © 2025 Little Dreamers. Made with <Heart className="w-4 h-4 text-[#f7a7b4] fill-[#f7a7b4] animate-bounce mx-1"/> by 
-              <a href="https://scalesaas.ashishrohilla.co.in/" target="_blank" rel="noreferrer" className={`ml-1 text-[#fad06e] hover:text-white transition-colors underline decoration-dotted underline-offset-4 ${handwritingFont.className} text-xl`}>
-                 scalesaas
+          <p className="text-sm text-gray-500 font-medium flex flex-wrap justify-center items-center gap-1">
+              © 2025 Little Dreamers. Made with <Heart className="w-3 h-3 text-rose-500 fill-rose-500 animate-bounce mx-1"/> by 
+              <a href="https://scalesaas.ashishrohilla.co.in/" target="_blank" rel="noreferrer" className={`ml-1 text-cyan-400 hover:text-white transition-colors ${handwritingFont.className} text-xl font-bold`}>
+                  scalesaas
               </a>
           </p>
-          <div className="flex gap-6 text-xs font-black text-purple-300 uppercase tracking-widest">
-            <Link href="/privacy" className="hover:text-white transition-colors hover:underline">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors hover:underline">Terms of Service</Link>
+          <div className="flex gap-6 text-xs font-bold text-gray-600 uppercase tracking-widest">
+            <Link href="/privacy" className="hover:text-cyan-400 transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-cyan-400 transition-colors">Terms</Link>
           </div>
         </motion.div>
       </motion.div>
       
-      {/* Decorative Background Blurs */}
-      <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-[#f7a7b4]/20 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
-      <div className="absolute -top-24 -right-24 w-80 h-80 bg-[#9dcedc]/20 rounded-full blur-[100px] pointer-events-none animate-pulse" style={{ animationDelay: '1s' }}></div>
+      {/* Decorative Glows */}
+      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
     </footer>
   );

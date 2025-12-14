@@ -1,226 +1,229 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Star, Cloud, Clock, Utensils, Heart, Sun } from "lucide-react";
-import Image from "next/image";
-// Using the boy image as it fits the Daycare theme well, replace if needed
-import childImage from "../public/boywithbrush.png"; 
+import React, { useCallback } from 'react';
+import { motion } from 'framer-motion';
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
+import type { Engine } from "tsparticles-engine";
+import { 
+  ShieldCheck, 
+  Utensils, 
+  Moon, 
+  Camera, 
+  Gamepad2, 
+  BookHeart, 
+  HeartHandshake,
+  Star
+} from 'lucide-react'; 
 import { Titan_One, Nunito, Caveat } from 'next/font/google';
-import Link from "next/link";
+import Image from 'next/image';
 
-// --- FONT CONFIGURATION ---
-const titleFont = Titan_One({ 
-  weight: '400', 
-  subsets: ['latin'],
-  display: 'swap',
-});
+// --- PLACEHOLDER IMAGE ---
+import careImage from "../public/dragonlookingmoon.png"; 
 
-const bodyFont = Nunito({ 
-  subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  display: 'swap',
-});
+// --- FONTS ---
+const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
+const handwritingFont = Caveat({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
 
-const handwritingFont = Caveat({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  display: 'swap',
-});
+// --- FACILITIES DATA ---
+const facilities = [
+  { id: 1, title: "24/7 Watchtower", desc: "CCTV-enabled classrooms & strict protocols.", icon: <Camera className="w-5 h-5" />, color: "emerald" },
+  { id: 2, title: "Galactic Fueling", desc: "Nutritious meals for sustained energy.", icon: <Utensils className="w-5 h-5" />, color: "orange" },
+  { id: 3, title: "Anti-Gravity Play", desc: "Soft play zones & hygienic learning corners.", icon: <Gamepad2 className="w-5 h-5" />, color: "cyan" },
+  { id: 4, title: "Stasis Pods", desc: "Cozy rest areas for recharging.", icon: <Moon className="w-5 h-5" />, color: "indigo" },
+  { id: 5, title: "Mission Support", desc: "Homework assistance & creative activities.", icon: <BookHeart className="w-5 h-5" />, color: "pink" },
+  { id: 6, title: "Guardian Officers", desc: "Trained caregivers & personalized attention.", icon: <HeartHandshake className="w-5 h-5" />, color: "rose" }
+];
 
-const DayCareHero = () => {
+const LittleCometsCare: React.FC = () => {
+  
+  // --- PARTICLES INIT ---
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
+  }, []);
+
   return (
-    <section 
-      // CHANGED: Background color back to Amber theme
-      className={`relative w-full min-h-[700px] lg:h-[85vh] md:my-[4px] my-[10px] overflow-hidden bg-amber-50 flex items-center ${bodyFont.className}`}
-    >
+    <section className={`relative py-24 overflow-hidden ${bodyFont.className} text-white`}>
       
-      {/* --- TOP CLOUD WAVE --- */}
-      <div className="absolute top-0 left-0 w-full leading-none overflow-hidden z-30">
-        <svg 
-            className="relative block w-full h-[60px] md:h-[100px]" 
-            data-name="Layer 1" 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 1200 120" 
-            preserveAspectRatio="none"
-        >
-            <path 
-                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-                className="fill-white"
-            ></path>
-        </svg>
-      </div>
+      {/* =========================================
+          LAYER 0: BLASTING STARS ANIMATION
+      ========================================= */}
+      {/* <Particles
+        id="daycare-particles"
+        init={particlesInit}
+        className="absolute inset-0 z-0 h-full pointer-events-none"
+        options={{
+          fullScreen: false,
+          fpsLimit: 120,
+          particles: {
+            color: { value: "#ffffff" },
+            move: { enable: true, speed: 0.2 },
+            number: { density: { enable: true, area: 800 }, value: 30 }, // Fewer background stars to focus on the blast
+            opacity: { value: 0.3 },
+            shape: { type: "circle" },
+            size: { value: { min: 1, max: 2 } },
+          },
+          emitters: {
+            direction: "left",
+            rate: { quantity: 1, delay: { min: 4, max: 8 } }, // Fire a meteor every 4-8 seconds
+            size: { width: 0, height: 100 },
+            position: { x: 100, y: { min: 10, max: 90 } }, // From right edge
+            life: { count: 0, duration: 0.1, delay: 0.1 },
+            particles: {
+              // THE METEOR
+              color: { value: ["#fbbf24", "#f59e0b"] }, // Warm Gold/Amber for Day Care warmth
+              shape: { type: "circle" },
+              size: { value: 4 },
+              move: {
+                enable: true,
+                speed: { min: 20, max: 40 },
+                direction: "left",
+                straight: true,
+                outModes: { default: "destroy" },
+              },
+              trail: { enable: true, length: 15, fillColor: { value: "#000" } },
+              life: { duration: { min: 0.5, max: 1.5 }, count: 1 },
+              // THE BLAST
+              destroy: {
+                mode: "split",
+                split: {
+                  count: 1,
+                  factor: { value: 1 },
+                  rate: { value: { min: 10, max: 20 } },
+                  particles: {
+                    // SPARKS
+                    shape: { type: "star" },
+                    size: { value: { min: 1, max: 2 } },
+                    life: { duration: 0.5, count: 1 },
+                    move: {
+                      enable: true,
+                      speed: { min: 5, max: 15 },
+                      direction: "none",
+                      random: true,
+                      straight: false,
+                      outModes: "destroy",
+                    },
+                    opacity: { value: { min: 0, max: 1 }, animation: { enable: true, speed: 3, startValue: "max", destroy: "min" } },
+                    color: { value: ["#fbbf24", "#ffffff"] },
+                  },
+                },
+              },
+            },
+          },
+        }}
+      /> */}
 
-      {/* --- BACKGROUND DECORATIONS (Updated Colors) --- */}
-      <div className="absolute inset-0 pointer-events-none">
-         {/* 1. Large Amber Blob (Top Left) */}
-         <motion.div 
-           initial={{ scale: 0.8, opacity: 0 }}
-           animate={{ scale: 1, opacity: 1 }}
-           transition={{ duration: 1 }}
-           // CHANGED Color
-           className="absolute -top-20 -left-20 w-96 h-96 bg-amber-300/20 rounded-full blur-3xl"
-        />
+
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
-        {/* 2. Large Orange Blob (Middle Right) */}
-        <motion.div 
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            // CHANGED Color
-            className="absolute top-1/4 -right-20 w-80 h-80 bg-orange-300/20 rounded-full blur-3xl"
-        />
+        {/* --- TITLE HEADER --- */}
+        <div className="mb-16 text-center lg:text-left relative">
+           <motion.div
+             initial={{ opacity: 0, x: -20 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             transition={{ duration: 0.6 }}
+           >
+             <div className="inline-flex items-center gap-2 mb-3 px-4 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-900/10 backdrop-blur-sm">
+                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                <span className={`text-lg text-yellow-200 ${handwritingFont.className} font-bold`}>
+                  Little Comets Care Centre
+                </span>
+             </div>
+             
+             <h2 className={`text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight ${titleFont.className}`}>
+               A Safe Harbor for <br />
+               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-300 to-rose-300">
+                 Little Explorers
+               </span>
+             </h2>
+           </motion.div>
+        </div>
 
-        {/* 3. Dotted Path Doodle (Updated Stroke Color) */}
-        <svg className="absolute top-10 left-0 w-full h-full opacity-30" viewBox="0 0 100 100" preserveAspectRatio="none">
-             {/* CHANGED stroke color */}
-             <path d="M0,10 Q30,40 60,10 T100,20" fill="none" stroke="#f59e0b" strokeWidth="0.3" strokeDasharray="1,1" />
-        </svg>
-
-        {/* 4. Floating Cloud/Sun Icon */}
-        <motion.div
-            className="absolute top-32 right-[20%] text-amber-300/80 hidden md:block"
-            animate={{y: [0, -20, 0], rotate: [0, 10, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        >
-            {/* Swapped Cloud for Sun for the Amber theme */}
-            <Sun size={64} fill="currentColor" className="drop-shadow-sm" />
-        </motion.div>
-      </div>
-
-      {/* --- FLOATING STICKERS --- */}
-      <motion.div 
-        animate={{ rotate: [0, 10, -10, 0], y: [0, -10, 0] }}
-        transition={{ duration: 5, repeat: Infinity }}
-        className="absolute top-[25%] left-[45%] hidden lg:block z-10"
-      >
-        {/* Changed Star color to match theme better */}
-        <Star className="w-10 h-10 text-orange-400 drop-shadow-md" fill="currentColor" strokeWidth={3} stroke="white" />
-      </motion.div>
-
-      {/* --- CONTENT CONTAINER --- */}
-      <div className="container mx-auto px-6 relative z-20 h-full pt-32 pb-20 md:py-0">
-        <div className="flex flex-col md:flex-row items-center justify-between h-full">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
           
-          {/* LEFT: Text Content */}
-          <motion.div 
-            className="w-full md:w-1/2 text-center md:text-left flex flex-col items-center md:items-start z-30"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Badge (Updated Colors) */}
-            {/* CHANGED text and border color */}
-            <span className={`inline-block px-4 py-1 mb-4 text-lg text-amber-600 bg-amber-100 rounded-full shadow-sm rotate-[-2deg] ${handwritingFont.className} font-bold border border-amber-200`}>
-                Safe, Engaging & Loving Care
-            </span>
+          {/* --- LEFT: CONTENT & FACILITIES GRID --- */}
+          <div className="w-full lg:w-7/12 order-2 lg:order-1">
+             
+             {/* Description Text */}
+             <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               className="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 mb-10 backdrop-blur-md relative overflow-hidden"
+             >
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-yellow-400 to-orange-500" />
+                <p className="text-slate-300 text-lg leading-relaxed">
+                  Our Day Care service provides a safe, nurturing, and well-supervised environment where children feel comfortable, engaged, and happy. We offer <span className="text-yellow-200 font-bold">age-appropriate activities</span>, nutritious meals, and structured routines that support emotional, social, and cognitive development.
+                </p>
+             </motion.div>
 
-            {/* Headline (Updated Colors) */}
-            <h1 className={`${titleFont.className} leading-tight mb-6`}>
-              {/* CHANGED text color to slate-800 */}
-              <span className="block text-4xl md:text-6xl lg:text-7xl text-slate-800 drop-shadow-sm">
-                HOME AWAY
-              </span>
-              {/* CHANGED accent color to amber-500 */}
-              <span className="block text-4xl md:text-6xl lg:text-7xl text-amber-500 mt-2 relative">
-                From Home
-                {/* Underline decoration color changed */}
-                <svg className="absolute w-2/3 h-4 -bottom-2 left-0 md:left-0 right-0 md:right-auto mx-auto md:mx-0 text-orange-300" viewBox="0 0 100 10" preserveAspectRatio="none">
-                    <path d="M0,5 Q50,10 100,5" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-                </svg>
-              </span>
-            </h1>
+             {/* Facilities Grid */}
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {facilities.map((item, index) => (
+                   <motion.div
+                     key={item.id}
+                     initial={{ opacity: 0, y: 20 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     viewport={{ once: true }}
+                     transition={{ delay: index * 0.1 }}
+                     whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.08)" }}
+                     className="flex items-start gap-4 p-4 rounded-2xl bg-[#161925]/80 backdrop-blur-sm border border-white/5 hover:border-white/20 transition-all duration-300 cursor-default group"
+                   >
+                      <div className={`shrink-0 w-10 h-10 rounded-xl bg-${item.color}-500/20 text-${item.color}-400 flex items-center justify-center group-hover:bg-${item.color}-500 group-hover:text-white transition-colors duration-300`}>
+                         {item.icon}
+                      </div>
+                      <div>
+                         <h4 className={`text-white font-bold text-lg ${titleFont.className} mb-1`}>{item.title}</h4>
+                         <p className="text-slate-400 text-sm leading-snug">{item.desc}</p>
+                      </div>
+                   </motion.div>
+                ))}
+             </div>
+          </div>
 
-            {/* Tagline (Updated Color) */}
-            <p className="text-slate-600 text-lg md:text-xl font-medium mb-6 max-w-lg leading-relaxed">
-              Our Day Care program offers structured relaxation, nutritious snacks, and supervised play activities giving parents peace of mind.
-            </p>
+          {/* --- RIGHT: VISUAL & BADGE --- */}
+          <div className="w-full lg:w-8/12 order-1 lg:order-2 relative flex flex-col justify-center">
+             
+             {/* Main Image Frame */}
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.9 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               viewport={{ once: true }}
+               className="relative z-10"
+             >
+                {/* Tech Frame */}
+                <div className="relative  p-2  ">
+                   <div className="relative overflow-hidden ">
+                      {/* Inner Image */}
+                      <Image 
+                        src={careImage} 
+                        alt="Child reading safely" 
+                        width={700} 
+                        height={900}
+                        className="object-cover w-full h-full group-hover:opacity-100 "
+                      />
+                      
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0F111A] via-transparent to-transparent opacity-60" />
 
-            {/* Feature Highlights */}
-            <div className="flex flex-wrap gap-4 mb-8 justify-center md:justify-start">
-               <div className="flex items-center gap-2 bg-white/80 border border-amber-100 px-3 py-1 rounded-full text-sm font-bold text-slate-700">
-                  <Clock size={16} className="text-amber-500" /> Flexible Hours
-               </div>
-               <div className="flex items-center gap-2 bg-white/80 border border-amber-100 px-3 py-1 rounded-full text-sm font-bold text-slate-700">
-                  <Utensils size={16} className="text-orange-500" /> Nutritious Meals
-               </div>
-               <div className="flex items-center gap-2 bg-white/80 border border-amber-100 px-3 py-1 rounded-full text-sm font-bold text-slate-700">
-                  <Heart size={16} className="text-rose-500" /> Loving Staff
-               </div>
-            </div>
+                      {/* Floating Status Badge */}
+                
+                   </div>
+                </div>
 
-            {/* Buttons (Updated Colors) */}
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto font-bold">
-              <Link href="/contact">
-                <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    // CHANGED button colors to amber theme
-                    className="group relative inline-flex items-center justify-center bg-amber-500 text-white text-lg py-4 px-10 rounded-full shadow-[0_10px_20px_rgba(245,158,11,0.3)] hover:bg-amber-600 transition-all duration-300 overflow-hidden w-full sm:w-auto"
-                >
-                    <span className="relative z-10 flex items-center gap-2">
-                    Book a Visit
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                </motion.button>
-              </Link>
+                {/* Decorative Elements behind */}
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-500 rounded-full blur-[60px] opacity-20 animate-pulse" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500 rounded-full blur-[60px] opacity-20" />
+             </motion.div>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                // CHANGED secondary button hover state
-                className="inline-flex items-center justify-center bg-white text-slate-700 text-lg py-4 px-10 rounded-full shadow-md hover:shadow-lg border-2 border-white hover:border-amber-200 hover:bg-amber-50 transition-all duration-300 w-full sm:w-auto"
-              >
-                View Schedule
-              </motion.button>
-            </div>
-          </motion.div>
+          </div>
 
-          {/* RIGHT: Image */}
-          <motion.div 
-            className="w-full md:w-1/2 flex justify-center md:justify-end mt-12 md:mt-0 relative z-20"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0, y: [0, -10, 0] }}
-            transition={{ 
-                opacity: { duration: 0.8, delay: 0.3 },
-                x: { duration: 0.8, delay: 0.3 },
-                y: { duration: 6, repeat: Infinity, ease: "easeInOut" } // Float animation
-            }}
-          >
-              {/* Character Image container */}
-              <div className="relative w-[300px] h-[350px] md:w-[450px] md:h-[550px] lg:w-[600px] lg:h-[650px]">
-                 {/* Optional: Add a glowing blob behind the image matching the theme */}
-                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-amber-400/30 rounded-full blur-3xl -z-10"></div>
-                <Image
-                  src={childImage}
-                  alt="Happy child in daycare"
-                  fill
-                  className="object-contain object-bottom drop-shadow-2xl"
-                  priority
-                />
-              </div>
-          </motion.div>
         </div>
       </div>
-
-      {/* --- BOTTOM CLOUD WAVE (Flipped) --- */}
-      <div className="absolute bottom-0 left-0 w-full leading-none rotate-180 overflow-hidden z-30">
-        <svg 
-            className="relative block w-full h-[60px] md:h-[100px]" 
-            data-name="Layer 1" 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 1200 120" 
-            preserveAspectRatio="none"
-        >
-            <path 
-                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-                className="fill-white"
-            ></path>
-        </svg>
-      </div>
-
     </section>
   );
 };
 
-export default DayCareHero;
+export default LittleCometsCare;
