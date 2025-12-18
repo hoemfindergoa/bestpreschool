@@ -1,24 +1,22 @@
 'use client';
 
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import type { Engine } from "tsparticles-engine";
 import Image from 'next/image';
 import { Titan_One, Nunito } from 'next/font/google';
-import { Rocket, Play, Sparkles, ChevronDown, ArrowRight } from 'lucide-react';
+import { Rocket, Sparkles, ChevronDown, ArrowRight, Sun, Cloud } from 'lucide-react';
 
 // --- PLACEHOLDER IMAGES ---
-// Replace with your best, highest quality "Hero" image.
-// A transparent PNG of a kid astronaut + dragon works best here.
 import heroImage from "../public/dragonwithastronoutstudy.png"; 
 
 // --- FONTS ---
 const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
-const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700'], display: 'swap' });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
 
-// --- HOOK FOR MOUSE POSITION ---
+// --- HOOK FOR MOUSE TILT ---
 function useMouseTilt(ref: React.RefObject<HTMLDivElement>) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -48,27 +46,22 @@ const InteractiveHero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { x, y, handleMouseMove, handleMouseLeave } = useMouseTilt(containerRef);
 
-  // Smooth out the mouse movements
   const springConfig = { damping: 30, stiffness: 100 };
   const mouseX = useSpring(x, springConfig);
   const mouseY = useSpring(y, springConfig);
 
-  // 3D Tilt Transforms
-  const rotateX = useTransform(mouseY, [-0.5, 0.5], [15, -15]);
-  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-15, 15]);
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]); // Reduced tilt for cleaner light look
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10]);
   
-  // Parallax Movement Transforms
-  const moveX = useTransform(mouseX, [-0.5, 0.5], [40, -40]);
-  const moveY = useTransform(mouseY, [-0.5, 0.5], [40, -40]);
-  const moveXReverse = useTransform(mouseX, [-0.5, 0.5], [-30, 30]);
-  const moveYReverse = useTransform(mouseY, [-0.5, 0.5], [-30, 30]);
+  const moveX = useTransform(mouseX, [-0.5, 0.5], [30, -30]);
+  const moveY = useTransform(mouseY, [-0.5, 0.5], [30, -30]);
 
   // --- PARTICLES INIT ---
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
 
-  // --- TYPEWRITER EFFECT STATE ---
+  // --- TYPEWRITER EFFECT ---
   const [displayText, setDisplayText] = useState('');
   const fullText = "Where Curiosity Takes Flight.";
   useEffect(() => {
@@ -80,21 +73,31 @@ const InteractiveHero: React.FC = () => {
       } else {
         clearInterval(timer);
       }
-    }, 50); // Speed of typing
+    }, 50);
     return () => clearInterval(timer);
   }, []);
-
 
   return (
     <section 
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative min-h-[95vh] flex items-center justify-center overflow-hidden ${bodyFont.className} perspective-2000`}
+      className={`relative min-h-screen pt-24 flex items-center justify-center overflow-hidden ${bodyFont.className} perspective-2000 bg-[#f8fafc]`}
     >
       
       {/* =========================================
-          LAYER 1: INTERACTIVE PARTICLE FIELD
+          LAYER 0: ANIMATED BACKGROUND BLOBS
+          (Adds depth to the light theme)
+      ========================================= */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {/* Top Right Orange Sun Glow */}
+        <div className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-orange-200/40 rounded-full blur-[100px] animate-pulse" />
+        {/* Bottom Left Blue Sky Glow */}
+        <div className="absolute -bottom-[20%] -left-[10%] w-[600px] h-[600px] bg-blue-200/40 rounded-full blur-[80px]" />
+      </div>
+
+      {/* =========================================
+          LAYER 1: PARTICLES (Colorful Dust)
       ========================================= */}
       <Particles
         id="hero-particles"
@@ -104,106 +107,111 @@ const InteractiveHero: React.FC = () => {
           fullScreen: false,
           fpsLimit: 120,
           interactivity: {
-            events: {
-              onHover: { enable: true, mode: "repulse" }, // Stars flee the mouse
-              resize: true,
-            },
-            modes: {
-              repulse: { distance: 150, duration: 0.4 },
-            },
+            events: { onHover: { enable: true, mode: "bubble" }, resize: true },
+            modes: { bubble: { distance: 200, size: 6, duration: 2, opacity: 0.8 } },
           },
           particles: {
-            color: { value: "#ffffff" },
-            links: { color: "#ffffff", distance: 150, enable: true, opacity: 0.2, width: 1 },
-            move: { enable: true, speed: 1, direction: "none", random: true, outModes: "out" },
-            number: { value: 120, density: { enable: true, area: 800 } },
-            opacity: { value: { min: 0.1, max: 0.5 }, animation: { enable: true, speed: 1, minimumValue: 0.1 } },
-            shape: { type: "circle" },
-            size: { value: { min: 1, max: 3 } },
+            // Updated to Blue, Orange, Pink for light mode
+            color: { value: ["#3b82f6", "#f97316", "#ec4899"] },
+            links: { color: "#cbd5e1", distance: 150, enable: true, opacity: 0.3, width: 1 },
+            move: { enable: true, speed: 1.5, direction: "none", random: true, outModes: "out" },
+            number: { value: 80, density: { enable: true, area: 800 } },
+            opacity: { value: { min: 0.3, max: 0.7 } },
+            shape: { type: ["circle"] },
+            size: { value: { min: 2, max: 4 } },
           },
         }}
       />
 
-      {/* Deep Space Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#02040a]/80 to-[#02040a] z-0 pointer-events-none" />
-
-
       {/* =========================================
           LAYER 2: MAIN CONTENT
       ========================================= */}
-      <div className="container mx-auto px-6 lg:px-12 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto px-6 lg:px-12 relative z-10 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         
         {/* --- LEFT COLUMN: TEXT & CTAs --- */}
         <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="max-w-2xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative"
         >
-          {/* Animated Badge */}
+          {/* Glassmorphism Card Background for Text */}
+          <div className="absolute -inset-6 backdrop-blur-xl rounded-[3rem]  -z-10" />
+
+          {/* Badge */}
           <motion.div 
-            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", delay: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/50 text-orange-300 mb-6 backdrop-blur-md"
+            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", delay: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-600 mb-6 shadow-sm"
           >
-            <Sparkles className="w-4 h-4 animate-pulse" />
-            <span className="text-sm font-bold tracking-wider uppercase">Admissions Open 2025</span>
+            <Rocket className="w-4 h-4 fill-blue-600" />
+            <span className="text-sm font-extrabold tracking-wider uppercase">Admissions Open 2025</span>
           </motion.div>
 
-          {/* Main Headline with Gradient */}
-          <h1 className={`text-5xl lg:text-7xl text-white leading-[1.1] mb-6 ${titleFont.className}`}>
-            Launch Your Child’s <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 animate-gradient-x">
-              Future Today
+          {/* Main Headline */}
+          <h1 className={`text-5xl lg:text-7xl text-slate-900 leading-[1.1] mb-6 ${titleFont.className}`}>
+            Launch Your <br />
+            <span className="relative">
+               <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500">
+                Next Adventure
+               </span>
+               {/* Underline decoration */}
+               <svg className="absolute w-full h-3 -bottom-1 left-0 text-orange-400 z-0" viewBox="0 0 100 10" preserveAspectRatio="none">
+                 <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="3" fill="none" />
+               </svg>
             </span>
           </h1>
 
           {/* Typewriter Subheadline */}
-          <h2 className={`text-2xl md:text-3xl text-cyan-300 mb-8 h-[40px] `}>
+          <h2 className={`text-xl md:text-2xl text-slate-500 font-bold mb-8 h-[32px] flex items-center gap-1`}>
             {displayText}
-            <span className="animate-blink">|</span>
+            <span className="w-[3px] h-6 bg-orange-500 animate-blink block"></span>
           </h2>
 
-          <p className="text-lg text-slate-300 mb-10 leading-relaxed max-w-lg">
-            Welcome to the Galactic Dragon Riders academy. A universe where education meets imagination, preparing little explorers for big adventures.
+          <p className="text-lg text-slate-600 mb-10 leading-relaxed max-w-lg font-medium">
+            Welcome to the Galactic Dragon Riders academy. A universe where education meets imagination, preparing little explorers for their biggest journey yet.
           </p>
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4">
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249, 115, 22, 0.6)" }}
+              whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(249, 115, 22, 0.5)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-pink-600 text-white font-bold flex items-center gap-2 shadow-lg relative overflow-hidden group"
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold flex items-center gap-2 shadow-xl shadow-orange-500/20 relative overflow-hidden group"
             >
               <span className="relative z-10 flex items-center gap-2">
                 Start The Adventure <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform"/>
               </span>
-              {/* Hover shine effect */}
-              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-shimmer" />
+              <div className="absolute inset-0 h-full w-full bg-white/20 -translate-x-full group-hover:animate-shimmer" />
             </motion.button>
-            
-   
+
+            <motion.button
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.8)" }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-full bg-white/60 text-slate-700 font-bold border border-white shadow-lg backdrop-blur-sm flex items-center gap-2 hover:text-blue-600 transition-colors"
+            >
+              Watch Video
+            </motion.button>
           </div>
         </motion.div>
 
 
         {/* --- RIGHT COLUMN: 3D INTERACTIVE VISUAL --- */}
-        <div className="relative perspective-1000">
-          {/* The 3D Tilting Container */}
+        <div className="relative perspective-1000 mt-12 lg:mt-0 flex justify-center">
           <motion.div
             style={{ 
               rotateX: rotateX, 
               rotateY: rotateY,
               transformStyle: "preserve-3d"
             }}
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, type: "spring" }}
-            className="relative z-20"
+            className="relative z-20 w-full max-w-[600px] aspect-square"
           >
             {/* The Main Hero Image */}
             <motion.div 
               style={{ x: moveX, y: moveY, transform: "translateZ(50px)" }}
-              className="relative z-30  pointer-events-none drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+              className="relative z-30 drop-shadow-2xl"
             >
               <Image 
                 src={heroImage} 
@@ -211,47 +219,59 @@ const InteractiveHero: React.FC = () => {
                 width={700}
                 height={700}
                 priority
-                className="w-full  h-auto"
+                className="w-full h-auto object-contain"
               />
             </motion.div>
 
-            {/* Floating Orbiting Elements (Decorative) */}
-          
+            {/* Decorative Floating Elements (Light Theme) */}
 
-            {/* 2. Planet/Orb */}
+            {/* 1. The Sun */}
             <motion.div
                animate={{ rotate: 360 }}
-               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-               style={{ x: moveX, y: moveY, transform: "translateZ(20px)" }}
-               className="absolute bottom-10 -left-10 z-10"
+               transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+               style={{ transform: "translateZ(-20px)" }}
+               className="absolute -top-10 -right-10 z-10"
             >
-               <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 blur-sm opacity-80 shadow-[0_0_40px_rgba(192,38,211,0.6)]"></div>
+                <div className="relative flex items-center justify-center">
+                    <Sun className="w-24 h-24 text-orange-400 fill-orange-100" />
+                    <div className="absolute inset-0 bg-orange-400 blur-2xl opacity-40"></div>
+                </div>
             </motion.div>
 
-            {/* 3. Background Glow behind image */}
-            <div style={{ transform: "translateZ(-50px)" }} className="absolute inset-0 bg-gradient-to-tr from-orange-500/30 to-purple-500/30 blur-[100px] rounded-full -z-10 scale-150" />
+            {/* 2. Clouds */}
+            <motion.div
+              animate={{ x: [0, 20, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              style={{ transform: "translateZ(30px)" }}
+              className="absolute bottom-10 -left-5 z-40"
+            >
+                 <Cloud className="w-20 h-20 text-white fill-white drop-shadow-lg opacity-90" />
+            </motion.div>
+
+            {/* 3. Background Card Glow */}
+            <div style={{ transform: "translateZ(-50px)" }} className="absolute inset-10 bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-[60px] opacity-70 -z-10" />
 
           </motion.div>
         </div>
 
       </div>
 
-
       {/* =========================================
           LAYER 3: SCROLL INDICATOR
       ========================================= */}
       <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 text-slate-400"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 text-slate-400"
       >
-        <span className="text-sm font-semibold tracking-widest uppercase">Explore</span>
+        <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-400">Scroll to Explore</span>
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="p-2 bg-white rounded-full shadow-md border border-slate-100 text-blue-500"
         >
-          <ChevronDown className="w-6 h-6" />
+          <ChevronDown className="w-5 h-5" />
         </motion.div>
       </motion.div>
       

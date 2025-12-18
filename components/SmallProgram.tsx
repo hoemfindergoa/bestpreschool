@@ -6,17 +6,15 @@ import {
   Brain, 
   MessageCircle, 
   Users, 
-  Rocket, 
-  Palette, 
   Activity, 
   ShieldCheck, 
-  Sparkles 
+  Sparkles,
+  Zap
 } from 'lucide-react'; 
 import { Titan_One, Nunito, Caveat } from 'next/font/google';
 import Image from 'next/image';
 
 // --- PLACEHOLDER IMAGE ---
-// Using the astronaut image you mentioned previously
 import mainVisual from "../public/dragonplayingfootball.png"; 
 
 // --- FONTS ---
@@ -24,55 +22,81 @@ const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap'
 const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
 const handwritingFont = Caveat({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
 
-// --- MAPPING YOUR CONTENT TO "SPACE MODULES" ---
-const trainingModules = [
+// --- 1. DEFINE SPECIFIC COLOR KEYS ---
+type ThemeColor = 'cyan' | 'purple' | 'orange' | 'rose' | 'emerald';
+
+// --- 2. TYPE THE STYLES OBJECT ---
+const colorStyles: Record<ThemeColor, { bg: string; text: string; border: string; glow: string }> = {
+  cyan:   { bg: "bg-cyan-100",   text: "text-cyan-600",   border: "group-hover:border-cyan-300",   glow: "group-hover:shadow-cyan-200" },
+  purple: { bg: "bg-purple-100", text: "text-purple-600", border: "group-hover:border-purple-300", glow: "group-hover:shadow-purple-200" },
+  orange: { bg: "bg-orange-100", text: "text-orange-600", border: "group-hover:border-orange-300", glow: "group-hover:shadow-orange-200" },
+  rose:   { bg: "bg-rose-100",   text: "text-rose-600",   border: "group-hover:border-rose-300",   glow: "group-hover:shadow-rose-200" },
+  emerald:{ bg: "bg-emerald-100",text: "text-emerald-600",border: "group-hover:border-emerald-300",glow: "group-hover:shadow-emerald-200" },
+};
+
+// --- 3. TYPE THE DATA INTERFACE ---
+interface ModuleData {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  icon: JSX.Element;
+  color: ThemeColor; // Use the specific type here
+}
+
+// --- 4. APPLY TYPE TO ARRAY ---
+const trainingModules: ModuleData[] = [
   {
     id: 1,
-    title: "Interstellar Comms",
-    category: "Language & Communication",
-    description: "Developing strong communication skills and self-expression through storytelling and interaction.",
-    icon: <MessageCircle className="w-5 h-5" />,
+    title: "Language & Stories",
+    category: "Communication",
+    description: "Developing self-expression through storytelling, rhymes, and joyful interaction.",
+    icon: <MessageCircle className="w-6 h-6" />,
     color: "cyan"
   },
   {
     id: 2,
-    title: "Mission Logic",
-    category: "Numeracy & Problem Solving",
-    description: "Mastering early numeracy concepts and curiosity-driven thinking to solve galactic puzzles.",
-    icon: <Brain className="w-5 h-5" />,
+    title: "Logic & Wonder",
+    category: "Numeracy",
+    description: "Mastering early numbers and curiosity-driven thinking to solve playful puzzles.",
+    icon: <Brain className="w-6 h-6" />,
     color: "purple"
   },
   {
     id: 3,
-    title: "Crew Harmony",
-    category: "Social Skills & Teamwork",
-    description: "Learning sharing, teamwork, and confidence-building to thrive in a social environment.",
-    icon: <Users className="w-5 h-5" />,
+    title: "Team Harmony",
+    category: "Social Skills",
+    description: "Learning sharing, teamwork, and confidence-building in a circle of friends.",
+    icon: <Users className="w-6 h-6" />,
     color: "orange"
   },
   {
     id: 4,
-    title: "Zero-G Agility",
-    category: "Motor Skills & Creativity",
-    description: "Strengthening fine and gross motor abilities through art, music, and outdoor play.",
-    icon: <Activity className="w-5 h-5" />,
+    title: "Active Play",
+    category: "Motor Skills",
+    description: "Strengthening coordination through dance, sports, art, and outdoor adventures.",
+    icon: <Activity className="w-6 h-6" />,
     color: "rose"
   },
   {
     id: 5,
-    title: "The Captain's Code",
-    category: "Values & Independence",
-    description: "Nurturing emotional intelligence, good habits, discipline, and responsibility.",
-    icon: <ShieldCheck className="w-5 h-5" />,
+    title: "Little Leaders",
+    category: "Values",
+    description: "Nurturing emotional intelligence, good habits, kindness, and responsibility.",
+    icon: <ShieldCheck className="w-6 h-6" />,
     color: "emerald"
   }
 ];
 
 const WhatKidsLearn: React.FC = () => {
   return (
-    <section className={`relative py-24 overflow-hidden  ${bodyFont.className} text-white`}>
+    <section className={`relative py-24 overflow-hidden bg-slate-50 ${bodyFont.className}`}>
       
-  
+      {/* Background Decor */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+         <div className="absolute top-1/4 left-0 w-64 h-64 bg-purple-200/40 rounded-full blur-3xl opacity-60" />
+         <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-orange-100/60 rounded-full blur-3xl opacity-60" />
+      </div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
@@ -84,117 +108,133 @@ const WhatKidsLearn: React.FC = () => {
              viewport={{ once: true }}
              transition={{ duration: 0.6 }}
            >
-             <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/30 backdrop-blur-sm">
-                <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-                <span className={`text-lg text-cyan-200 ${handwritingFont.className} font-bold tracking-wide`}>
-                  Mission Preparation
+             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full border border-blue-200 bg-white shadow-sm">
+                <Sparkles className="w-4 h-4 text-blue-500 fill-blue-500 animate-pulse" />
+                <span className={`text-lg text-slate-700 ${handwritingFont.className} font-bold tracking-wide`}>
+                  Holistic Development
                 </span>
              </div>
              
-             <h2 className={`text-4xl md:text-6xl mb-6 leading-tight ${titleFont.className}`}>
-               What <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">Future Captains</span> Learn
+             <h2 className={`text-4xl md:text-6xl mb-6 leading-tight text-slate-900 ${titleFont.className}`}>
+               What <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500">Future Leaders</span> Learn
              </h2>
              
-             <p className="text-slate-400 max-w-3xl mx-auto text-lg leading-relaxed">
-               At Best Preschool, children grow through a balanced blend of academics, creativity, and real-world learning. We ensure every child becomes confident, happy, and school-ready for the future.
+             <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
+               At Best Preschool, children grow through a balanced blend of academics, creativity, and real-world learning. We ensure every child becomes confident, happy, and school-ready.
              </p>
            </motion.div>
         </div>
 
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           
-          {/* --- LEFT: VISUAL HUD --- */}
+          {/* --- LEFT: IMAGE --- */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="w-full lg:w-8/12 relative flex justify-center"
+            className="w-full lg:w-5/12 relative flex justify-center order-2 lg:order-1"
           >
-             {/* Rotating Ring Back */}
-             {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border border-dashed border-white/10 rounded-full animate-spin-slow" style={{ animationDuration: '40s' }}></div> */}
-             
-             {/* Main Image Container */}
-             <div className="relative w-full   overflow-hidden  ">
-                 {/* Inner Glow */}
-  <Image 
-                   src={mainVisual} 
-                   alt="Learning Astronaut" 
-                   width={1200} 
-                   height={800}
-                   className="object-cover w-full h-full transform scale-105 group-hover:scale-110 transition-transform duration-700"
-                 />                 
-      
+             <div className="relative w-full max-w-md aspect-[4/5]">
+                <div className="absolute inset-4 bg-orange-100 rounded-[3rem] rotate-3 -z-10" />
+                <div className="absolute inset-4 bg-blue-100 rounded-[3rem] -rotate-3 -z-10" />
+                
+                <div className="relative h-full w-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 border-4 border-white">
+                  <Image 
+                    src={mainVisual} 
+                    alt="Active Child" 
+                    width={800} 
+                    height={1000}
+                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
+                  />
+                  
+                  <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white">
+                     <div className="flex items-center gap-3">
+                        <div className="bg-yellow-100 p-2 rounded-full text-yellow-600">
+                           <Zap className="w-6 h-6 fill-yellow-600" />
+                        </div>
+                        <div>
+                           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Skill Level</p>
+                           <p className={`text-slate-800 text-lg ${titleFont.className}`}>Level Up!</p>
+                        </div>
+                     </div>
+                  </div>
+                </div>
              </div>
           </motion.div>
 
 
           {/* --- RIGHT: MODULE LIST --- */}
-          <div className="w-full lg:w-7/12">
-            <div className="space-y-4">
-               {trainingModules.map((module, index) => (
-                 <motion.div
-                   key={module.id}
-                   initial={{ opacity: 0, x: 50 }}
-                   whileInView={{ opacity: 1, x: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ delay: index * 0.1, duration: 0.5 }}
-                   whileHover={{ scale: 1.02, x: 10 }}
-                   className="group relative p-5 rounded-3xl bg-[#131625]/60 border border-white/5 backdrop-blur-md overflow-hidden hover:bg-[#1c2035]/80 transition-all duration-300"
-                 >
-                    {/* Hover Glow Bar */}
-                    <div className={`absolute left-0 top-0 bottom-0 w-1 bg-${module.color}-500/50 group-hover:w-2 transition-all duration-300`} />
-                    
-                    <div className="flex gap-5 items-start">
-                       {/* Icon Box */}
-                       <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center bg-${module.color}-500/10 text-${module.color}-400 group-hover:bg-${module.color}-500 group-hover:text-white transition-all duration-300 shadow-inner`}>
-                          {module.icon}
-                       </div>
+          <div className="w-full lg:w-7/12 order-1 lg:order-2">
+            <div className="relative space-y-4">
+               {/* Vertical Connector Line */}
+               <div className="absolute left-8 top-8 bottom-8 w-0.5 border-l-2 border-dashed border-slate-200 hidden sm:block" />
 
-                       <div className="flex-1">
-                          <h3 className={`text-xl text-white mb-1 ${titleFont.className} group-hover:text-${module.color}-300 transition-colors`}>
-                            {module.title}
-                          </h3>
-                          <div className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 group-hover:text-slate-400">
-                             {module.category}
-                          </div>
-                          <p className="text-slate-400 text-sm leading-relaxed font-medium group-hover:text-slate-200 transition-colors">
-                            {module.description}
-                          </p>
-                       </div>
-                       
-                       {/* Arrow indicator */}
-                       <div className="hidden sm:flex self-center opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
-                          <Palette className="w-5 h-5 text-slate-500" /> 
-                          {/* Using generic icon for visual balance, logically fits within the creative theme */}
-                       </div>
+               {trainingModules.map((module, index) => {
+                 // 5. SAFETY CHECK (Optional but good practice if data comes from API)
+                 const theme = colorStyles[module.color] || colorStyles.cyan;
+                 
+                 return (
+                  <motion.div
+                    key={module.id}
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    whileHover={{ scale: 1.01, x: 5 }}
+                    className={`
+                      group relative p-5 rounded-3xl 
+                      bg-white border border-slate-100 
+                      shadow-sm hover:shadow-xl ${theme.glow}
+                      transition-all duration-300
+                      z-10
+                      ${theme.border} hover:border
+                    `}
+                  >
+                    <div className="flex gap-5 items-center sm:items-start">
+                        
+                        {/* Icon Box */}
+                        <div className={`shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center ${theme.bg} ${theme.text} transition-transform duration-300 group-hover:scale-110 shadow-sm`}>
+                           {module.icon}
+                        </div>
+
+                        <div className="flex-1">
+                           <div className="flex justify-between items-center mb-1">
+                             <h3 className={`text-xl text-slate-800 ${titleFont.className} group-hover:text-blue-600 transition-colors`}>
+                               {module.title}
+                             </h3>
+                             <span className={`text-xs font-bold uppercase tracking-widest ${theme.text} bg-white border border-slate-100 px-2 py-1 rounded-full`}>
+                               {module.category}
+                             </span>
+                           </div>
+                           
+                           <p className="text-slate-500 text-sm leading-relaxed font-semibold group-hover:text-slate-600 transition-colors">
+                             {module.description}
+                           </p>
+                        </div>
                     </div>
-                 </motion.div>
-               ))}
+                  </motion.div>
+                 );
+               })}
             </div>
             
             {/* Closing Statement */}
             <motion.div 
                initial={{ opacity: 0 }}
                whileInView={{ opacity: 1 }}
-               transition={{ delay: 0.8 }}
-               className="mt-8 p-4 rounded-xl border border-dashed border-white/10 text-center"
+               transition={{ delay: 0.6 }}
+               className="mt-8 ml-0 sm:ml-20"
             >
-               <p className={`text-gray-400 ${handwritingFont.className} text-xl`}>
-                 "Structured yet joyful environment nurturing emotional intelligence."
-               </p>
+               <div className="inline-block p-4 bg-yellow-50 rounded-tr-2xl rounded-bl-2xl rounded-br-2xl border border-yellow-100 relative">
+                  <div className="absolute -top-3 -left-2 text-4xl text-yellow-300">"</div>
+                  <p className={`text-slate-600 ${handwritingFont.className} text-xl font-bold px-4`}>
+                    We create a structured yet joyful environment where little minds bloom.
+                  </p>
+               </div>
             </motion.div>
           </div>
 
         </div>
       </div>
-      
-      {/* CSS for Stars (Add to your global CSS if needed, or included here for inline simplicity) */}
-      <style jsx>{`
-        @keyframes moveStars {
-          from { background-position: 0 0, 0 0, 0 0, 0 0; }
-          to { background-position: -1000px 1000px, -400px 400px, 300px 300px, -200px 200px; }
-        }
-      `}</style>
     </section>
   );
 };
