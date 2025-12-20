@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Target, Eye, Rocket, Star } from 'lucide-react';
 import { Luckiest_Guy, Nunito, Caveat } from 'next/font/google';
 import Image, { StaticImageData } from 'next/image';
+import OrganizationSection from '@/components/organizationSection';
 
 // --- COMPONENTS ---
 import AboutHeader from '@/components/AboutHeader';
@@ -170,6 +171,7 @@ const AboutPage = () => {
            "Where every little heart finds a home to grow."
          </p>
       </section>
+      <OrganizationSection />
     </main>
   );
 };
