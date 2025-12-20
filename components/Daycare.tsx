@@ -17,7 +17,7 @@ import { Titan_One, Nunito, Caveat } from 'next/font/google';
 import Image from 'next/image';
 
 // --- PLACEHOLDER IMAGE ---
-import careImage from "../public/dragonlookingmoon.png"; 
+import careImage from "../public/boyandgirlcolor.png"; 
 
 // --- FONTS ---
 const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
@@ -189,7 +189,7 @@ const LittleCometsCare: React.FC = () => {
                 className="relative z-10"
               >
                  {/* Soft White/Glass Frame */}
-                 <div className="relative p-3 bg-white rounded-[2.5rem] shadow-2xl shadow-blue-100">
+                 <div className="relative p-3  rounded-[2.5rem] ">
                     <div className="relative overflow-hidden rounded-[2rem]">
                       
                       <Image 
@@ -200,16 +200,7 @@ const LittleCometsCare: React.FC = () => {
                         className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-700"
                       />
                       
-                      {/* Floating 'Certified' Badge */}
-                      <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg border border-white flex items-center gap-3">
-                         <div className="bg-green-100 p-2 rounded-full">
-                           <ShieldCheck className="w-6 h-6 text-green-600" />
-                         </div>
-                         <div>
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Safety First</p>
-                            <p className={`text-slate-800 font-bold ${titleFont.className}`}>Certified Care</p>
-                         </div>
-                      </div>
+                   
 
                     </div>
                  </div>

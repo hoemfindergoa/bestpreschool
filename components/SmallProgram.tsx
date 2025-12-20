@@ -15,7 +15,7 @@ import { Titan_One, Nunito, Caveat } from 'next/font/google';
 import Image from 'next/image';
 
 // --- PLACEHOLDER IMAGE ---
-import mainVisual from "../public/dragonplayingfootball.png"; 
+import mainVisual from "../public/capturingbuttterfly.png"; 
 
 // --- FONTS ---
 const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
@@ -98,7 +98,7 @@ const WhatKidsLearn: React.FC = () => {
          <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-orange-100/60 rounded-full blur-3xl opacity-60" />
       </div>
 
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+      <div className=" mx-auto px-6 lg:px-12 relative z-10">
         
         {/* --- HEADER --- */}
         <div className="text-center mb-16">
@@ -125,39 +125,26 @@ const WhatKidsLearn: React.FC = () => {
            </motion.div>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="flex flex-col lg:flex-row items-center md:mx-8 gap-12 lg:gap-20">
           
           {/* --- LEFT: IMAGE --- */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="w-full lg:w-5/12 relative flex justify-center order-2 lg:order-1"
+            className="w-full lg:w-6/12 relative flex justify-center order-2 lg:order-1"
           >
-             <div className="relative w-full max-w-md aspect-[4/5]">
-                <div className="absolute inset-4 bg-orange-100 rounded-[3rem] rotate-3 -z-10" />
-                <div className="absolute inset-4 bg-blue-100 rounded-[3rem] -rotate-3 -z-10" />
-                
-                <div className="relative h-full w-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 border-4 border-white">
-                  <Image 
+             <div className="relative w-full max-w-md ">
+            
+                <div className="relative h-[500px] w-[700px] overflow-hidden ">
+                    <Image 
                     src={mainVisual} 
                     alt="Active Child" 
-                    width={800} 
+                    width={1200} 
                     height={1000}
                     className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
                   />
-                  
-                  <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white">
-                     <div className="flex items-center gap-3">
-                        <div className="bg-yellow-100 p-2 rounded-full text-yellow-600">
-                           <Zap className="w-6 h-6 fill-yellow-600" />
-                        </div>
-                        <div>
-                           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Skill Level</p>
-                           <p className={`text-slate-800 text-lg ${titleFont.className}`}>Level Up!</p>
-                        </div>
-                     </div>
-                  </div>
+                 
                 </div>
              </div>
           </motion.div>

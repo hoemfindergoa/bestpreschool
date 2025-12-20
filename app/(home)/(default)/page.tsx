@@ -9,7 +9,7 @@ import Daycare from '@/components/Daycare';
 
 export default function Page() {
   return (
-    <div className="w-full  text-white  overflow-x-hidden relative">
+    <div className="w-full  text-white  ">
           <HeroNEW/>
 
       {/* <HeroNEW/> */}
