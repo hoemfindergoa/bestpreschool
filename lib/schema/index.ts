@@ -36,6 +36,32 @@ export const BlogFormSchema = z
 	);
 
 export type BlogFormSchemaType = z.infer<typeof BlogFormSchema>;
+export const FranchiseFormSchema = z.object({
+    name: z.string().min(2, { 
+        message: "Name must be at least 2 characters" 
+    }),
+    phone: z.string().min(10, { 
+        message: "Phone number must be at least 10 digits" 
+    }),
+    email: z.string().email({ 
+        message: "Invalid email address" 
+    }),
+    city: z.string().min(2, { 
+        message: "City is required" 
+    }),
+    budget: z.string().min(1, { 
+        message: "Please select a budget" 
+    }),
+    property: z.string().min(1, { 
+        message: "Please select property status" 
+    }),
+    created_at: z.string().optional(), // Optional, in case you set it on the client
+});
+
+
+export type FranchiseFormSchemaType = z.infer<typeof FranchiseFormSchema>;
+
+
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

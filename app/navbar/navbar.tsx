@@ -1,15 +1,17 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from "react";
-import { Menu, X, ArrowRight, Sparkles, Facebook, Instagram, Twitter, Youtube, CloudSun } from "lucide-react";
+import { Menu, X, ArrowRight, Sparkles, Facebook, Instagram, Youtube, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; 
-import { Titan_One, Nunito } from 'next/font/google';
+import { Luckiest_Guy, Nunito } from 'next/font/google';
+import Image from "next/image";
+import logo from "../../public/logonew.png";
 
 // --- FONTS ---
-const titleFont = Titan_One({ weight: '400', subsets: ['latin'] });
-const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700', '800'] });
+const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['600', '800'] });
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -18,31 +20,24 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState("");
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
-  // Scroll Effect & Active Section Detection
+  const colors = ['text-blue-500', 'text-red-500', 'text-yellow-500', 'text-green-500', 'text-orange-500', 'text-purple-500'];
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-
       if (pathname === "/") {
         const sections = ["about", "programs", "gallery"];
         let current = "";
-        
         for (const section of sections) {
           const element = document.getElementById(section);
           if (element) {
             const rect = element.getBoundingClientRect();
-            // Offset for the fixed header height
-            if (rect.top <= 150 && rect.bottom >= 150) {
-              current = `/#${section}`;
-            }
+            if (rect.top <= 150 && rect.bottom >= 150) current = `/#${section}`;
           }
         }
         if (current) setActiveSection(current);
-      } else {
-        setActiveSection("");
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
@@ -50,59 +45,41 @@ const Navbar = () => {
   const navLinks = [
     { href: "/about", label: "About Us" },
     { href: "/#programs", label: "Programs" },
-    { href: "/why-us", label: "Why Us" },
-    { href: "/admission", label: "Admissions" },
-    { href: "/franchise", label: "Franchise" },
-    { href: "/centers", label: "Our Centers" },
-    { href: "/contact", label: "Contact Us" },
+    { href: "/Whyus", label: "Why Us" },
+    { href: "/contact", label: "Contact" },
+      { href: "/franchise", label: "franchise" },
   ];
 
   const socialLinks = [
-    { 
-      icon: Facebook, 
-      href: "https://facebook.com", 
-      className: "text-blue-600 hover:bg-blue-50" 
-    },
-    { 
-      icon: Instagram, 
-      href: "https://instagram.com", 
-      className: "text-pink-600 hover:bg-pink-50" 
-    },
-    { 
-      icon: Youtube, 
-      href: "https://youtube.com", 
-      className: "text-red-600 hover:bg-red-50" 
-    },
+    { icon: Facebook, href: "#", color: "hover:text-blue-600 shadow-blue-200" },
+    { icon: Instagram, href: "#", color: "hover:text-pink-600 shadow-pink-200" },
+    { icon: Youtube, href: "#", color: "hover:text-red-600 shadow-red-200" },
   ];
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/80 backdrop-blur-md py-3 shadow-sm border-b border-slate-100"
-          : "bg-transparent py-4 md:py-6"
+          ? "bg-white/90 backdrop-blur-lg py-2 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-b-4 border-[#6BCB77]"
+          : "bg-transparent py-6"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between">
 
           {/* --- LOGO --- */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative transition-transform duration-300 group-hover:scale-105 flex items-center gap-2">
-               <CloudSun className="w-8 h-8 text-orange-400" />
-               <h1 className={`text-2xl md:text-3xl text-slate-800 ${titleFont.className}`}>
-                 Best<span className="text-blue-600">Pre</span>School
-               </h1>
-            </div>
+          <Link href="/" className="flex items-center group">
+            <motion.div whileHover={{ scale: 1.1, rotate: [-2, 2, -2] }}>
+              <Image src={logo} alt="Logo" width={160} height={70} className="object-contain" priority />
+            </motion.div>
           </Link>
 
           {/* --- DESKTOP MENU --- */}
-          <div className="hidden xl:flex items-center gap-8">
-            {navLinks.map((link) => {
-              const isActive = 
-                hoveredLink === link.href || 
-                pathname === link.href || 
-                (pathname === "/" && activeSection === link.href);
+          <div className="hidden xl:flex items-center gap-6">
+            {navLinks.map((link, idx) => {
+              const isActive = pathname === link.href || (pathname === "/" && activeSection === link.href);
+              const isHovered = hoveredLink === link.href;
+              const linkColor = colors[idx % colors.length];
 
               return (
                 <Link
@@ -110,30 +87,26 @@ const Navbar = () => {
                   href={link.href}
                   onMouseEnter={() => setHoveredLink(link.href)}
                   onMouseLeave={() => setHoveredLink(null)}
-                  className="relative group py-2"
+                  className="relative px-2 py-1"
                 >
-                  {/* Floating Sparkle for Active State */}
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -5, scale: 0 }}
-                        animate={{ opacity: 1, y: -15, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0 }}
-                        className="absolute left-1/2 -translate-x-1/2"
-                      >
-                          <Sparkles className="w-3 h-3 text-orange-400 fill-orange-400 animate-pulse" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <span className={`text-base tracking-wide transition-all duration-300 ${
-                    isActive ? "text-blue-600 font-bold" : "text-slate-600 font-bold hover:text-blue-500"
-                  } ${bodyFont.className}`}>
+                  <span className={`
+                    text-lg tracking-wider transition-all duration-300
+                    ${bubbleFont.className}
+                    ${isActive || isHovered ? linkColor : 'text-slate-700'}
+                    ${isActive || isHovered ? '[text-shadow:_1px_1px_0_#000]' : ''}
+                  `}>
                     {link.label}
                   </span>
                   
-                  {/* Bottom Rounded Line */}
-                  <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] bg-orange-400 rounded-full transition-all duration-300 ${isActive ? "w-full" : "w-0"}`} />
+                  {/* Active Bubble/Underline */}
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        layoutId="navUnderline"
+                        className="absolute -bottom-1 left-0 w-full h-1 bg-yellow-400 rounded-full border border-black shadow-[2px_2px_0_0_#000]"
+                      />
+                    )}
+                  </AnimatePresence>
                 </Link>
               );
             })}
@@ -143,37 +116,43 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             
             {/* Social Icons (Desktop) */}
-            <div className="hidden md:flex items-center gap-1 border-r border-slate-200 pr-6 mr-2">
+            <div className="hidden lg:flex items-center gap-2 pr-4 border-r-2 border-slate-200">
                 {socialLinks.map((social, i) => (
-                    <a 
+                    <motion.a 
                         key={i} 
                         href={social.href} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className={`p-2 rounded-full transition-all duration-300 hover:-translate-y-1 ${social.className}`}
+                        whileHover={{ scale: 1.2, rotate: 10 }}
+                        className={`p-2 rounded-xl bg-white border-2 border-black shadow-[3px_3px_0_0_#000] ${social.color}`}
                     >
-                        <social.icon className="w-4 h-4" />
-                    </a>
+                      <social.icon className="w-4 h-4" />
+                    </motion.a>
                 ))}
             </div>
 
-            {/* Desktop Enroll Button */}
+            {/* Redesigned 3D Enroll Button */}
             <Link href="/admission" className="hidden sm:block">
               <motion.button
-                whileHover={{ scale: 1.05, boxShadow: "0 10px 20px -5px rgba(249, 115, 22, 0.4)" }}
+                whileHover={{ scale: 1.05, rotate: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className={`bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-full px-6 py-2.5 shadow-md flex items-center gap-2 text-sm font-bold transition-all ${bodyFont.className}`}
+                className={`
+                  bg-[#FF6B6B] text-white rounded-2xl px-8 py-3 
+                  border-2 border-black
+                  shadow-[4px_4px_0_0_#000] 
+                  active:shadow-none active:translate-y-1
+                  flex items-center gap-2 text-base font-black transition-all
+                  ${bodyFont.className}
+                `}
               >
-                Enroll Now <ArrowRight className="w-4 h-4" />
+                Enroll Now <Star className="w-4 h-4 fill-white" />
               </motion.button>
             </Link>
 
             {/* Mobile Toggle */}
             <button
-              className="xl:hidden p-2 text-slate-700 hover:bg-slate-100 rounded-full transition-colors"
+              className="xl:hidden w-12 h-12 flex items-center justify-center bg-yellow-400 border-2 border-black shadow-[4px_4px_0_0_#000] rounded-xl text-black"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+              {mobileMenuOpen ? <X className="w-6 h-6 stroke-[3px]" /> : <Menu className="w-6 h-6 stroke-[3px]" />}
             </button>
           </div>
         </div>
@@ -183,59 +162,51 @@ const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="xl:hidden bg-white border-t border-slate-100 shadow-xl overflow-hidden absolute w-full left-0 top-full"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="xl:hidden fixed inset-0 z-50 bg-[#FFFDF6] flex flex-col p-8"
           >
-            <div className="container mx-auto px-6 py-8 flex flex-col gap-3">
+            <div className="flex justify-between items-center mb-12">
+              <Image src={logo} alt="Logo" width={120} height={50} />
+              <button onClick={() => setMobileMenuOpen(false)} className="w-12 h-12 bg-rose-400 border-2 border-black shadow-[4px_4px_0_0_#000] rounded-xl flex items-center justify-center">
+                <X className="w-6 h-6 text-white stroke-[3px]" />
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-4">
               {navLinks.map((link, i) => {
                  const isActive = pathname === link.href || (pathname === "/" && activeSection === link.href);
-                 
                  return (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
                     <Link
+                      key={link.href}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`block px-5 py-3 rounded-2xl text-lg font-bold transition-all border ${
-                        isActive 
-                          ? "text-blue-600 bg-blue-50 border-blue-100" 
-                          : "text-slate-500 hover:bg-slate-50 border-transparent"
-                      } ${bodyFont.className}`}
+                      className={`
+                        p-5 rounded-3xl text-2xl border-2 border-black transition-all
+                        ${bubbleFont.className}
+                        ${isActive ? "bg-blue-400 text-white shadow-[6px_6px_0_0_#000]" : "bg-white text-slate-700 shadow-[4px_4px_0_0_#000]"}
+                      `}
                     >
-                      <div className="flex items-center justify-between">
-                        {link.label}
-                        {isActive && <Sparkles className="w-4 h-4 text-orange-400" />}
-                      </div>
+                      {link.label}
                     </Link>
-                  </motion.div>
                  );
               })}
               
-              <div className="mt-4 pt-6 border-t border-slate-100">
-                <Link href="/admission" onClick={() => setMobileMenuOpen(false)}>
-                  <button className={`w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-4 rounded-2xl font-bold shadow-lg shadow-orange-200 flex justify-center items-center gap-2 ${bodyFont.className}`}>
-                    Enroll Now <ArrowRight className="w-5 h-5" />
-                  </button>
-                </Link>
-              </div>
+              <Link href="/admission" onClick={() => setMobileMenuOpen(false)} className="mt-4">
+                <button className={`w-full bg-[#6BCB77] text-white py-5 rounded-3xl border-2 border-black font-black text-2xl shadow-[8px_8px_0_0_#000] active:shadow-none flex justify-center items-center gap-3 ${bodyFont.className}`}>
+                  Enroll Now <ArrowRight className="w-7 h-7" />
+                </button>
+              </Link>
+            </div>
 
-               <div className="flex justify-center gap-6 py-4 mt-2">
-                 {socialLinks.map((social, i) => (
-                    <a 
-                        key={i} 
-                        href={social.href} 
-                        className={`p-3 rounded-full bg-slate-50 border border-slate-100 ${social.className}`}
-                    >
-                        <social.icon className="w-5 h-5" />
-                    </a>
-                ))}
-              </div>
+            <div className="mt-auto flex justify-center gap-6 py-8">
+              {socialLinks.map((social, i) => (
+                <a key={i} href={social.href} className="w-14 h-14 bg-white border-2 border-black shadow-[4px_4px_0_0_#000] rounded-2xl flex items-center justify-center">
+                  <social.icon className="w-6 h-6" />
+                </a>
+              ))}
             </div>
           </motion.div>
         )}

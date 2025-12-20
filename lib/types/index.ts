@@ -13,6 +13,17 @@
 		title: string | null
 };
 
+export type IFranchiseDetail = {
+    id?: string;
+    created_at?: string;
+    name: string;
+    email: string;
+    phone: string;
+    city: string;
+    budget: string;
+    property: string;
+};
+
 
 export type IBlogDetial = {
 	created_at: string;

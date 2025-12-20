@@ -3,9 +3,10 @@ import Programs from '@/components/SmallProgram';
 import SmallAbout from '@/components/SmallAbout';
 import HeroNEW from '@/components/HeroNew';
 import ProgramsSection from '@/components/ProgramsNew';
-import BlogSection from '@/components/BlogComponents';
+import WhyChooseUs from '@/components/BlogComponents';
 import Homecta from '@/components/HomeCta';
 import Daycare from '@/components/Daycare';
+import FaqSection from '@/components/Faqsection';
 
 export default function Page() {
   return (
@@ -16,8 +17,8 @@ export default function Page() {
         <ProgramsSection/>
         <Daycare/>
               <Programs/>
-        {/* <Homecta/>   */}
-      {/* <BlogSection/> */}
+      <WhyChooseUs/>
+        <FaqSection/>  
  
     </div>
   );

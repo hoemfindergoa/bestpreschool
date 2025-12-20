@@ -2,23 +2,48 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CloudSun } from 'lucide-react'; 
-import { Titan_One, Nunito, Caveat } from 'next/font/google';
-import Image, { StaticImageData } from 'next/image'; // Added StaticImageData
+import { ArrowRight, Star } from 'lucide-react'; 
+import { Luckiest_Guy, Nunito, Caveat } from 'next/font/google';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 
-// --- IMAGE IMPORTS ---
-import boywithfootball from "../public/boywithfootball.png"; 
-import girlwithbook from "../public/dancestep.png";
-import boywithelephant from "../public/girlbizzo.png";
-import girlonswing from "../public/girlopposite.png";
+// --- IMAGE IMPORTS (Your provided paths) ---
+import boywithfootball from "../public/test/616.webp"; 
+import girlwithbook from "../public/test/671.webp";
+import boywithelephant from "../public/test/662.webp";
+import girlonswing from "../public/test/649.webp";
+import sectionBgImage from "../public/test/642.webp"; // Using this as the "big background"
 
 // --- FONT CONFIGURATION ---
-const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
-const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
-const handwritingFont = Caveat({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
+const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['600', '800'] });
+const handwritingFont = Caveat({ subsets: ['latin'], weight: ['700'] });
 
-// --- TYPES & INTERFACES ---
+// --- BUBBLE TEXT COMPONENT (Consistent with Hero) ---
+const BubbleText = ({ text, sizeClass = "text-3xl" }: { text: string, sizeClass?: string }) => {
+  const colors = ['text-blue-500', 'text-red-500', 'text-yellow-500', 'text-green-500', 'text-orange-500', 'text-purple-500'];
+  return (
+    <div className="flex flex-wrap justify-center gap-x-0.5">
+      {text.split("").map((char, i) => (
+        <span
+          key={i}
+          className={`relative inline-block ${sizeClass} ${bubbleFont.className} ${colors[i % colors.length]} 
+          [text-shadow:_2px_2px_0_#000,_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]`}
+        >
+          {char}
+          {['o', 'e', 'p', 'a', 'd'].includes(char.toLowerCase()) && (
+            <span className="absolute top-[40%] left-1/2 -translate-x-1/2 flex gap-0.5 pointer-events-none">
+              <span className="w-0.5 h-0.5 lg:w-1 lg:h-1 bg-black rounded-full" />
+              <span className="w-0.5 h-0.5 lg:w-1 lg:h-1 bg-black rounded-full" />
+            </span>
+          )}
+        </span>
+      ))}
+    </div>
+  );
+};
+
+// --- TYPES ---
 type ThemeColor = 'rose' | 'sky' | 'purple' | 'teal';
 
 interface Program {
@@ -27,24 +52,9 @@ interface Program {
   subtitle: string;
   age: string;
   description: string;
-  fullDescription: string;
   theme: ThemeColor;
-  image: StaticImageData; // Precisely types the imported PNGs
+  image: StaticImageData;
   linkId: string;
-}
-
-interface ThemeStyles {
-  titleText: string;
-  badgeBg: string;
-  badgeText: string;
-  smudgeColor: string; // Added for the bubbly effect
-  btnGrad: string;
-  shadowColor: string;
-}
-
-interface ProgramCardProps {
-  data: Program;
-  index: number;
 }
 
 // --- DATA ---
@@ -53,20 +63,18 @@ const programs: Program[] = [
     id: 1,
     title: "Little Rockets",
     subtitle: "Igniting Curiosity",
-    age: "Play Group (2–3 Years)",
-    description: "Our Little Rockets begin their learning journey with joyful discoveries and hands-on exploration.",
-    fullDescription: "Focuses on early social skills.",
+    age: "2–3 Years",
+    description: "Our Little Rockets begin their journey with joyful discoveries and exploration.",
     theme: "rose", 
     image: boywithfootball, 
-    linkId: "rockets"
+    linkId: "/Programs/#rockets"
   },
   {
     id: 2,
     title: "Moon Explorers",
     subtitle: "Imagination Takes Flight",
-    age: "Nursery (3–4 Years)",
-    description: "Step into a world of imagination! Children engage in early literacy and thematic play.",
-    fullDescription: "Guided exploration.",
+    age: "3–4 Years",
+    description: "Children engage in early literacy and thematic play in a world of imagination.",
     theme: "sky",
     image: girlwithbook, 
     linkId: "explorers"
@@ -75,9 +83,8 @@ const programs: Program[] = [
     id: 3,
     title: "Astro Champs",
     subtitle: "Building Confidence",
-    age: "LKG (4–5 Years)",
-    description: "Building stronger academic readiness through structured yet enjoyable learning experiences.",
-    fullDescription: "Hands-on projects.",
+    age: "4–5 Years",
+    description: "Stronger academic readiness through structured yet enjoyable learning.",
     theme: "purple",
     image: boywithelephant, 
     linkId: "champs"
@@ -86,9 +93,8 @@ const programs: Program[] = [
     id: 4,
     title: "Space Innovators",
     subtitle: "Ready for Lift-Off",
-    age: "UKG (5–6 Years)",
+    age: "5–6 Years",
     description: "Preparing for formal schooling with advanced foundational learning.",
-    fullDescription: "Real-world explorations.",
     theme: "teal",
     image: girlonswing, 
     linkId: "innovators"
@@ -97,39 +103,33 @@ const programs: Program[] = [
 
 const CosmicPrograms: React.FC = () => {
   return (
-    <section id='programs' className={`py-24 relative overflow-hidden bg-[#fdfbf7] ${bodyFont.className}`}>
+    <section id='programs' className={`py-24 relative overflow-hidden bg-[#FFFDF6] ${bodyFont.className}`}>
       
-      {/* GLOBAL CHALK FILTER */}
-      <svg className="absolute h-0 w-0 invisible">
-        <filter id="chalk-rubbing">
-          <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
-        </filter>
-      </svg>
+      {/* BIG BACKGROUND IMAGE */}
+      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+        <Image src={sectionBgImage} alt="Background pattern" fill className="" />
+      </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 relative z-10">
+      <div className="max-w-[1700px] mx-auto px-6 relative z-10">
+        {/* Section Heading */}
         <div className="text-center mb-20">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}>
-             <h2 className={`text-5xl md:text-7xl leading-tight ${titleFont.className}`}>
-                <span className="relative inline-block px-4 py-1">
-                    <span 
-                      className="relative z-10 uppercase tracking-tighter"
-                      style={{
-                        filter: 'url(#chalk-rubbing)',
-                        background: 'linear-gradient(110deg, #4FA8CF 20%, #E27B50 40%, #8E54B0 60%, #A3C54E 80%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                      }}
-                    >
-                      Our Programs
-                    </span>
-                    <span className="absolute inset-0 -z-10 opacity-30 blur-xl scale-125 bg-gradient-to-r from-blue-100 via-orange-100 to-green-100 rounded-full" />
-                </span>
-            </h2>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}  
+            viewport={{ once: true }}
+            className="inline-block"
+          >
+            <div className="flex items-center justify-center gap-2 mb-4">
+               <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
+               <span className="text-slate-500 font-black uppercase tracking-widest">Our Learning Paths</span>
+               <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
+            </div>
+            <BubbleText text="OUR PROGRAMS" sizeClass="text-5xl md:text-8xl" />
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Programs Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {programs.map((program, index) => (
             <ProgramCard key={program.id} data={program} index={index} />
           ))}
@@ -139,55 +139,60 @@ const CosmicPrograms: React.FC = () => {
   );
 };
 
-const ProgramCard: React.FC<ProgramCardProps> = ({ data, index }) => {
-  const colors: Record<ThemeColor, ThemeStyles> = {
-    rose:   { titleText: '#E11D48', badgeBg: 'bg-rose-50', badgeText: 'text-rose-600', smudgeColor: 'bg-rose-200', btnGrad: 'from-rose-500 to-pink-600', shadowColor: 'shadow-rose-200' },
-    sky:    { titleText: '#2563EB', badgeBg: 'bg-blue-50', badgeText: 'text-blue-600', smudgeColor: 'bg-blue-200', btnGrad: 'from-blue-500 to-indigo-600', shadowColor: 'shadow-blue-200' },
-    purple: { titleText: '#9333EA', badgeBg: 'bg-purple-50', badgeText: 'text-purple-600', smudgeColor: 'bg-purple-200', btnGrad: 'from-purple-500 to-violet-600', shadowColor: 'shadow-purple-200' },
-    teal:   { titleText: '#0D9488', badgeBg: 'bg-teal-50', badgeText: 'text-teal-600', smudgeColor: 'bg-teal-200', btnGrad: 'from-teal-400 to-emerald-600', shadowColor: 'shadow-teal-200' },
+const ProgramCard: React.FC<{ data: Program; index: number }> = ({ data, index }) => {
+  // Theme styling for the "Physical Block" look
+  const themes: Record<ThemeColor, { shadow: string, border: string, btn: string, bg: string }> = {
+    rose:   { shadow: 'shadow-[0_12px_0_0_#fb7185]', border: 'border-rose-200', btn: 'bg-rose-500 shadow-[0_4px_0_0_#e11d48]', bg: 'bg-rose-50' },
+    sky:    { shadow: 'shadow-[0_12px_0_0_#38bdf8]', border: 'border-blue-200', btn: 'bg-blue-500 shadow-[0_4px_0_0_#2563eb]', bg: 'bg-blue-50' },
+    purple: { shadow: 'shadow-[0_12px_0_0_#c084fc]', border: 'border-purple-200', btn: 'bg-purple-500 shadow-[0_4px_0_0_#9333ea]', bg: 'bg-purple-50' },
+    teal:   { shadow: 'shadow-[0_12px_0_0_#2dd4bf]', border: 'border-teal-200', btn: 'bg-teal-500 shadow-[0_4px_0_0_#0d9488]', bg: 'bg-teal-50' },
   };
 
-  const theme = colors[data.theme];
+  const currentTheme = themes[data.theme];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className="bg-white rounded-[3rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center group"
+      whileHover={{ y: -5 }}
+      className={`relative bg-white border-2 ${currentTheme.border} rounded-[3rem] p-8 ${currentTheme.shadow} transition-all flex flex-col items-center text-center`}
     >
-      {/* Image Area */}
-      <div className={`w-full aspect-square relative rounded-[2.5rem] ${theme.badgeBg} mb-6 flex items-center justify-center`}>
-        <motion.div whileHover={{ scale: 1.1, rotate: 5 }} className="w-4/5 h-4/5 relative">
-          <Image src={data.image} alt={data.title} fill className="object-contain" />
+      {/* Program Image with Bouncy Hover */}
+      <div className={`w-full h-[250px] relative rounded-[2rem]  mb-6 overflow-hidden`}>
+        <motion.div 
+          whileHover={{ scale: 1.15, rotate: 3 }}
+          className="w-full h-full p-4"
+        >
+          <Image src={data.image} alt={data.title} fill className="object-contain drop-shadow-lg" />
         </motion.div>
       </div>
 
-      {/* Chalk Title with Bubbly Smudge */}
-      <div className="relative mb-2">
-        <h3 
-          className={`text-3xl ${titleFont.className} relative z-10`}
-          style={{ filter: 'url(#chalk-rubbing)', color: theme.titleText }}
-        >
-          {data.title}
-        </h3>
-        <div className={`absolute inset-0 -z-10 ${theme.smudgeColor} opacity-30 blur-md scale-110 rounded-full transform -rotate-2`} />
+      {/* Age Badge */}
+      <div className="bg-slate-100 text-slate-600 px-4 py-1 rounded-full text-xs font-black mb-3">
+        AGES: {data.age}
       </div>
 
-      <p className={`text-slate-500 ${handwritingFont.className} text-xl font-bold mb-4`}>
+      <div className="mb-2">
+        <BubbleText text={data.title} sizeClass="text-3xl" />
+      </div>
+
+      <p className={`text-slate-400 ${handwritingFont.className} text-xl mb-4`}>
         "{data.subtitle}"
       </p>
 
-      <div className={`px-4 py-1 rounded-full ${theme.badgeBg} ${theme.badgeText} text-xs font-black mb-6`}>
-        {data.age}
-      </div>
+      <p className="text-slate-600 text-sm font-bold mb-8 leading-relaxed">
+        {data.description}
+      </p>
 
-      <Link href={`#${data.linkId}`} className="w-full mt-auto">
+      <Link href={`${data.linkId}`} className="w-full mt-auto">
         <motion.button 
           whileHover={{ scale: 1.05 }}
-          className={`w-full py-4 rounded-2xl bg-gradient-to-r ${theme.btnGrad} text-white font-bold flex items-center justify-center gap-2 shadow-lg`}
+          whileTap={{ scale: 0.95 }}
+          className={`w-full py-4 rounded-2xl ${currentTheme.btn} text-white font-black text-lg flex items-center justify-center gap-2 border-2 border-black/10 active:shadow-none active:translate-y-1 transition-all`}
         >
-          View Curriculum <ArrowRight className="w-4 h-4" />
+          Explore <ArrowRight className="w-5 h-5 stroke-[3px]" />
         </motion.button>
       </Link>
     </motion.div>

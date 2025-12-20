@@ -3,227 +3,160 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Brain, 
   MessageCircle, 
-  Users, 
-  Activity, 
-  ShieldCheck, 
-  Sparkles,
-  Zap
+  Binary, 
+  Users2, 
+  Brain, 
+  Palette, 
+  Music, 
+  Sun, 
+  Rocket 
 } from 'lucide-react'; 
-import { Titan_One, Nunito, Caveat } from 'next/font/google';
+import { Luckiest_Guy, Nunito, Caveat } from 'next/font/google';
 import Image from 'next/image';
 
-// --- PLACEHOLDER IMAGE ---
-import mainVisual from "../public/capturingbuttterfly.png"; 
+// --- IMAGE IMPORTS ---
+import learningImage from "../public/test/632.webp"; // Using your existing girl with book image
+import bgPattern from "../public/test/656.webp"; 
 
-// --- FONTS ---
-const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
-const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
-const handwritingFont = Caveat({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
+const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['600', '800'] });
+const handwritingFont = Caveat({ subsets: ['latin'], weight: ['700'] });
 
-// --- 1. DEFINE SPECIFIC COLOR KEYS ---
-type ThemeColor = 'cyan' | 'purple' | 'orange' | 'rose' | 'emerald';
-
-// --- 2. TYPE THE STYLES OBJECT ---
-const colorStyles: Record<ThemeColor, { bg: string; text: string; border: string; glow: string }> = {
-  cyan:   { bg: "bg-cyan-100",   text: "text-cyan-600",   border: "group-hover:border-cyan-300",   glow: "group-hover:shadow-cyan-200" },
-  purple: { bg: "bg-purple-100", text: "text-purple-600", border: "group-hover:border-purple-300", glow: "group-hover:shadow-purple-200" },
-  orange: { bg: "bg-orange-100", text: "text-orange-600", border: "group-hover:border-orange-300", glow: "group-hover:shadow-orange-200" },
-  rose:   { bg: "bg-rose-100",   text: "text-rose-600",   border: "group-hover:border-rose-300",   glow: "group-hover:shadow-rose-200" },
-  emerald:{ bg: "bg-emerald-100",text: "text-emerald-600",border: "group-hover:border-emerald-300",glow: "group-hover:shadow-emerald-200" },
+// --- CONSISTENT BUBBLE TEXT COMPONENT ---
+const BubbleText = ({ text, sizeClass = "text-4xl md:text-6xl" }: { text: string, sizeClass?: string }) => {
+  const colors = ['text-blue-500', 'text-red-500', 'text-yellow-500', 'text-green-500', 'text-orange-500', 'text-purple-500'];
+  return (
+    <div className="flex flex-wrap justify-center gap-x-1">
+      {text.split("").map((char, i) => (
+        <span
+          key={i}
+          className={`relative inline-block ${sizeClass} ${bubbleFont.className} ${colors[i % colors.length]} 
+          [text-shadow:_3px_3px_0_#000,_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]`}
+        >
+          {char}
+          {['o', 'e', 'p', 'a', 'd', 'c', 'u'].includes(char.toLowerCase()) && (
+            <span className="absolute top-[40%] left-1/2 -translate-x-1/2 flex gap-0.5 lg:gap-1 pointer-events-none">
+              <span className="w-0.5 h-0.5 lg:w-1 lg:h-1 bg-black rounded-full" />
+              <span className="w-0.5 h-0.5 lg:w-1 lg:h-1 bg-black rounded-full" />
+            </span>
+          )}
+        </span>
+      ))}
+    </div>
+  );
 };
 
-// --- 3. TYPE THE DATA INTERFACE ---
-interface ModuleData {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  icon: JSX.Element;
-  color: ThemeColor; // Use the specific type here
-}
-
-// --- 4. APPLY TYPE TO ARRAY ---
-const trainingModules: ModuleData[] = [
-  {
-    id: 1,
-    title: "Language & Stories",
-    category: "Communication",
-    description: "Developing self-expression through storytelling, rhymes, and joyful interaction.",
-    icon: <MessageCircle className="w-6 h-6" />,
-    color: "cyan"
-  },
-  {
-    id: 2,
-    title: "Logic & Wonder",
-    category: "Numeracy",
-    description: "Mastering early numbers and curiosity-driven thinking to solve playful puzzles.",
-    icon: <Brain className="w-6 h-6" />,
-    color: "purple"
-  },
-  {
-    id: 3,
-    title: "Team Harmony",
-    category: "Social Skills",
-    description: "Learning sharing, teamwork, and confidence-building in a circle of friends.",
-    icon: <Users className="w-6 h-6" />,
-    color: "orange"
-  },
-  {
-    id: 4,
-    title: "Active Play",
-    category: "Motor Skills",
-    description: "Strengthening coordination through dance, sports, art, and outdoor adventures.",
-    icon: <Activity className="w-6 h-6" />,
-    color: "rose"
-  },
-  {
-    id: 5,
-    title: "Little Leaders",
-    category: "Values",
-    description: "Nurturing emotional intelligence, good habits, kindness, and responsibility.",
-    icon: <ShieldCheck className="w-6 h-6" />,
-    color: "emerald"
-  }
+// --- LEARNING PILLARS DATA ---
+const learningPillars = [
+  { icon: <MessageCircle />, title: "Communication", desc: "Language & Expression", color: "bg-blue-400", shadow: "shadow-[0_8px_0_0_#2563eb]" },
+  { icon: <Binary />, title: "Numeracy", desc: "Early Math Concepts", color: "bg-red-400", shadow: "shadow-[0_8px_0_0_#dc2626]" },
+  { icon: <Users2 />, title: "Social Skills", desc: "Teamwork & Sharing", color: "bg-green-400", shadow: "shadow-[0_8px_0_0_#16a34a]" },
+  { icon: <Brain />, title: "Logic", desc: "Problem Solving", color: "bg-purple-400", shadow: "shadow-[0_8px_0_0_#9333ea]" },
+  { icon: <Palette />, title: "Creativity", desc: "Art & Imagination", color: "bg-orange-400", shadow: "shadow-[0_8px_0_0_#ea580c]" },
+  { icon: <Music />, title: "Rhythm", desc: "Music & Movement", color: "bg-pink-400", shadow: "shadow-[0_8px_0_0_#db2777]" },
 ];
 
-const WhatKidsLearn: React.FC = () => {
+const LearningJourney: React.FC = () => {
   return (
-    <section className={`relative py-24 overflow-hidden bg-slate-50 ${bodyFont.className}`}>
+    <section className={`py-24 relative overflow-hidden bg-[#fdfbf7] ${bodyFont.className}`}>
       
-      {/* Background Decor */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-         <div className="absolute top-1/4 left-0 w-64 h-64 bg-purple-200/40 rounded-full blur-3xl opacity-60" />
-         <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-orange-100/60 rounded-full blur-3xl opacity-60" />
+      {/* BACKGROUND ELEMENTS */}
+      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+        <Image src={bgPattern} alt="bg" fill className="" />
       </div>
 
-      <div className=" mx-auto px-6 lg:px-12 relative z-10">
+      <div className="container mx-auto px-6 relative z-10">
         
-        {/* --- HEADER --- */}
+        {/* HEADER */}
         <div className="text-center mb-16">
-           <motion.div
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-             transition={{ duration: 0.6 }}
-           >
-             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full border border-blue-200 bg-white shadow-sm">
-                <Sparkles className="w-4 h-4 text-blue-500 fill-blue-500 animate-pulse" />
-                <span className={`text-lg text-slate-700 ${handwritingFont.className} font-bold tracking-wide`}>
-                  Holistic Development
-                </span>
-             </div>
-             
-             <h2 className={`text-4xl md:text-6xl mb-6 leading-tight text-slate-900 ${titleFont.className}`}>
-               What <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500">Future Leaders</span> Learn
-             </h2>
-             
-             <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
-               At Best Preschool, children grow through a balanced blend of academics, creativity, and real-world learning. We ensure every child becomes confident, happy, and school-ready.
-             </p>
-           </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Sun className="w-8 h-8 text-yellow-500 animate-spin-slow" />
+              <span className="text-slate-500 font-black uppercase tracking-widest">Growth & Discovery</span>
+            </div>
+            <BubbleText text="WHAT KIDS" sizeClass="text-5xl lg:text-8xl" />
+            <div className="mt-[-10px] lg:mt-[-20px]">
+              <BubbleText text="WILL LEARN" sizeClass="text-4xl lg:text-7xl" />
+            </div>
+          </motion.div>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center md:mx-8 gap-12 lg:gap-20">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
           
-          {/* --- LEFT: IMAGE --- */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="w-full lg:w-6/12 relative flex justify-center order-2 lg:order-1"
-          >
-             <div className="relative w-full max-w-md ">
-            
-                <div className="relative h-[500px] w-[700px] overflow-hidden ">
-                    <Image 
-                    src={mainVisual} 
-                    alt="Active Child" 
-                    width={1200} 
-                    height={1000}
-                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
-                  />
-                 
+          {/* LEFT: LEARNING PILLARS GRID */}
+          <div className="lg:col-span-4 grid grid-cols-2 gap-6">
+            {learningPillars.slice(0, 4).map((pillar, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{ scale: 1.05, rotate: idx % 2 === 0 ? -2 : 2 }}
+                className={`${pillar.color} ${pillar.shadow} border-2 border-black p-6 rounded-[2.5rem] text-white flex flex-col items-center text-center gap-3`}
+              >
+                <div className="bg-white/20 p-3 rounded-2xl">
+                  {React.cloneElement(pillar.icon as React.ReactElement, { className: "w-8 h-8 stroke-[3px]" })}
                 </div>
-             </div>
-          </motion.div>
+                <div>
+                  <h4 className="font-black text-lg leading-tight">{pillar.title}</h4>
+                  <p className="text-[10px] font-bold opacity-90">{pillar.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
 
+          {/* CENTER: HERO IMAGE FOCUS */}
+          <div className="lg:col-span-4 relative flex justify-center">
+             <div className="absolute inset-0 bg-yellow-100 rounded-full blur-3xl opacity-50 animate-pulse" />
+             <motion.div 
+               animate={{ y: [0, -20, 0] }} 
+               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+               className="relative z-10 w-[300px] h-[400px]"
+             >
+                <Image src={learningImage} alt="Kids learning" fill className="object-contain drop-shadow-2xl" />
+             </motion.div>
+          </div>
 
-          {/* --- RIGHT: MODULE LIST --- */}
-          <div className="w-full lg:w-7/12 order-1 lg:order-2">
-            <div className="relative space-y-4">
-               {/* Vertical Connector Line */}
-               <div className="absolute left-8 top-8 bottom-8 w-0.5 border-l-2 border-dashed border-slate-200 hidden sm:block" />
-
-               {trainingModules.map((module, index) => {
-                 // 5. SAFETY CHECK (Optional but good practice if data comes from API)
-                 const theme = colorStyles[module.color] || colorStyles.cyan;
-                 
-                 return (
-                  <motion.div
-                    key={module.id}
-                    initial={{ opacity: 0, x: 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    whileHover={{ scale: 1.01, x: 5 }}
-                    className={`
-                      group relative p-5 rounded-3xl 
-                      bg-white border border-slate-100 
-                      shadow-sm hover:shadow-xl ${theme.glow}
-                      transition-all duration-300
-                      z-10
-                      ${theme.border} hover:border
-                    `}
-                  >
-                    <div className="flex gap-5 items-center sm:items-start">
-                        
-                        {/* Icon Box */}
-                        <div className={`shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center ${theme.bg} ${theme.text} transition-transform duration-300 group-hover:scale-110 shadow-sm`}>
-                           {module.icon}
-                        </div>
-
-                        <div className="flex-1">
-                           <div className="flex justify-between items-center mb-1">
-                             <h3 className={`text-xl text-slate-800 ${titleFont.className} group-hover:text-blue-600 transition-colors`}>
-                               {module.title}
-                             </h3>
-                             <span className={`text-xs font-bold uppercase tracking-widest ${theme.text} bg-white border border-slate-100 px-2 py-1 rounded-full`}>
-                               {module.category}
-                             </span>
-                           </div>
-                           
-                           <p className="text-slate-500 text-sm leading-relaxed font-semibold group-hover:text-slate-600 transition-colors">
-                             {module.description}
-                           </p>
-                        </div>
-                    </div>
-                  </motion.div>
-                 );
-               })}
+          {/* RIGHT: CONTENT & VALUES */}
+          <div className="lg:col-span-4 space-y-8">
+            <div className="bg-white border-4 border-black rounded-[3rem] p-8 shadow-[10px_10px_0_0_#4D96FF]">
+              <h3 className={`${bubbleFont.className} text-3xl text-blue-500 mb-4`}>Ready for Lift-Off!</h3>
+              <p className="text-slate-600 font-bold leading-relaxed mb-4">
+                At Best Preschool and Day Care, children grow through a balanced blend of academics, creativity and real-world learning.
+              </p>
+              <ul className="space-y-3">
+                {["Strong Language Skills", "Early Numeracy", "Independence", "Good Habits"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-slate-700 font-black">
+                    <Rocket className="w-5 h-5 text-orange-500" /> {item}
+                  </li>
+                ))}
+              </ul>
             </div>
-            
-            {/* Closing Statement */}
-            <motion.div 
-               initial={{ opacity: 0 }}
-               whileInView={{ opacity: 1 }}
-               transition={{ delay: 0.6 }}
-               className="mt-8 ml-0 sm:ml-20"
-            >
-               <div className="inline-block p-4 bg-yellow-50 rounded-tr-2xl rounded-bl-2xl rounded-br-2xl border border-yellow-100 relative">
-                  <div className="absolute -top-3 -left-2 text-4xl text-yellow-300">"</div>
-                  <p className={`text-slate-600 ${handwritingFont.className} text-xl font-bold px-4`}>
-                    We create a structured yet joyful environment where little minds bloom.
-                  </p>
-               </div>
-            </motion.div>
+
+            <div className="flex gap-4">
+               {learningPillars.slice(4).map((pillar, idx) => (
+                  <div key={idx} className={`flex-1 ${pillar.color} ${pillar.shadow} border-2 border-black p-4 rounded-3xl text-center text-white`}>
+                     <p className="font-black text-sm">{pillar.title}</p>
+                  </div>
+               ))}
+            </div>
           </div>
 
         </div>
+
+        {/* BOTTOM MOTTO */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="mt-20 text-center"
+        >
+          <p className={`${handwritingFont.className} text-4xl text-slate-400 mb-2`}>
+            "Confidence, Happiness, and School-Ready"
+          </p>
+          <div className="h-2 w-48 bg-yellow-400 mx-auto rounded-full" />
+        </motion.div>
+
       </div>
     </section>
   );
 };
 
-export default WhatKidsLearn;
+export default LearningJourney;

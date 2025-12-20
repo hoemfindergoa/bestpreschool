@@ -25,6 +25,34 @@ export async function createEmail(data: {
 }
 
 
+export async function createFranchise(data: {
+    name: string;
+    email: string;
+    phone: string;
+    city: string;
+    budget: string;
+    property: string;
+}) {
+    const supabase = await createSupabaseServerClient();
+    
+    // Inserting into a separate 'franchises' table
+    const result = await supabase
+        .from("franchises") 
+        .insert(data)
+        .select()
+        .single();
+
+    if (result.error) {
+        console.error("Franchise error:", result.error);
+    } else {
+        console.log("Franchise success:", result.data);
+    }
+
+    return result;
+}
+
+
+
 
 
 export async function createBlog(data: {

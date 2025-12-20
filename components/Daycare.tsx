@@ -5,217 +5,159 @@ import { motion } from 'framer-motion';
 import { 
   ShieldCheck, 
   Utensils, 
-  Moon, 
-  Camera, 
   Gamepad2, 
-  BookHeart, 
-  HeartHandshake,
-  Star,
-  Sun
+  BedDouble, 
+  Video, 
+  Heart, 
+  BookOpen, 
+  Palette 
 } from 'lucide-react'; 
-import { Titan_One, Nunito, Caveat } from 'next/font/google';
+import { Luckiest_Guy, Nunito, Caveat } from 'next/font/google';
 import Image from 'next/image';
 
-// --- PLACEHOLDER IMAGE ---
-import careImage from "../public/boyandgirlcolor.png"; 
+// --- IMAGE IMPORTS ---
+import daycareHeroImage from "../public/test/649.webp"; // Using one of your existing images
+import bgPattern from "../public/test/658.webp"; 
 
-// --- FONTS ---
-const titleFont = Titan_One({ weight: '400', subsets: ['latin'], display: 'swap' });
-const bodyFont = Nunito({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
-const handwritingFont = Caveat({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
+const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['600', '800'] });
+const handwritingFont = Caveat({ subsets: ['latin'], weight: ['700'] });
 
-// --- FACILITIES DATA (With specific color classes for Light Theme) ---
+// --- CONSISTENT BUBBLE TEXT COMPONENT ---
+const BubbleText = ({ text, sizeClass = "text-4xl md:text-6xl" }: { text: string, sizeClass?: string }) => {
+  const colors = ['text-blue-500', 'text-red-500', 'text-yellow-500', 'text-green-500', 'text-orange-500', 'text-purple-500'];
+  return (
+    <div className="flex flex-wrap justify-center gap-x-1">
+      {text.split("").map((char, i) => (
+        <span
+          key={i}
+          className={`relative inline-block ${sizeClass} ${bubbleFont.className} ${colors[i % colors.length]} 
+          [text-shadow:_3px_3px_0_#000,_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]`}
+        >
+          {char}
+          {['o', 'e', 'p', 'a', 'd', 'c', 'u'].includes(char.toLowerCase()) && (
+            <span className="absolute top-[40%] left-1/2 -translate-x-1/2 flex gap-0.5 lg:gap-1 pointer-events-none">
+              <span className="w-0.5 h-0.5 lg:w-1 lg:h-1 bg-black rounded-full" />
+              <span className="w-0.5 h-0.5 lg:w-1 lg:h-1 bg-black rounded-full" />
+            </span>
+          )}
+        </span>
+      ))}
+    </div>
+  );
+};
+
+// --- DATA: FACILITIES ---
 const facilities = [
-  { 
-    id: 1, 
-    title: "24/7 Watchtower", 
-    desc: "CCTV-enabled classrooms & strict protocols.", 
-    icon: <Camera className="w-5 h-5" />, 
-    bgClass: "bg-emerald-100", 
-    textClass: "text-emerald-600",
-    borderClass: "group-hover:border-emerald-200"
-  },
-  { 
-    id: 2, 
-    title: "Galactic Fueling", 
-    desc: "Nutritious meals for sustained energy.", 
-    icon: <Utensils className="w-5 h-5" />, 
-    bgClass: "bg-orange-100", 
-    textClass: "text-orange-600",
-    borderClass: "group-hover:border-orange-200"
-  },
-  { 
-    id: 3, 
-    title: "Anti-Gravity Play", 
-    desc: "Soft play zones & hygienic learning corners.", 
-    icon: <Gamepad2 className="w-5 h-5" />, 
-    bgClass: "bg-cyan-100", 
-    textClass: "text-cyan-600",
-    borderClass: "group-hover:border-cyan-200"
-  },
-  { 
-    id: 4, 
-    title: "Stasis Pods", 
-    desc: "Cozy rest areas for recharging.", 
-    icon: <Moon className="w-5 h-5" />, 
-    bgClass: "bg-indigo-100", 
-    textClass: "text-indigo-600",
-    borderClass: "group-hover:border-indigo-200"
-  },
-  { 
-    id: 5, 
-    title: "Mission Support", 
-    desc: "Homework assistance & creative activities.", 
-    icon: <BookHeart className="w-5 h-5" />, 
-    bgClass: "bg-pink-100", 
-    textClass: "text-pink-600",
-    borderClass: "group-hover:border-pink-200"
-  },
-  { 
-    id: 6, 
-    title: "Guardian Officers", 
-    desc: "Trained caregivers & personalized attention.", 
-    icon: <HeartHandshake className="w-5 h-5" />, 
-    bgClass: "bg-rose-100", 
-    textClass: "text-rose-600",
-    borderClass: "group-hover:border-rose-200"
-  }
+  { icon: <Video className="w-6 h-6" />, label: "CCTV Enabled", color: "sky" },
+  { icon: <Gamepad2 className="w-6 h-6" />, label: "Soft Play Zone", color: "rose" },
+  { icon: <Utensils className="w-6 h-6" />, label: "Nutritious Meals", color: "orange" },
+  { icon: <BedDouble className="w-6 h-6" />, label: "Rest Areas", color: "purple" },
+  { icon: <ShieldCheck className="w-6 h-6" />, label: "Safety Protocols", color: "teal" },
+  { icon: <Heart className="w-6 h-6" />, label: "Trained Caregivers", color: "red" },
+  { icon: <BookOpen className="w-6 h-6" />, label: "Homework Help", color: "blue" },
+  { icon: <Palette className="w-6 h-6" />, label: "Creative Arts", color: "green" },
 ];
 
-const LittleCometsCare: React.FC = () => {
+const DayCareSection: React.FC = () => {
   return (
-    <section className={`relative py-24 overflow-hidden bg-slate-50 ${bodyFont.className}`}>
+    <section className={`py-24 relative overflow-hidden bg-[#FFFDF6] ${bodyFont.className}`}>
       
-      {/* =========================================
-          LAYER 0: BACKGROUND BLOBS (Light Theme)
-      ========================================= */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-         {/* Warm sun glow top right */}
-         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-yellow-200/40 rounded-full blur-[80px] translate-x-1/2 -translate-y-1/2" />
-         {/* Soft blue glow bottom left */}
-         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-100/60 rounded-full blur-[80px] -translate-x-1/4 translate-y-1/4" />
+      {/* BACKGROUND DECORATION */}
+      <div className="absolute inset-0 z-0 opacity-5 pointer-events-none">
+        <Image src={bgPattern} alt="bg" fill className="" />
       </div>
 
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        
-        {/* --- TITLE HEADER --- */}
-        <div className="mb-16 text-center lg:text-left relative">
-           <motion.div
-             initial={{ opacity: 0, x: -20 }}
-             whileInView={{ opacity: 1, x: 0 }}
-             viewport={{ once: true }}
-             transition={{ duration: 0.6 }}
-           >
-             <div className="inline-flex items-center gap-2 mb-3 px-4 py-1.5 rounded-full border border-yellow-200 bg-yellow-50 shadow-sm">
-                <Sun className="w-4 h-4 text-orange-400 fill-orange-400" />
-                <span className={`text-lg text-slate-700 ${handwritingFont.className} font-bold`}>
-                  Little Comets Care Centre
-                </span>
-             </div>
-             
-             <h2 className={`text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight text-slate-900 ${titleFont.className}`}>
-               A Safe Harbor for <br />
-               <span className="relative z-10">
-                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500">
-                    Little Explorers
-                  </span>
-                  {/* Yellow highlighter effect behind text */}
-                  <span className="absolute bottom-2 left-0 w-full h-3 bg-yellow-200 -z-10 -rotate-1 opacity-70 rounded-full"></span>
-               </span>
-             </h2>
-           </motion.div>
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 items-center">
           
-          {/* --- LEFT: CONTENT & FACILITIES GRID --- */}
-          <div className="w-full lg:w-7/12 order-2 lg:order-1">
-              
-              {/* Description Box - Styled like a Note/Card */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="bg-white border border-orange-100 rounded-3xl p-6 md:p-8 mb-10 shadow-xl shadow-orange-100/50 relative overflow-hidden"
-              >
-                 <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-orange-400 to-yellow-400" />
-                 <p className="text-slate-600 text-lg leading-relaxed font-medium">
-                   Our Day Care service provides a safe, nurturing, and well-supervised environment where children feel comfortable, engaged, and happy. We offer <span className="text-orange-500 font-bold bg-orange-50 px-1 rounded">age-appropriate activities</span>, nutritious meals, and structured routines that support emotional, social, and cognitive development.
-                 </p>
-              </motion.div>
+          {/* LEFT SIDE: INTERACTIVE IMAGE BLOCK */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="w-full lg:w-1/2 relative"
+          >
+            <div className="relative z-10 rounded-[4rem] border-4 border-black overflow-hidden shadow-[15px_15px_0_0_#FFD93D]">
+              <Image 
+                src={daycareHeroImage} 
+                alt="Little Comets Day Care" 
+                className="w-full px-4 py-4 h-auto object-cover hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            {/* Floating Decorative Badge */}
+            <motion.div 
+              animate={{ rotate: [0, 5, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 4 }}
+              className={`absolute -bottom-6 -right-6 z-20 bg-white border-4 border-black p-6 rounded-3xl shadow-xl`}
+            >
+              <p className={`${handwritingFont.className} text-2xl text-rose-500 font-bold`}>
+                Safe & Nurturing!
+              </p>
+            </motion.div>
+          </motion.div>
 
-              {/* Facilities Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 {facilities.map((item, index) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      whileHover={{ scale: 1.02 }}
-                      className={`
-                        flex items-start gap-4 p-4 rounded-2xl 
-                        bg-white border border-slate-100 hover:border-transparent
-                        shadow-sm hover:shadow-lg hover:shadow-slate-200/50
-                        transition-all duration-300 cursor-default group
-                        ${item.borderClass} hover:border
-                      `}
-                    >
-                       {/* Icon Bubble */}
-                       <div className={`shrink-0 w-12 h-12 rounded-2xl ${item.bgClass} ${item.textClass} flex items-center justify-center transition-transform group-hover:scale-110 duration-300 shadow-sm`}>
-                           {item.icon}
-                       </div>
-                       
-                       <div>
-                          <h4 className={`text-slate-800 font-bold text-lg ${titleFont.className} mb-1 group-hover:text-slate-900`}>
-                            {item.title}
-                          </h4>
-                          <p className="text-slate-500 text-sm leading-snug font-semibold">{item.desc}</p>
-                       </div>
-                    </motion.div>
-                 ))}
+          {/* RIGHT SIDE: CONTENT */}
+          <div className="w-full lg:w-1/2">
+            <motion.div
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+            >
+              <BubbleText text="LITTLE COMETS" sizeClass="text-5xl lg:text-7xl" />
+              <div className="mt-[-10px] lg:mt-[-10px] mb-6">
+                <BubbleText text="CARE CENTRE" sizeClass="text-4xl lg:text-6xl" />
               </div>
-          </div>
 
-          {/* --- RIGHT: VISUAL & BADGE --- */}
-          <div className="w-full lg:w-8/12 order-1 lg:order-2 relative flex flex-col justify-center">
+              <p className="text-xl text-slate-700 font-bold mb-6 leading-relaxed">
+                Our Day Care service provides a safe, nurturing, and well-supervised environment where children feel comfortable, engaged and happy throughout the day.
+              </p>
               
-              {/* Main Image Frame */}
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="relative z-10"
-              >
-                 {/* Soft White/Glass Frame */}
-                 <div className="relative p-3  rounded-[2.5rem] ">
-                    <div className="relative overflow-hidden rounded-[2rem]">
-                      
-                      <Image 
-                        src={careImage} 
-                        alt="Child reading safely" 
-                        width={700} 
-                        height={900}
-                        className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-700"
-                      />
-                      
-                   
+              <p className="text-slate-500 mb-10 font-medium">
+                We offer age-appropriate activities, nutritious meals and structured routines that support emotional, social and cognitive development. From homework assistance to creative activities, we ensure every child receives personalized attention.
+              </p>
 
+              {/* FACILITIES GRID */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {facilities.map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    className="bg-white border-2 border-black p-4 rounded-2xl shadow-[4px_4px_0_0_#000] flex flex-col items-center text-center gap-2"
+                  >
+                    <div className={`p-2 rounded-lg bg-${item.color}-500 bg-black/10`}>
+                      {item.icon}
                     </div>
-                 </div>
-
-                 {/* Decorative Elements behind */}
-                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-200 rounded-full blur-[60px] opacity-60 animate-pulse" />
-                 <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-blue-200 rounded-full blur-[60px] opacity-60" />
-              </motion.div>
-
+                    <span className="text-[10px] lg:text-xs font-black uppercase tracking-tighter">
+                      {item.label}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </div>
 
         </div>
+
+        {/* BOTTOM SECTION: SUMMARY CARD */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-20 bg-blue-50 border-4 border-black rounded-[3rem] p-10 shadow-[0_12px_0_0_#4D96FF] text-center"
+        >
+          <div className="max-w-3xl mx-auto">
+            <h4 className={`${bubbleFont.className} text-3xl text-blue-600 mb-4`}>
+              Peace of Mind for Parents
+            </h4>
+            <p className="text-slate-600 font-bold italic">
+              "With trained caregivers, strict safety protocols and personalized attention, we ensure every child receives the care they need while offering parents complete peace of mind."
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
-export default LittleCometsCare;
+export default DayCareSection;
