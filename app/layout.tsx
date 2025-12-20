@@ -12,7 +12,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Little Dreamers - Nurturing Young Minds with Love and Care',
+  title: 'Best Preschool - Nurturing Young Minds with Love and Care',
   description: 'A loving and safe environment for children to explore, learn, and grow. We provide a holistic approach to early childhood education with experienced educators and a vibrant community.',
   images: [
     {
