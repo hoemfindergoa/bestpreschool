@@ -63,7 +63,7 @@ const programs: Program[] = [
     id: 1,
     title: "Little Rockets",
     subtitle: "Igniting Curiosity",
-    age: "2–3 Years",
+    age: "2-3 Years",
     description: "Our Little Rockets begin their journey with joyful discoveries and exploration.",
     theme: "rose", 
     image: boywithfootball, 
@@ -73,31 +73,31 @@ const programs: Program[] = [
     id: 2,
     title: "Moon Explorers",
     subtitle: "Imagination Takes Flight",
-    age: "3–4 Years",
+    age: "3-4 Years",
     description: "Children engage in early literacy and thematic play in a world of imagination.",
     theme: "sky",
     image: girlwithbook, 
-    linkId: "explorers"
+    linkId: "/Programs/#explorers"
   },
   {
     id: 3,
     title: "Astro Champs",
     subtitle: "Building Confidence",
-    age: "4–5 Years",
+    age: "4-5 Years",
     description: "Stronger academic readiness through structured yet enjoyable learning.",
     theme: "purple",
     image: boywithelephant, 
-    linkId: "champs"
+    linkId: "/Programs/#astrochamps"
   },
   {
     id: 4,
     title: "Space Innovators",
     subtitle: "Ready for Lift-Off",
-    age: "5–6 Years",
+    age: "5-6 Years",
     description: "Preparing for formal schooling with advanced foundational learning.",
     theme: "teal",
     image: girlonswing, 
-    linkId: "innovators"
+    linkId: "/Programs/#inovators"
   },
 ];
 
