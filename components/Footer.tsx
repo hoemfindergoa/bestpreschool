@@ -200,7 +200,7 @@ const Footer = () => {
             <BubbleHeading text="CONTACT BASE" sizeClass="text-xl lg:text-2xl" />
             <ul className="space-y-4">
               {[
-                { icon: <Globe />, text: 'littledreamersatcambridge.com', href: 'https://www.littledreamersatcambridge.com', color: 'text-blue-400' },
+                { icon: <Globe />, text: 'bestpreschoolanddaycare.com', href: 'https://www.bestpreschoolanddaycare.com', color: 'text-blue-400' },
                 { icon: <Mail />, text: 'info@bestpreschoolanddaycare.com', href: 'mailto:info@bestpreschoolanddaycare.com', color: 'text-pink-400' },
                 { icon: <Phone />, text: '+91-999 999 6266', href: 'tel:+919999996266', color: 'text-orange-400' }
               ].map((item, i) => (
@@ -248,8 +248,8 @@ const Footer = () => {
               </a>
           </p>
           <div className="flex gap-6 text-xs font-black text-slate-500 uppercase tracking-widest">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+            <Link href="/privacypolicy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/privacypolicy" className="hover:text-white transition-colors">Terms</Link>
           </div>
         </motion.div>
       </motion.div>

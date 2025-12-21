@@ -119,10 +119,10 @@ const InteractiveHero: React.FC = () => {
               <BubbleHeading text="Best " />
             </span>
             <span className="inline-block">
-              <BubbleHeading text=" Preschool" />
+              <BubbleHeading text="  Preschool" />
             </span>
-            <div className="mt-[-10px] lg:mt-[-20px]">
-               <BubbleHeading text="&Daycare" />
+            <div  className="inline-block mt-[-10px] lg:mt-[-10px]">
+              <span className='pt-6'> <BubbleHeading text="And      DayCare" /></span> 
             </div>
           </div>
 

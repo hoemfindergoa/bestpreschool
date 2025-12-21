@@ -1,162 +1,179 @@
+'use client';
+
 import React from 'react';
-import { Shield, Mail, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Shield, Mail, Calendar, Eye, Lock, Baby, RefreshCcw, Star, Globe } from 'lucide-react';
+import { Luckiest_Guy, Nunito } from 'next/font/google';
+
+const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
+const bodyFont = Nunito({ subsets: ['latin'], weight: ['600', '800'] });
+
+// --- CONSISTENT BUBBLE TEXT COMPONENT ---
+const BubbleText = ({ text, sizeClass = "text-4xl md:text-6xl" }: { text: string, sizeClass?: string }) => {
+  const colors = ['text-blue-500', 'text-red-500', 'text-yellow-500', 'text-green-500', 'text-orange-500', 'text-purple-500'];
+  return (
+    <div className="flex flex-wrap justify-center gap-x-1">
+      {text.split("").map((char, i) => (
+        <span
+          key={i}
+          className={`relative inline-block ${sizeClass} ${bubbleFont.className} ${colors[i % colors.length]} 
+          [text-shadow:_3px_3px_0_#000,_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]`}
+        >
+          {char}
+          {['o', 'e', 'p', 'a', 'd', 'c', 'u'].includes(char.toLowerCase()) && (
+            <span className="absolute top-[40%] left-1/2 -translate-x-1/2 flex gap-0.5 lg:gap-1 pointer-events-none">
+              <span className="w-0.5 h-0.5 lg:w-1 lg:h-1 bg-black rounded-full" />
+              <span className="w-0.5 h-0.5 lg:w-1 lg:h-1 bg-black rounded-full" />
+            </span>
+          )}
+        </span>
+      ))}
+    </div>
+  );
+};
 
 function PrivacyPolicyPage() {
+  const sections = [
+    {
+      title: "Information We Collect",
+      icon: <Eye />,
+      color: "bg-blue-400",
+      shadow: "shadow-[8px_8px_0_0_#2563eb]",
+      content: "When you visit our platform, we may collect technical details like your IP address and browser type. If you enroll or contact us, we collect personal information such as names and contact details to serve you better."
+    },
+    {
+      title: "How We Use Information",
+      icon: <Star />,
+      color: "bg-green-400",
+      shadow: "shadow-[8px_8px_0_0_#16a34a]",
+      content: "We use your information to improve our website, personalize your experience, and communicate updates about our programs. Aggregated data helps us better serve our community."
+    },
+    {
+      title: "Data Security",
+      icon: <Lock />,
+      color: "bg-rose-400",
+      shadow: "shadow-[8px_8px_0_0_#e11d48]",
+      content: "We take strict measures to protect your security. While no internet transmission is 100% secure, we use modern safety standards to prevent unauthorized access."
+    },
+    {
+      title: "Children's Privacy",
+      icon: <Baby />,
+      color: "bg-purple-400",
+      shadow: "shadow-[8px_8px_0_0_#9333ea]",
+      content: "We do not knowingly collect information from children under 13 without parental consent. If you believe your child has provided us with data, please contact us immediately."
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        <div className="max-w-4xl mx-auto">
-          {/* Header Section */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-6">
-              <Shield className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+    <div className={`min-h-screen bg-[#FFFDF6] ${bodyFont.className} py-20 px-4 md:px-10`}>
+      <div className="max-w-6xl mx-auto">
+        
+        {/* Header Section */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-block mb-6"
+          >
+            <div className="w-20 h-20 bg-yellow-400 border-4 border-black rounded-[2rem] flex items-center justify-center shadow-[6px_6px_0_0_#000] rotate-12 mx-auto">
+              <Shield className="w-10 h-10 text-black stroke-[3px]" />
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Privacy Policy
-            </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              Your privacy is important to us. This policy explains how we collect, use, and protect your information.
+          </motion.div>
+          <BubbleText text="PRIVACY POLICY And Terms" />
+          <p className="text-xl text-slate-600 font-black mt-6 max-w-2xl mx-auto leading-relaxed">
+            Your privacy is our priority. We are committed to protecting your information while providing a safe space for early learning.
+          </p>
+        </div>
+
+        {/* Introduction Block */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white border-4 border-black rounded-[3rem] p-8 md:p-12 shadow-[12px_12px_0_0_#000] mb-12"
+        >
+          <p className="text-lg md:text-xl text-slate-700 font-bold leading-relaxed italic text-center">
+            "Thank you for trusting <span className="text-blue-500 font-black">Best Preschool and Day Care</span>. We are dedicated to maintaining the highest standards of data protection for all our families and partners."
+          </p>
+        </motion.div>
+
+        {/* Policy Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+          {sections.map((section, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className={`bg-white border-4 border-black rounded-[2.5rem] p-8 ${section.shadow} group hover:-translate-y-1 transition-all`}
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className={`w-14 h-14 ${section.color} border-4 border-black rounded-2xl flex items-center justify-center text-white shadow-[4px_4px_0_0_#000]`}>
+                  {React.cloneElement(section.icon as React.ReactElement, { size: 28, strokeWidth: 3 })}
+                </div>
+                <h2 className={`${bubbleFont.className} text-2xl tracking-wide text-slate-800`}>{section.title}</h2>
+              </div>
+              <p className="text-slate-600 font-bold leading-relaxed">
+                {section.content}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* External Links & Updates */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
+          <div className="lg:col-span-7 bg-[#e0f2fe] border-4 border-black rounded-[3rem] p-8 shadow-[10px_10px_0_0_#4D96FF]">
+            <div className="flex items-center gap-4 mb-4">
+              <Globe className="w-8 h-8 text-blue-600" />
+              <h3 className={`${bubbleFont.className} text-2xl`}>Third-Party Links</h3>
+            </div>
+            <p className="text-slate-700 font-bold leading-relaxed">
+              Our website may contain links to other sites. We encourage you to review their privacy policies before sharing any personal information, as we are not responsible for their content or practices.
             </p>
           </div>
 
-          {/* Main Content */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 space-y-8">
-            
-            {/* Introduction */}
-            <section className="prose prose-gray dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base sm:text-lg">
-                Thank you for visiting <span className="font-semibold text-blue-600 dark:text-blue-400">Ashish Rohilla's Platform</span>, 
-                dedicated to providing free resources for learning software development and DevOps. Your privacy is important to us, 
-                and we are committed to protecting any personal information you may provide while using our website.
-              </p>
-            </section>
-
-            {/* Information Collection */}
-            <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                <div className="w-2 h-8 bg-blue-500 rounded-full"></div>
-                Information We Collect
-              </h2>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 space-y-4">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  When you visit our platform, we may collect certain information automatically, including your IP address, 
-                  browser type, operating system, and other technical details. We may also collect information through cookies 
-                  and similar technologies to enhance your browsing experience and analyze website traffic.
-                </p>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  If you choose to subscribe to our newsletter or contact us through our website, we may collect personal 
-                  information such as your name and email address.
-                </p>
-              </div>
-            </section>
-
-            {/* How We Use Information */}
-            <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                <div className="w-2 h-8 bg-green-500 rounded-full"></div>
-                How We Use Your Information
-              </h2>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  We use the information we collect to improve the content and functionality of our website, personalize your 
-                  experience, and communicate with you about updates, tutorials, and other relevant information. We may also 
-                  use aggregated data for analytical purposes to better serve our community.
-                </p>
-              </div>
-            </section>
-
-            {/* Third Party Links */}
-            <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                <div className="w-2 h-8 bg-yellow-500 rounded-full"></div>
-                Third-Party Links
-              </h2>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Our website may contain links to third-party websites or services that are not operated by us. These 
-                  third-party sites have their own privacy policies, and we encourage you to review them before providing 
-                  any personal information.
-                </p>
-              </div>
-            </section>
-
-            {/* Data Security */}
-            <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                <div className="w-2 h-8 bg-red-500 rounded-full"></div>
-                Data Security
-              </h2>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  We take reasonable measures to protect the security of your personal information and prevent unauthorized 
-                  access, disclosure, or alteration. However, please note that no method of transmission over the internet 
-                  or electronic storage is 100% secure, and we cannot guarantee absolute security.
-                </p>
-              </div>
-            </section>
-
-            {/* Children's Privacy */}
-            <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                <div className="w-2 h-8 bg-purple-500 rounded-full"></div>
-                Children's Privacy
-              </h2>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Our website is not intended for children under the age of 13, and we do not knowingly collect personal 
-                  information from children. If you are a parent or guardian and believe that your child has provided us 
-                  with personal information, please contact us immediately, and we will take steps to remove such information 
-                  from our records.
-                </p>
-              </div>
-            </section>
-
-            {/* Policy Updates */}
-            <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                <div className="w-2 h-8 bg-indigo-500 rounded-full"></div>
-                Updates to this Privacy Policy
-              </h2>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  We reserve the right to update or change this privacy policy at any time. Any changes will be posted on 
-                  this page with a revised effective date. We encourage you to review this policy periodically for any updates.
-                </p>
-              </div>
-            </section>
-
-            {/* Contact Section */}
-            <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                <div className="w-2 h-8 bg-teal-500 rounded-full"></div>
-                Contact Us
-              </h2>
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 rounded-lg p-6">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                  If you have any questions or concerns about our privacy policy or the handling of your personal information, 
-                  please don't hesitate to reach out to us:
-                </p>
-                <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium">
-                  <Mail className="w-5 h-5" />
-                  <a 
-                    href="mailto:ashishrohilla510@gmail.com" 
-                    className="hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 underline decoration-2 underline-offset-4"
-                  >
-                    ashishrohilla510@gmail.com
-                  </a>
-                </div>
-              </div>
-            </section>
-
-            {/* Footer */}
-            <div className="border-t border-gray-200 dark:border-gray-600 pt-6">
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                <Calendar className="w-4 h-4" />
-                <span>This privacy policy was last updated June 1, 2025</span>
-              </div>
+          <div className="lg:col-span-5 bg-yellow-50 border-4 border-black rounded-[3rem] p-8 shadow-[10px_10px_0_0_#FFD93D] flex flex-col justify-center">
+            <div className="flex items-center gap-4 mb-4">
+              <RefreshCcw className="w-8 h-8 text-orange-500" />
+              <h3 className={`${bubbleFont.className} text-2xl`}>Policy Updates</h3>
             </div>
+            <p className="text-slate-700 font-bold leading-relaxed">
+              We may update this policy periodically. Any changes will be posted here with a revised effective date.
+            </p>
           </div>
         </div>
+
+        {/* Contact Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="bg-slate-900 border-4 border-black rounded-[3rem] p-10 md:p-14 text-white text-center shadow-[15px_15px_0_0_#000] relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 p-8 opacity-10 rotate-12">
+            <Mail size={120} />
+          </div>
+          
+          <h2 className={`${bubbleFont.className} text-4xl mb-6 tracking-wider`}>CONTACT US</h2>
+          <p className="text-xl font-bold mb-10 max-w-2xl mx-auto opacity-90">
+            If you have any questions about your information or our privacy practices, please reach out to our team:
+          </p>
+          
+          <a 
+            href="mailto:ashishrohilla510@gmail.com" 
+            className="inline-flex items-center gap-3 bg-white text-slate-900 px-10 py-4 rounded-2xl border-4 border-black font-black text-xl hover:bg-yellow-400 hover:scale-105 active:scale-95 transition-all shadow-[6px_6px_0_0_#4D96FF]"
+          >
+            <Mail className="w-6 h-6 stroke-[3px]" />
+           info@bestpreschoolanddaycare.com
+          </a>
+        </motion.div>
+
+        {/* Footer Note */}
+        <div className="mt-20 text-center border-t-4 border-black/10 pt-10">
+          <div className="inline-flex items-center gap-2 bg-slate-100 px-6 py-2 rounded-full border-2 border-black font-black text-slate-500 uppercase text-xs tracking-widest">
+            <Calendar className="w-4 h-4" />
+            Last Updated: December 21, 2025
+          </div>
+        </div>
+
       </div>
     </div>
   );

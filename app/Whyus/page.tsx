@@ -64,7 +64,7 @@ const WhyUsPage = () => {
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
              <BubbleText text="WHY CHOOSE" />
              <div className="mt-[-10px] md:mt-[-10px] mb-6">
-                <BubbleText text="BEST PRESCHOOL?" sizeClass="text-4xl md:text-6xl" />
+                <BubbleText text="BEST    PRESCHOOL    And         DayCare" sizeClass="text-4xl md:text-6xl" />
              </div>
              <p className="text-xl md:text-2xl text-slate-700 font-black leading-tight [text-shadow:_1px_1px_0_#fff]">
                Where parents find a perfect blend of education, care, and values.
@@ -89,7 +89,7 @@ const WhyUsPage = () => {
             <span className="bg-yellow-100 text-yellow-700 px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest border-2 border-yellow-200 mb-6 inline-block">
               Parental Choice
             </span>
-            <BubbleText text="THE PREFERRED CHOICE" sizeClass="text-4xl md:text-6xl" />
+            <BubbleText text="THE   PREFERRED   CHOICE" sizeClass="text-4xl md:text-6xl" />
             <div className="mt-8 space-y-6">
                <p className="text-xl text-slate-700 font-bold leading-relaxed">
                  Parents choose us because we provide a safe, nurturing, and academically strong environment that supports early development.
@@ -126,7 +126,7 @@ const WhyUsPage = () => {
           <Image src={bgPattern} alt="bg" fill className="" />
         </div> */}
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <BubbleText text="MODERN FACILITIES" />
+          <BubbleText text="MODERN    FACILITIES" />
           <p className="text-lg text-slate-600 font-bold mt-6 mb-16 max-w-2xl mx-auto">
             Our center features spacious, well-ventilated classrooms with child-friendly furniture designed for exploration and creativity.
           </p>

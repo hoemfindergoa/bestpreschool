@@ -128,7 +128,7 @@ const DayCareSection: React.FC = () => {
                     <div className={`p-2 rounded-lg bg-${item.color}-500 bg-black/10`}>
                       {item.icon}
                     </div>
-                    <span className="text-[10px] lg:text-xs font-black uppercase tracking-tighter">
+                    <span className={`text-${item.color}-500 uppercase tracking-tighter`}>
                       {item.label}
                     </span>
                   </motion.div>

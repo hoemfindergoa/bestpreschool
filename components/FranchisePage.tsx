@@ -146,7 +146,7 @@ export default function FranchisePage({
             <span className="bg-orange-100 text-orange-700 px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest border-2 border-orange-200 mb-6 inline-block">
               Why We Lead The Industry
             </span>
-            <BubbleText text="UNIQUE SELLING" />
+            <BubbleText text="UNIQUE   SELLING" />
             <div className="mt-[-10px] md:mt-[-10px]">
               <BubbleText text="POINTS (USPS)" />
             </div>
