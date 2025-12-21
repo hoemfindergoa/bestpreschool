@@ -124,7 +124,9 @@ const CosmicPrograms: React.FC = () => {
                <span className="text-slate-500 font-black uppercase tracking-widest">Our Learning Paths</span>
                <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
             </div>
-            <BubbleText text="OUR PROGRAMS" sizeClass="text-5xl md:text-8xl" />
+            <span><BubbleText text="OUR"  sizeClass="text-5xl md:text-8xl" /> <span>
+              <BubbleText text="PROGRAMS"  sizeClass="text-5xl md:text-8xl" /></span> </span>
+                        
           </motion.div>
         </div>
 

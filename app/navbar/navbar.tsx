@@ -51,9 +51,9 @@ const Navbar = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: "#", color: "hover:text-blue-600 shadow-blue-200" },
-    { icon: Instagram, href: "#", color: "hover:text-pink-600 shadow-pink-200" },
-    { icon: Youtube, href: "#", color: "hover:text-red-600 shadow-red-200" },
+    { icon: Facebook, href: "https://www.facebook.com/BESTPRESCHOOLDAYCARE", color: "hover:text-blue-600 shadow-blue-200" },
+    { icon: Instagram, href: "https://www.instagram.com/BESTPRESCHOOL_AND_DAYCARE", color: "hover:text-pink-600 shadow-pink-200" },
+    { icon: Youtube, href: "https://www.youtube.com/@BestPreschoolAndDayCare", color: "hover:text-red-600 shadow-red-200" },
   ];
 
   return (
@@ -119,6 +119,7 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center gap-2 pr-4 border-r-2 border-slate-200">
                 {socialLinks.map((social, i) => (
                     <motion.a 
+                    target="_blank"
                         key={i} 
                         href={social.href} 
                         whileHover={{ scale: 1.2, rotate: 10 }}
@@ -203,7 +204,7 @@ const Navbar = () => {
 
             <div className="mt-auto flex justify-center gap-6 py-8">
               {socialLinks.map((social, i) => (
-                <a key={i} href={social.href} className="w-14 h-14 bg-white border-2 border-black shadow-[4px_4px_0_0_#000] rounded-2xl flex items-center justify-center">
+                <a target="_blank" key={i} href={social.href} className="w-14 h-14 bg-white border-2 border-black shadow-[4px_4px_0_0_#000] rounded-2xl flex items-center justify-center">
                   <social.icon className="w-6 h-6" />
                 </a>
               ))}

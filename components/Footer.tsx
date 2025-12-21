@@ -158,13 +158,14 @@ const Footer = () => {
             {/* Sticker-style Social Icons */}
             <div className="flex gap-4">
                {[
-                 { Icon: Facebook, color: "bg-blue-500", shadow: "shadow-[3px_3px_0_0_#1e40af]" },
-                 { Icon: Instagram, color: "bg-pink-500", shadow: "shadow-[3px_3px_0_0_#9d174d]" },
-                 { Icon: Youtube, color: "bg-red-500", shadow: "shadow-[3px_3px_0_0_#991b1b]" }
+                 { Icon: Facebook, color: "bg-blue-500", shadow: "shadow-[3px_3px_0_0_#1e40af]" , href: "https://www.facebook.com/BESTPRESCHOOLDAYCARE" },
+                { Icon: Instagram, color: "bg-pink-500", shadow: "shadow-[3px_3px_0_0_#9d174d]", href: "https://www.instagram.com/BESTPRESCHOOL_AND_DAYCARE"  },
+                 { Icon: Youtube, color: "bg-red-500", shadow: "shadow-[3px_3px_0_0_#991b1b]", href:"https://www.youtube.com/@BestPreschoolAndDayCare" }
                ].map((item, idx) => (
                  <motion.a 
                     key={idx} 
-                    href="#" 
+                    target="_blank"
+                    href={item.href} 
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     className={`w-11 h-11 rounded-xl border-2 border-black ${item.color} ${item.shadow} text-white flex items-center justify-center transition-all`}
                  >
@@ -200,7 +201,7 @@ const Footer = () => {
             <ul className="space-y-4">
               {[
                 { icon: <Globe />, text: 'littledreamersatcambridge.com', href: 'https://www.littledreamersatcambridge.com', color: 'text-blue-400' },
-                { icon: <Mail />, text: 'info@littledreamers.com', href: 'mailto:info@littledreamersatcambridge.com', color: 'text-pink-400' },
+                { icon: <Mail />, text: 'info@bestpreschoolanddaycare.com', href: 'mailto:info@bestpreschoolanddaycare.com', color: 'text-pink-400' },
                 { icon: <Phone />, text: '+91-999 999 6266', href: 'tel:+919999996266', color: 'text-orange-400' }
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-4 group">

@@ -7,12 +7,10 @@ import { loadSlim } from "tsparticles-slim";
 import type { Engine } from "tsparticles-engine";
 import Image from 'next/image';
 import { Nunito, Luckiest_Guy } from 'next/font/google';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 // Using your images
 import heroImage from "../public/test/641.webp"; 
-import heroimage2 from "../public/test/642.webp";
-
 const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
 const bodyFont = Nunito({ subsets: ['latin'], weight: ['600', '800'] });
 
@@ -117,7 +115,12 @@ const InteractiveHero: React.FC = () => {
           </motion.div>
 
           <div className="mb-8">
-            <BubbleHeading text="Best Preschool" />
+            <span className="inline-block">
+              <BubbleHeading text="Best " />
+            </span>
+            <span className="inline-block">
+              <BubbleHeading text=" Preschool" />
+            </span>
             <div className="mt-[-10px] lg:mt-[-20px]">
                <BubbleHeading text="&Daycare" />
             </div>
