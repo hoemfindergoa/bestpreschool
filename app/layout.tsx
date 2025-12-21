@@ -5,7 +5,6 @@ import Footer from '@/components/Footer';
 import { Toaster } from "@/components/ui/sonner"
 import Navbar from './navbar/navbar';
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import logo from '../public/logo.png';
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : 'http://localhost:3000'
@@ -13,46 +12,65 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Best Preschool - Nurturing Young Minds with Love and Care',
-  description: 'A loving and safe environment for children to explore, learn, and grow. We provide a holistic approach to early childhood education with experienced educators and a vibrant community.',
-  images: [
-    {
-      url: logo,
+  description: 'A loving and safe environment for children to explore, learn, and grow. We provide a holistic approach to early childhood education.',
+  
+  // 1. FIX: Proper OpenGraph structure
+  openGraph: {
+    title: 'Best Preschool - Nurturing Young Minds with Love and Care',
+    description: 'A loving and safe environment for children to explore, learn, and grow.',
+    url: './',
+    siteName: 'Best Preschool and day care',
+    images: [
+      {
+        // 2. FIX: Use a string path from the public folder, not the imported object
+        url: '../public/logonew.png', 
+        width: 1200,
+        height: 630,
+        alt: 'Best Preschool and daycare Logo',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+
+  // 3. FIX: Added Twitter card metadata for X/Twitter visibility
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Best Preschool',
+    description: 'Nurturing Young Minds with Love and Care',
+    images: ['../public/logonew.png'], 
+  },
 }
-  ],
-}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en"  suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-     {/* <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script> */}
-     <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='' />
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='' />
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
       </head>
       <body>
         <Navbar/>
-
         <ThemeProvider
             attribute="class"
             defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
-            <main className=''>
+            <main>
               <Analytics/>
               <SpeedInsights/>
+              {children}
             </main>
-          {children}
           </ThemeProvider>
           <Toaster />
           <Footer />
-          {/* <Sessioprovider/> */}
-
       </body>
     </html>
   )
-} 
+}
