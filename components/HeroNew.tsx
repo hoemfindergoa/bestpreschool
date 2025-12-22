@@ -109,7 +109,7 @@ const InteractiveHero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-6 inline-block"
           >
-             <span className="bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-widest border-2 border-yellow-200">
+             <span className="bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-[12px]   font-black uppercase tracking-widest border-2 border-yellow-200">
                Welcome to Best Preschool and Day Care
              </span>
           </motion.div>
