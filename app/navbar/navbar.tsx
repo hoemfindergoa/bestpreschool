@@ -47,7 +47,8 @@ const Navbar = () => {
     { href: "/#programs", label: "Programs" },
     { href: "/Whyus", label: "Why Us" },
     { href: "/contact", label: "Contact" },
-      { href: "/franchise", label: "franchise" },
+     { href: "/admission", label: "Admission" },
+      { href: "/franchise", label: "Franchise" },
   ];
 
   const socialLinks = [

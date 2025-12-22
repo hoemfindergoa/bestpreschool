@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { 
-  MapPin, Phone, Mail, Clock, MessageCircle, Send, Sparkles, Sun, Star
+  MapPin, Phone, Mail, Clock, MessageCircle, Send, Sparkles, Sun, Star , Quote , Heart
 } from "lucide-react";
 import Image from "next/image";
 import { Luckiest_Guy, Nunito, Caveat } from 'next/font/google';
@@ -106,9 +106,9 @@ const ContactUs = () => {
               
               <ul className="space-y-6">
                 {[
-                  { icon: MapPin, label: 'Visit Us', text: '123 Sunshine Avenue, Cambridge Lane' },
-                  { icon: Phone, label: 'Call Us', text: '+91 999 999 6266' },
-                  { icon: Mail, label: 'Email Us', text: 'info@littledreamers.com' }
+                  { icon: MapPin, label: 'Visit Us', text: 'Pitampura Delhi' },
+                  { icon: Phone, label: 'Call Us', text: '+91 9999 6060 90' },
+                  { icon: Mail, label: 'Email Us', text: 'info@bestpreschoolanddaycare.com' }
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-4 group">
                     <div className="bg-white border-2 border-black p-3 rounded-2xl shadow-[3px_3px_0_0_#000] text-blue-500">
@@ -174,24 +174,44 @@ const ContactUs = () => {
 
           {/* 4. HOURS & MAP (Purple/Teal) */}
           <div className="lg:col-span-5 flex flex-col gap-8">
-            <Tile className="bg-[#A78BFA] text-white flex-1 flex flex-col justify-center" shadowColor="#7c3aed">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-white border-2 border-black rounded-2xl flex items-center justify-center shadow-[3px_3px_0_0_#000]">
-                  <Clock className="w-6 h-6 text-[#7c3aed] stroke-[3px]" />
-                </div>
-                <h3 className={`${bubbleFont.className} text-3xl [text-shadow:_2px_2px_0_#000]`}>School Hours</h3>
-              </div>
-              <div className="space-y-3 font-black text-lg">
-                <div className="flex justify-between border-b-2 border-black/10 pb-2">
-                  <span>Mon - Fri</span>
-                  <span className="text-yellow-200">8:30 AM - 1:30 PM</span>
-                </div>
-                <div className="flex justify-between pt-1">
-                  <span>Saturday</span>
-                  <span className="text-yellow-200">9:00 AM - 12:00 PM</span>
-                </div>
-              </div>
-            </Tile>
+       <Tile 
+  className="bg-[#A78BFA] text-white flex-1 flex flex-col justify-center relative overflow-hidden" 
+  shadowColor="#7c3aed"
+>
+  {/* Decorative Quote Mark Background */}
+  <div className="absolute -top-4 -left-2 opacity-20 pointer-events-none">
+    <Quote className="w-32 h-32 fill-white" />
+  </div>
+
+  <div className="relative z-10">
+    <div className="flex items-center gap-4 mb-6">
+      <div className="w-12 h-12 bg-white border-2 border-black rounded-2xl flex items-center justify-center shadow-[3px_3px_0_0_#000]">
+        <Heart className="w-6 h-6 text-[#7c3aed] fill-[#7c3aed]" />
+      </div>
+      <h3 className={`${bubbleFont.className} text-3xl [text-shadow:_2px_2px_0_#000]`}>
+        Our Philosophy
+      </h3>
+    </div>
+
+    <div className="space-y-4">
+      <p className={`${handFont.className} text-4xl lg:text-5xl leading-tight text-yellow-200`}>
+        "Where imagination has no limits and every child is a star."
+      </p>
+      
+      <div className="flex items-center gap-3 pt-4">
+        <div className="h-[2px] w-12 bg-white/30 rounded-full" />
+        <span className="font-black uppercase tracking-widest text-xs opacity-90">
+          The Best Preschool & Daycare
+        </span>
+      </div>
+    </div>
+  </div>
+
+  {/* Small Sparkle Sticker in Corner */}
+  <div className="absolute bottom-6 right-6 animate-pulse">
+    <Sparkles className="w-8 h-8 text-yellow-300" />
+  </div>
+</Tile>
 
             <Tile className="bg-[#6BCB77] p-0 overflow-hidden relative min-h-[220px]" shadowColor="#16a34a">
               <Image 

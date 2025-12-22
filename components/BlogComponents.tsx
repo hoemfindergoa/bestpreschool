@@ -84,9 +84,9 @@ const WhyChooseUs: React.FC = () => {
     <section className={`py-24 relative overflow-hidden bg-[#FFFDF6] ${bodyFont.className}`}>
       
       {/* BACKGROUND DECO */}
-      <div className="absolute inset-0 z-0 opacity-5 pointer-events-none">
+      {/* <div className="absolute inset-0 z-0 opacity-5 pointer-events-none">
         <Image src={bgPattern} alt="bg" fill className="object-cover" />
-      </div>
+      </div> */}
 
       <div className="md:mx-[150px] mx-auto px-6 relative z-10">
         

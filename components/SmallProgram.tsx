@@ -62,9 +62,9 @@ const LearningJourney: React.FC = () => {
     <section className={`py-24 relative overflow-hidden bg-[#fdfbf7] ${bodyFont.className}`}>
       
       {/* BACKGROUND ELEMENTS */}
-      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+      {/* <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
         <Image src={bgPattern} alt="bg" fill className="" />
-      </div>
+      </div> */}
 
       <div className="container mx-auto px-6 relative z-10">
         

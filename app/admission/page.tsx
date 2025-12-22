@@ -76,9 +76,9 @@ export default function AdmissionPage({ isLoading, onHandleSubmit }: any) {
                 <ChevronRight className="w-4 h-4" />
                 <span>ADMISSION</span>
             </div>
-            <BubbleText text="JOIN OUR" sizeClass="text-5xl md:text-8xl" />
+            <BubbleText text="Admissions" sizeClass="text-5xl md:text-8xl" />
             <div className="mt-[-10px] md:mt-[-20px] mb-8">
-                <BubbleText text="UNIVERSE!" sizeClass="text-6xl md:text-9xl" />
+                <BubbleText text="Open!" sizeClass="text-6xl md:text-9xl" />
             </div>
             <p className="text-xl md:text-2xl text-slate-700 font-black leading-tight [text-shadow:_1px_1px_0_#fff]">
               Admissions are open! Secure a spot for your little explorer today.
@@ -123,7 +123,7 @@ export default function AdmissionPage({ isLoading, onHandleSubmit }: any) {
       <section className="relative w-full bg-[#4D96FF] py-32 overflow-hidden border-t-8 border-black">
         <div className="container mx-auto px-6 relative z-10">
            <div className="text-center mb-16">
-              <BubbleText text="APPLY FOR ADMISSION" sizeClass="text-4xl md:text-7xl" />
+              <BubbleText text="APPLY     FOR     ADMISSION" sizeClass="text-4xl md:text-7xl" />
               <p className="text-white text-xl font-black mt-4 [text-shadow:_1px_1px_0_#000]">Building a strong foundation for future schooling.</p>
            </div>
 
@@ -188,7 +188,7 @@ export default function AdmissionPage({ isLoading, onHandleSubmit }: any) {
          <div className="flex justify-center gap-4">
             <div className="bg-white border-2 border-black p-3 rounded-2xl shadow-[4px_4px_0_0_#000] flex items-center gap-2">
                <Phone className="w-5 h-5 text-emerald-500" />
-               <span className="text-xs font-black">+91 999 999 6266</span>
+               <span className="text-xs font-black">+91 9999 6060 90</span>
             </div>
             <div className="bg-white border-2 border-black p-3 rounded-2xl shadow-[4px_4px_0_0_#000] flex items-center gap-2">
                <MapPin className="w-5 h-5 text-rose-500" />

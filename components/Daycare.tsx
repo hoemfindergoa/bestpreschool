@@ -49,14 +49,12 @@ const BubbleText = ({ text, sizeClass = "text-4xl md:text-6xl" }: { text: string
 
 // --- DATA: FACILITIES ---
 const facilities = [
-  { icon: <Video className="w-6 h-6" />, label: "CCTV Enabled", color: "sky" },
-  { icon: <Gamepad2 className="w-6 h-6" />, label: "Soft Play Zone", color: "rose" },
+  { icon: <Video className="w-6 h-6" />, label: "CCTV", color: "sky" },
+  { icon: <Gamepad2 className="w-6 h-6" />, label: "Play Zone", color: "rose" },
   { icon: <Utensils className="w-6 h-6" />, label: "Nutritious Meals", color: "orange" },
   { icon: <BedDouble className="w-6 h-6" />, label: "Rest Areas", color: "purple" },
   { icon: <ShieldCheck className="w-6 h-6" />, label: "Safety Protocols", color: "teal" },
   { icon: <Heart className="w-6 h-6" />, label: "Trained Caregivers", color: "red" },
-  { icon: <BookOpen className="w-6 h-6" />, label: "Homework Help", color: "blue" },
-  { icon: <Palette className="w-6 h-6" />, label: "Creative Arts", color: "green" },
 ];
 
 const DayCareSection: React.FC = () => {
@@ -118,7 +116,7 @@ const DayCareSection: React.FC = () => {
               </p>
 
               {/* FACILITIES GRID */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {facilities.map((item, idx) => (
                   <motion.div
                     key={idx}

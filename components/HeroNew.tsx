@@ -27,7 +27,7 @@ const BubbleHeading = ({ text }: { text: string }) => {
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: i * 0.05, type: 'spring', stiffness: 200 }}
           className={`
-            relative inline-block text-5xl md:text-7xl lg:text-8xl
+            relative inline-block text-5xl md:text-6xl lg:text-7xl
             ${bubbleFont.className} 
             ${colors[i % colors.length]}
             [text-shadow:_4px_4px_0_#000,_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]
@@ -110,7 +110,7 @@ const InteractiveHero: React.FC = () => {
             className="mb-6 inline-block"
           >
              <span className="bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-widest border-2 border-yellow-200">
-               Welcome to Best Preschool
+               Welcome to Best Preschool and Day Care
              </span>
           </motion.div>
 

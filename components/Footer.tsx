@@ -180,10 +180,10 @@ const Footer = () => {
             <BubbleHeading text="QUICK LINKS" sizeClass="text-xl lg:text-2xl" />
             <ul className="space-y-3">
               {[
-                { name: 'About Mission', href: '/about' },
-                { name: 'Flight Programs', href: '/#programs' },
-                { name: 'Join The Crew', href: '/admission' },
-                { name: 'Contact Base', href: '/contact' }
+                { name: 'About Us', href: '/about' },
+                { name: 'Our Programs', href: '/#programs' },
+                { name: 'Admission', href: '/admission' },
+                { name: 'Contact us', href: '/contact' }
               ].map((item) => (
                 <li key={item.name}>
                   <Link href={item.href} className="text-slate-400 hover:text-yellow-400 transition-all duration-300 inline-flex items-center gap-2 text-sm font-black group">
@@ -202,7 +202,7 @@ const Footer = () => {
               {[
                 { icon: <Globe />, text: 'bestpreschoolanddaycare.com', href: 'https://www.bestpreschoolanddaycare.com', color: 'text-blue-400' },
                 { icon: <Mail />, text: 'info@bestpreschoolanddaycare.com', href: 'mailto:info@bestpreschoolanddaycare.com', color: 'text-pink-400' },
-                { icon: <Phone />, text: '+91-999 999 6266', href: 'tel:+919999996266', color: 'text-orange-400' }
+                { icon: <Phone />, text: '+91-9999 6060 90', href: 'tel:+919999606090', color: 'text-orange-400' }
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-4 group">
                   <div className={`w-10 h-10 rounded-xl bg-white border-2 border-black flex items-center justify-center shrink-0 shadow-[3px_3px_0_0_#000] ${item.color}`}>
@@ -242,7 +242,7 @@ const Footer = () => {
           className="pt-8 border-t-2 border-black/20 flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <p className="text-sm text-slate-500 font-black flex flex-wrap justify-center items-center gap-1 uppercase tracking-tighter">
-              © 2025 Little Dreamers. Made with <Heart className="w-3 h-3 text-red-500 fill-red-500 animate-bounce mx-1"/> by 
+              © 2025 Best Preschool and daycare. Made with <Heart className="w-3 h-3 text-red-500 fill-red-500 animate-bounce mx-1"/> by 
               <a href="https://scalesaas.ashishrohilla.co.in/" target="_blank" rel="noreferrer" className={`ml-1 text-white hover:text-yellow-400 transition-colors ${handwritingFont.className} text-2xl`}>
                   scalesaas
               </a>

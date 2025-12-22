@@ -106,9 +106,9 @@ const CosmicPrograms: React.FC = () => {
     <section id='programs' className={`py-24 relative overflow-hidden bg-[#FFFDF6] ${bodyFont.className}`}>
       
       {/* BIG BACKGROUND IMAGE */}
-      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+      {/* <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
         <Image src={sectionBgImage} alt="Background pattern" fill className="" />
-      </div>
+      </div> */}
 
       <div className="max-w-[1700px] mx-auto px-6 relative z-10">
         {/* Section Heading */}

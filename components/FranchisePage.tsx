@@ -146,9 +146,9 @@ export default function FranchisePage({
             <span className="bg-orange-100 text-orange-700 px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest border-2 border-orange-200 mb-6 inline-block">
               Why We Lead The Industry
             </span>
-            <BubbleText text="UNIQUE   SELLING" />
+            <BubbleText text="Our   Core " />
             <div className="mt-[-10px] md:mt-[-10px]">
-              <BubbleText text="POINTS (USPS)" />
+              <BubbleText text="Pillars" />
             </div>
           </div>
 
@@ -162,8 +162,14 @@ export default function FranchisePage({
             <USPCard icon={BookOpen} title="PREMIUM CURRICULUM" color="bg-emerald-400" shadow="shadow-[8px_8px_0_0_#059669]" delay={0.2}
               desc="Expert-developed, scientifically designed curriculum promoting holistic early-childhood development." />
 
-            <USPCard icon={Briefcase} title="CORPORATE SUPPORT" color="bg-purple-400" shadow="shadow-[8px_8px_0_0_#7c3aed]" delay={0.3}
-              desc="Marketing, academics, HR, and legal are fully managed, allowing you to focus purely on growth." />
+          <USPCard 
+  icon={Users} 
+  title="OUR HELPER HANDS" 
+  color="bg-purple-400" 
+  shadow="shadow-[8px_8px_0_0_#7c3aed]" 
+  delay={0.3}
+  desc="From hiring teachers to finding parents, we provide a full helping hand in every department so you never have to grow alone." 
+/>
 
             <USPCard icon={Award} title="STRONG IDENTITY" color="bg-orange-400" shadow="shadow-[8px_8px_0_0_#ea580c]" delay={0.4}
               desc="A well-crafted brand and modern teaching methods help build immediate trust among parents." />
