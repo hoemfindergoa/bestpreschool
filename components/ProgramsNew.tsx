@@ -20,7 +20,7 @@ const bodyFont = Nunito({ subsets: ['latin'], weight: ['600', '800'] });
 const handwritingFont = Caveat({ subsets: ['latin'], weight: ['700'] });
 
 // --- BUBBLE TEXT COMPONENT (Consistent with Hero) ---
-const BubbleText = ({ text, sizeClass = "text-3xl" }: { text: string, sizeClass?: string }) => {
+const BubbleText = ({ text, sizeClass = "text-2xl md:text-3xl" }: { text: string, sizeClass?: string }) => {
   const colors = ['text-blue-500', 'text-red-500', 'text-yellow-500', 'text-green-500', 'text-orange-500', 'text-purple-500'];
   return (
     <div className="flex flex-wrap justify-center gap-x-0.5">
@@ -61,9 +61,9 @@ interface Program {
 const programs: Program[] = [
   {
     id: 1,
-    title: "Little Rockets",
+    title: "Little   Rockets",
     subtitle: "Igniting Curiosity",
-    age: "2-3 Years",
+    age: "Play Group (2-3 Years)",
     description: "Our Little Rockets begin their journey with joyful discoveries and exploration.",
     theme: "rose", 
     image: boywithfootball, 
@@ -71,9 +71,9 @@ const programs: Program[] = [
   },
   {
     id: 2,
-    title: "Moon Explorers",
+    title: "Moon   Explorers",
     subtitle: "Imagination Takes Flight",
-    age: "3-4 Years",
+    age: "Nursery (3-4 Years)",
     description: "Children engage in early literacy and thematic play in a world of imagination.",
     theme: "sky",
     image: girlwithbook, 
@@ -81,9 +81,9 @@ const programs: Program[] = [
   },
   {
     id: 3,
-    title: "Astro Champs",
+    title: "Astro   Champs",
     subtitle: "Building Confidence",
-    age: "4-5 Years",
+    age: "LKG (4-5 Years)",
     description: "Stronger academic readiness through structured yet enjoyable learning.",
     theme: "purple",
     image: boywithelephant, 
@@ -91,9 +91,9 @@ const programs: Program[] = [
   },
   {
     id: 4,
-    title: "Space Innovators",
+    title: "Space   Innovators",
     subtitle: "Ready for Lift-Off",
-    age: "5-6 Years",
+    age: "UKG (5-6 Years)",
     description: "Preparing for formal schooling with advanced foundational learning.",
     theme: "teal",
     image: girlonswing, 
@@ -124,7 +124,7 @@ const CosmicPrograms: React.FC = () => {
                <span className="text-slate-500 font-black uppercase tracking-widest">Our Learning Paths</span>
                <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
             </div>
-            <span><BubbleText text="OUR"  sizeClass="text-5xl md:text-8xl" /> <span>
+            <span><BubbleText text="OUR  "  sizeClass="text-5xl md:text-8xl" /> <span>
               <BubbleText text="PROGRAMS"  sizeClass="text-5xl md:text-8xl" /></span> </span>
                         
           </motion.div>
@@ -173,11 +173,11 @@ const ProgramCard: React.FC<{ data: Program; index: number }> = ({ data, index }
 
       {/* Age Badge */}
       <div className="bg-slate-100 text-slate-600 px-4 py-1 rounded-full text-xs font-black mb-3">
-        AGES: {data.age}
+           {data.age}
       </div>
 
       <div className="mb-2">
-        <BubbleText text={data.title} sizeClass="text-3xl" />
+        <BubbleText text={data.title} sizeClass="text-2xl md:text-3xl" />
       </div>
 
       <p className={`text-slate-400 ${handwritingFont.className} text-xl mb-4`}>

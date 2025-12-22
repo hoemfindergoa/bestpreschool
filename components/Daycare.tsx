@@ -102,9 +102,9 @@ const DayCareSection: React.FC = () => {
                whileInView={{ opacity: 1, y: 0 }}
                viewport={{ once: true }}
             >
-              <BubbleText text="LITTLE COMETS" sizeClass="text-5xl lg:text-7xl" />
+              <BubbleText text="LITTLE COMETS" sizeClass="text-4xl lg:text-6xl" />
               <div className="mt-[-10px] lg:mt-[-10px] mb-6">
-                <BubbleText text="CARE CENTRE" sizeClass="text-4xl lg:text-6xl" />
+                <BubbleText text="CARE CENTRE" sizeClass="text-3xl lg:text-5xl" />
               </div>
 
               <p className="text-xl text-slate-700 font-bold mb-6 leading-relaxed">

@@ -11,7 +11,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Best Preschool - Nurturing Young Minds with Love and Care',
+  title: 'Best Preschool And day care - Nurturing Young Minds with Love and Care',
   description: 'A loving and safe environment for children to explore, learn, and grow. We provide a holistic approach to early childhood education.',
   
   // 1. FIX: Proper OpenGraph structure
@@ -23,7 +23,7 @@ export const metadata = {
     images: [
       {
         // 2. FIX: Use a string path from the public folder, not the imported object
-        url: '../public/logonew.png', 
+        url: 'public/logonew.png', 
         width: 1200,
         height: 630,
         alt: 'Best Preschool and daycare Logo',
@@ -38,7 +38,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Best Preschool',
     description: 'Nurturing Young Minds with Love and Care',
-    images: ['../public/logonew.png'], 
+    images: ['public/logonew.png'], 
   },
 }
 

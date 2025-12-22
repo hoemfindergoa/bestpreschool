@@ -72,9 +72,9 @@ const FranchiseHeader = () => {
               <ChevronRight className="w-4 h-4" />
               <span>FRANCHISE</span>
           </div>
-          <BubbleText text="PARTNER WITH" sizeClass="text-5xl md:text-8xl" />
-          <div className="mt-[-10px] md:mt-[-20px] mb-8">
-              <BubbleText text="SUCCESS!" sizeClass="text-6xl md:text-9xl" />
+          <BubbleText text="PARTNER WITH" sizeClass="text-4xl md:text-8xl" />
+          <div className="mt-[-10px] md:mt-[-10px] mb-8">
+              <BubbleText text="SUCCESS!" sizeClass="text-5xl md:text-9xl" />
           </div>
           <p className="text-xl md:text-2xl text-slate-700 font-black leading-tight [text-shadow:_1px_1px_0_#fff]">
             Join a trusted early education brand committed to excellence, innovation, and long-term success.
