@@ -11,12 +11,12 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Best Preschool And day care - Nurturing Young Minds with Love and Care',
+  title: 'Best Preschool And Day care - Nurturing Young Minds with Love and Care',
   description: 'A loving and safe environment for children to explore, learn, and grow. We provide a holistic approach to early childhood education.',
   
   // 1. FIX: Proper OpenGraph structure
   openGraph: {
-    title: 'Best Preschool - Nurturing Young Minds with Love and Care',
+    title: 'Best Preschool And Day care - Nurturing Young Minds with Love and Care',
     description: 'A loving and safe environment for children to explore, learn, and grow.',
     url: './',
     siteName: 'Best Preschool and day care',
