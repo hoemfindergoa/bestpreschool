@@ -47,7 +47,7 @@ const BubbleText = ({ text, sizeClass = "text-5xl lg:text-7xl" }: { text: string
 // --- DATA ---
 const aboutSections = [
   {
-    title: "Our Aim",
+    title: "Our   Aim",
     icon: <Target className="w-8 h-8 lg:w-12 lg:h-12 text-white" />,
     text: "To create a foundation for lifelong learning by providing a stimulating environment where children can discover their unique talents and build self-confidence through play and structured education.",
     color: "bg-rose-400",
@@ -57,7 +57,7 @@ const aboutSections = [
     reverse: false,
   },
   {
-    title: "Our Mission",
+    title: "Our   Mission",
     icon: <Rocket className="w-8 h-8 lg:w-12 lg:h-12 text-white" />,
     text: "Our mission is to nurture the next generation of thinkers, creators, and leaders. We provide holistic care that focuses on physical, emotional, and cognitive development in a safe, nature-inspired setting.",
     color: "bg-blue-400",
@@ -67,7 +67,7 @@ const aboutSections = [
     reverse: true,
   },
   {
-    title: "Our Vision",
+    title: "Our   Vision",
     icon: <Eye className="w-8 h-8 lg:w-12 lg:h-12 text-white" />,
     text: "To be the leading preschool that sets the standard for early childhood education, where every child is empowered to reach their full potential in a world of limitless imagination.",
     color: "bg-green-400",
