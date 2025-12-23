@@ -12,8 +12,6 @@ import boywithfootball from "../public/compressed/346.webp";
 import girlwithbook from "../public/compressed/411.webp";
 import boywithelephant from "../public/compressed/482.webp";
 import girlonswing from "../public/compressed/488a.webp";
-import sectionBgImage from "../public/test/642.webp"; // Using this as the "big background"
-
 // --- FONT CONFIGURATION ---
 const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
 const bodyFont = Nunito({ subsets: ['latin'], weight: ['600', '800'] });

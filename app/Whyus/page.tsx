@@ -48,7 +48,6 @@ const BubbleText = ({ text, sizeClass = "text-4xl md:text-6xl" }: { text: string
 const facilityList = [
   { icon: <Wind />, label: "Ventilated Classrooms", color: "bg-blue-400" },
   { icon: <Camera />, label: "CCTV Enabled", color: "bg-rose-400" },
-  { icon: <Brain />, label: "Montessori Zone", color: "bg-emerald-400" },
   { icon: <Library />, label: "Stocked Library", color: "bg-purple-400" },
   { icon: <Waves />, label: "Purified Water", color: "bg-cyan-400" },
   { icon: <Bed />, label: "Restful Sleeping Zones", color: "bg-orange-400" },
@@ -62,7 +61,7 @@ const WhyUsPage = () => {
       <header className="relative w-full h-[50vh] min-h-[600px] bg-[#e0f2fe] flex items-center overflow-hidden ">
         <div className="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 items-center">
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
-             <BubbleText text="WHY CHOOSE" />
+             <BubbleText text="WHY  To  CHOOSE  Us" />
              <div className="mt-[-10px] md:mt-[-10px] mb-6">
                 <BubbleText text="BEST    PRESCHOOL    And         DayCare" sizeClass="text-4xl md:text-6xl" />
              </div>

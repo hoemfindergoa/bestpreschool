@@ -106,7 +106,7 @@ const ContactUs = () => {
               
               <ul className="space-y-6">
                 {[
-                  { icon: MapPin, label: 'Visit Us', text: 'Pitampura Delhi' },
+                  { icon: MapPin, label: 'Visit Us', text: 'Pitampura,Delhi' },
                   { icon: Phone, label: 'Call Us', text: '+91 9999 6060 90' },
                   { icon: Mail, label: 'Email Us', text: 'info@bestpreschoolanddaycare.com' }
                 ].map((item, i) => (

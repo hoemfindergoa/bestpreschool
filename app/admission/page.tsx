@@ -97,7 +97,7 @@ export default function AdmissionPage({ isLoading, onHandleSubmit }: any) {
           options={{ fullScreen: false, particles: { color: { value: ["#FF6B6B", "#4D96FF"] }, move: { enable: true, speed: 1 }, number: { value: 30 }, shape: { type: "star" }, size: { value: { min: 4, max: 10 } } } }} />
         
         <div className="text-center mb-16 relative z-10">
-          <BubbleText text="ADMISSION PROCESS" />
+          <BubbleText text="ADMISSION   PROCESS" />
           <p className="text-lg text-slate-500 font-bold mt-4">A simple 4-step journey to join the Best Preschool family.</p>
         </div>
 
@@ -158,10 +158,10 @@ export default function AdmissionPage({ isLoading, onHandleSubmit }: any) {
                   <div className="flex flex-col gap-2 md:col-span-2">
                     <label className="font-black text-slate-800 ml-2 text-sm">INTERESTED PROGRAM</label>
                     <select {...register("program")} className="w-full bg-slate-50 border-4 border-black rounded-2xl py-4 px-6 text-slate-700 font-black shadow-[4px_4px_0_0_#000] outline-none">
-                        <option value="rockets">Little Rockets (2-3 Years)</option>
-                        <option value="explorers">Moon Explorers (3-4 Years)</option>
-                        <option value="champs">Astro Champs (4-5 Years)</option>
-                        <option value="innovators">Space Innovators (5-6 Years)</option>
+                        <option value="rockets">Little Rockets Playgroup (2-3 Years)</option>
+                        <option value="explorers">Moon Explorers Nursery (3-4 Years)</option>
+                        <option value="champs">Astro Champs Ukg (4-5 Years)</option>
+                        <option value="innovators">Space Innovators Lkg (5-6 Years)</option>
                         <option value="daycare">Day Care Services</option>
                     </select>
                   </div>
