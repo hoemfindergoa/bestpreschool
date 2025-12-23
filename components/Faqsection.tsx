@@ -44,7 +44,7 @@ const faqData = [
     icon: Baby, theme: 'rose'
   },
   {
-    question: "What curriculum does the best preschool follow?",
+    question: "What curriculum does the best preschool and daycare follow?",
     answer: "We follow a play-based, Montessori-inspired and early learning approach that focuses on holistic development—academic, social, emotional, and physical growth.",
     icon: BookOpen, theme: 'sky'
   },

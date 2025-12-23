@@ -8,10 +8,10 @@ import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 
 // --- IMAGE IMPORTS (Your provided paths) ---
-import boywithfootball from "../public/test/616.webp"; 
-import girlwithbook from "../public/test/671.webp";
-import boywithelephant from "../public/test/662.webp";
-import girlonswing from "../public/test/649.webp";
+import boywithfootball from "../public/compressed/346.webp"; 
+import girlwithbook from "../public/compressed/411.webp";
+import boywithelephant from "../public/compressed/482.webp";
+import girlonswing from "../public/compressed/488a.webp";
 import sectionBgImage from "../public/test/642.webp"; // Using this as the "big background"
 
 // --- FONT CONFIGURATION ---

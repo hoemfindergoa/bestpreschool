@@ -72,9 +72,9 @@ const FranchiseHeader = () => {
               <ChevronRight className="w-4 h-4" />
               <span>FRANCHISE</span>
           </div>
-          <BubbleText text="PARTNER WITH" sizeClass="text-4xl md:text-8xl" />
+          <BubbleText text="PARTNER   WITH" sizeClass="text-3xl md:text-7xl" />
           <div className="mt-[-10px] md:mt-[-10px] mb-8">
-              <BubbleText text="SUCCESS!" sizeClass="text-5xl md:text-9xl" />
+              <BubbleText text="  SUCCESS!" sizeClass="text-5xl md:text-9xl" />
           </div>
           <p className="text-xl md:text-2xl text-slate-700 font-black leading-tight [text-shadow:_1px_1px_0_#fff]">
             Join a trusted early education brand committed to excellence, innovation, and long-term success.
@@ -128,7 +128,7 @@ export default function FranchisePage({
       email: defaultFranchise?.email || "",
       phone: defaultFranchise?.phone || "",
       city: defaultFranchise?.city || "",
-      budget: defaultFranchise?.budget || "Playway (5 to 6 lakh)",
+      budget: defaultFranchise?.budget || "" ,
       property: defaultFranchise?.property || "Yes, I own commercial property"
     },
   });
@@ -195,9 +195,9 @@ export default function FranchisePage({
           options={{ fullScreen: false, particles: { color: { value: ["#FF6B6B", "#4D96FF"] }, move: { enable: true, speed: 1 }, number: { value: 30 }, shape: { type: "star" }, size: { value: { min: 4, max: 10 } } } }} />
         <div className="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <BubbleText text="WHY PARTNER" sizeClass="text-5xl lg:text-7xl" />
+            <BubbleText text="WHY   PARTNER" sizeClass="text-5xl lg:text-7xl" />
             <div className="mt-[-10px] md:mt-[-10px] mb-8">
-              <BubbleText text="WITH US?" sizeClass="text-4xl lg:text-6xl" />
+              <BubbleText text="  WITH   US?" sizeClass="text-4xl lg:text-6xl" />
             </div>
             <p className="text-xl text-slate-700 font-bold mb-6 leading-relaxed">
               Choosing Best Preschool and Day Care means joining a trusted early education brand committed to excellence and innovation.
@@ -230,7 +230,7 @@ export default function FranchisePage({
       <section className="relative w-full bg-[#6BCB77] py-32 overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
            <div className="text-center mb-16">
-              <BubbleText text="START YOUR JOURNEY" sizeClass="text-4xl md:text-7xl" />
+              <BubbleText text="START   YOUR    JOURNEY" sizeClass="text-4xl md:text-7xl" />
               <p className="text-white text-xl font-black mt-4 [text-shadow:_1px_1px_0_#000]">Request our Franchise Information Brochure!</p>
            </div>
            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -261,11 +261,9 @@ export default function FranchisePage({
                        className={`w-full bg-slate-50 border-4 border-black rounded-2xl py-4 px-6 text-slate-700 font-black shadow-[4px_4px_0_0_#000] focus:shadow-none focus:translate-y-1 transition-all outline-none ${errors.city ? 'border-red-500' : ''}`} />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="font-black text-slate-800 ml-2 text-sm uppercase tracking-wider">INVESTMENT BUDGET</label>
-                    <select {...register("budget")} disabled={isLoading} className="w-full bg-slate-50 border-4 border-black rounded-2xl py-4 px-6 text-slate-700 font-black shadow-[4px_4px_0_0_#000] outline-none">
-                        <option value="Playway (5 to 6 lakh)">Playway (5 to 6 lakh)</option>
-                        <option value="Montessori (6-7 lakh)">Montessori (6-7 lakh)</option>                      
-                    </select>
+                    <label className="font-black text-slate-800 ml-2 text-sm uppercase tracking-wider">State</label>
+                       <input {...register("budget", { required: true })} type="text" placeholder="State" disabled={isLoading}
+                       className={`w-full bg-slate-50 border-4 border-black rounded-2xl py-4 px-6 text-slate-700 font-black shadow-[4px_4px_0_0_#000] focus:shadow-none focus:translate-y-1 transition-all outline-none ${errors.budget ? 'border-red-500' : ''}`} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="font-black text-slate-800 ml-2 text-sm uppercase tracking-wider">PROPERTY STATUS</label>

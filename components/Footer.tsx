@@ -147,9 +147,11 @@ const Footer = () => {
           
           {/* --- BRAND BLOCK --- */}
           <motion.div variants={itemVariants} className="space-y-6">
-            <Link href="/" className="inline-block">
-              <Image src={logo} alt="Logo" className="w-44 h-auto" />
+          <div className="bg-white inline-block px-10 py-1 shadow-sm rounded-md">
+              <Link href="/" className="inline-block">
+              <Image src={logo} alt="Logo" className="w-[140px] h-auto" />
             </Link>
+          </div>
             
             <p className="text-slate-400 text-sm leading-relaxed font-bold max-w-xs">
               Launching little astronauts into a universe of learning through play, creativity, and exploration.

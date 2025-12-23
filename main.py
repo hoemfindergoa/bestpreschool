@@ -34,7 +34,7 @@ def ultra_compress(input_folder, output_folder, max_width=2500):
                 print(f"❌ Error: {filename}: {e}")
 
 # --- Run Settings ---
-source_dir = 'public/morecompressed'  # Folder with your large PNGs
-destination_dir = 'public/test'  # Folder to save compressed PNGs
+source_dir = 'public/newimages'  # Folder with your large PNGs
+destination_dir = 'public/compressed'  # Folder to save compressed PNGs
 
 ultra_compress(source_dir, destination_dir, max_width=2000) # Limits width to 2000px

@@ -27,7 +27,7 @@ const BubbleHeading = ({ text }: { text: string }) => {
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: i * 0.05, type: 'spring', stiffness: 200 }}
           className={`
-            relative inline-block text-4xl md:text-6xl lg:text-7xl
+            relative inline-block text-4  text-3xl md:text-6xl lg:text-7xl
             ${bubbleFont.className} 
             ${colors[i % colors.length]}
             [text-shadow:_4px_4px_0_#000,_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]

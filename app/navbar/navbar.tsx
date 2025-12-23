@@ -48,6 +48,7 @@ const Navbar = () => {
     { href: "/Whyus", label: "Why Us" },
     { href: "/contact", label: "Contact" },
      { href: "/admission", label: "Admission" },
+     { href: "/Ourcenters", label: "Our Centers" },
       { href: "/franchise", label: "Franchise" },
   ];
 
@@ -65,7 +66,7 @@ const Navbar = () => {
           : "bg-transparent py-6"
       }`}
     >
-      <div className="container mx-auto px-6">
+      <div className=" md:mx-[150px] mx-auto px-6">
         <div className="flex items-center justify-between">
 
           {/* --- LOGO --- */}

@@ -82,7 +82,7 @@ export const defaultFranchise: IFranchiseDetail = {
     email: "",
     phone: "",
     city: "",
-    budget: "Playway (5 to 6 lakh)", // Matches the default select option
+    budget: "", // Matches the default select option
     property: "Yes, I own commercial property", // Matches the default select option
 };
 
