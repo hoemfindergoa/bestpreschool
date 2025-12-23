@@ -66,7 +66,7 @@ const Navbar = () => {
           : "bg-transparent py-6"
       }`}
     >
-      <div className=" md:mx-[150px] mx-auto px-6">
+      <div className=" md:mx-[120px] mx-auto px-6">
         <div className="flex items-center justify-between">
 
           {/* --- LOGO --- */}
