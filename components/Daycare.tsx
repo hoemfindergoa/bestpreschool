@@ -51,7 +51,7 @@ const BubbleText = ({ text, sizeClass = "text-4xl md:text-6xl" }: { text: string
 const facilities = [
   { icon: <Video className="w-6 h-6" />, label: "CCTV", color: "sky" },
   { icon: <Gamepad2 className="w-6 h-6" />, label: "Play Zone", color: "rose" },
-  { icon: <Utensils className="w-6 h-6" />, label: "Nutritious Meals", color: "orange" },
+  { icon: <Utensils className="w-6 h-6" />, label: "Nutritious Meals", color: "teal" },
   { icon: <BedDouble className="w-6 h-6" />, label: "Rest Areas", color: "purple" },
   { icon: <ShieldCheck className="w-6 h-6" />, label: "Safety Protocols", color: "teal" },
   { icon: <Heart className="w-6 h-6" />, label: "Trained Caregivers", color: "red" },
@@ -126,7 +126,7 @@ const DayCareSection: React.FC = () => {
                     <div className={`p-2 rounded-lg bg-${item.color}-500 bg-black/10`}>
                       {item.icon}
                     </div>
-                    <span className={`text-${item.color}-500 uppercase tracking-tighter`}>
+                    <span className={` text-${item.color}-600 uppercase `}>
                       {item.label}
                     </span>
                   </motion.div>
