@@ -134,6 +134,40 @@ export type Database = {
           }
         ]
       }
+       admissionbestpre: {
+        Row: {
+	name: string,
+    email: string,
+    phone: string,
+	state:string
+	city:string
+	admission_seeking:string
+    message: string
+	country:string
+        }
+        Insert: {
+	name: string,
+    email: string,
+    phone: string,
+	state:string
+	city:string
+	admission_seeking:string
+    message: string
+	country:string
+        }
+        Update: {
+         id: string;
+	name: string,
+    email: string,
+    phone: string,
+	state:string
+	city:string
+	admission_seeking:string
+    message: string
+	country:string
+        }
+        Relationships: []
+      }
       emaildata: {
         Row: {
          name: string;

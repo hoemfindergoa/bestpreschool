@@ -77,19 +77,22 @@ export const EmailFormschema = z
 	  name: z.string().min(2, {
 		message: "Name is required",
 	}),
-	phone: z.string().min(2, {
+	state: z.string().min(2, {
 		message: "Phone is required",
 	}),
-	service: z.string().min(2, {
+	city: z.string().min(2, {
 		message: "Service is required",
 	}),
-	date: z.string().min(2, {
+	admission_seeking: z.string().min(2, {
 		message: "Date is required",
 	}),
-	time: z.string().min(2, {
-		message: "Time is required",
+	country: z.string().min(2, {
+		message: "country is required",
 	}),
 	message: z.string().min(2, {
+		message: "Message is required",
+	}),
+	phone: z.string().min(2, {
 		message: "Message is required",
 	}),
 

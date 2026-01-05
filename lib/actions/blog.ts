@@ -5,17 +5,18 @@ import { revalidatePath  } from "next/cache";
 import { BlogFormSchemaType } from "@/lib/schema";
 const DASHBOARD = "/dashboard/blog";
 export async function createEmail(data: {
-	name: string;
-    email: string;
-    phone: string;
-    service: string;
-    date: string;
-    time: string;
-    message: string;
+	name: string,
+    email: string,
+    phone: string,
+	state:string
+	city:string
+	admission_seeking:string
+    message: string
+	country:string
 }) {
 	const supabase = await createSupabaseServerClient();
 	const emailresult = await supabase
-		.from("emaildata")
+		.from("admissionbestpre")
 		.insert(data)
 		.single();
 
