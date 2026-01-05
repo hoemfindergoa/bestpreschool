@@ -62,7 +62,7 @@ export type Database = {
           }
         ]
       }
-        franchises: {
+        franchise_bestpre: {
         Row: {
           id: number;
           created_at: string;
