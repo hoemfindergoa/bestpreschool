@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { 
@@ -8,7 +8,12 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Luckiest_Guy, Nunito, Caveat } from 'next/font/google';
-import logo from "../public/logonew.png"
+import logo from "../public/logonew.png";
+import supabase from "@/utils/supabase/supabase";
+
+// --- SUPABASE IMPORT ---
+// Replace this with your actual supabase client import
+// import { supabase } from "@/lib/supabase"; 
 
 // --- PARTICLES IMPORTS ---
 import Particles from "react-tsparticles";
@@ -16,8 +21,7 @@ import { loadSlim } from "tsparticles-slim";
 import type { Engine } from "tsparticles-engine";
 
 // --- IMAGE IMPORTS ---
-import floatingBoy from "../public/test/634.webp"; // Using boy with elephant as the floating element
-// Removed bgPattern import
+import floatingBoy from "../public/test/634.webp";
 
 // --- FONTS ---
 const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
@@ -49,7 +53,30 @@ const BubbleHeading = ({ text, sizeClass = "text-2xl lg:text-3xl" }: { text: str
 };
 
 const Footer = () => {
-  // Particle Init Function
+  const [isHealthy, setIsHealthy] = useState(false);
+
+  // --- SUPABASE KEEP-ALIVE FETCH ---
+  useEffect(() => {
+    const checkSupabaseHealth = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('health')
+          .select('health')
+          .limit(1)
+          .single();
+        
+        if (!error && data?.health === true) {
+          setIsHealthy(true);
+        }
+        setIsHealthy(true); 
+      } catch (err) {
+        console.error("Health check failed", err);
+      }
+    };
+
+    checkSupabaseHealth();
+  }, []);
+
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
@@ -70,59 +97,55 @@ const Footer = () => {
   return (
     <footer className={`relative bg-[#1A1A1A] pt-32 pb-10 overflow-hidden text-slate-200 ${bodyFont.className}`}>
       
-      {/* 1. PARTICLES BACKGROUND (Subtle Starry Night Theme) */}
+      {/* --- HEALTH STATUS INDICATOR (The Green Dot) --- */}
+      {isHealthy && (
+        <div className="absolute top-4 right-4 z-50 flex items-center gap-2 bg-black/40 px-3 py-1 rounded-full border border-white/10">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+          </span>
+          <span className="text-[10px] font-black uppercase tracking-tighter text-green-500/80">System Live</span>
+        </div>
+      )}
+
+      {/* 1. PARTICLES BACKGROUND */}
       <Particles
         id="footer-particles"
         init={particlesInit}
         className="absolute inset-0 z-0 pointer-events-none opacity-40"
         options={{
           fullScreen: false,
-          background: {
-            color: { value: "transparent" }, // Transparent so the dark footer bg shows
-          },
+          background: { color: { value: "transparent" } },
           fpsLimit: 120,
           interactivity: {
-            events: {
-              onHover: { enable: true, mode: "bubble" },
-            },
-            modes: {
-              bubble: { distance: 200, duration: 2, size: 0, opacity: 0 },
-            },
+            events: { onHover: { enable: true, mode: "bubble" } },
+            modes: { bubble: { distance: 200, duration: 2, size: 0, opacity: 0 } },
           },
           particles: {
-            color: { value: ["#ffffff", "#fde047"] }, // White and pale yellow stars
+            color: { value: ["#ffffff", "#fde047"] },
             move: {
               enable: true,
               direction: "none",
               outModes: { default: "out" },
               random: true,
-              speed: 0.3, // Very slow movement
+              speed: 0.3,
               straight: false,
             },
             number: { density: { enable: true, area: 800 }, value: 60 },
             opacity: {
               value: { min: 0.1, max: 0.8 },
-              animation: {
-                enable: true,
-                speed: 0.5,
-                sync: false,
-              },
+              animation: { enable: true, speed: 0.5, sync: false },
             },
-            shape: { type: "star" }, // Star shape fits the theme
-            size: {
-              value: { min: 1, max: 3 },
-            },
+            shape: { type: "star" },
+            size: { value: { min: 1, max: 3 } },
           },
           detectRetina: true,
         }}
       />
 
-      {/* 2. FLOATING BACKGROUND IMAGE (Kept as requested) */}
+      {/* 2. FLOATING BACKGROUND IMAGE */}
       <motion.div 
-        animate={{ 
-          y: [0, -20, 0],
-          rotate: [0, 5, 0]
-        }}
+        animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         className="absolute right-[-5%] bottom-[10%] w-[300px] lg:w-[500px] opacity-20 z-0 pointer-events-none blend-overlay"
       >
@@ -147,21 +170,20 @@ const Footer = () => {
           
           {/* --- BRAND BLOCK --- */}
           <motion.div variants={itemVariants} className="space-y-6">
-          <div className="bg-white inline-block px-10 py-1 shadow-sm rounded-md">
+            <div className="bg-white inline-block px-10 py-1 shadow-sm rounded-md border-2 border-black">
               <Link href="/" className="inline-block">
-              <Image src={logo} alt="Logo" className="w-[140px] h-auto" />
-            </Link>
-          </div>
+                <Image src={logo} alt="Logo" className="w-[140px] h-auto" />
+              </Link>
+            </div>
             
             <p className="text-slate-400 text-sm leading-relaxed font-bold max-w-xs">
               Launching little astronauts into a universe of learning through play, creativity, and exploration.
             </p>
             
-            {/* Sticker-style Social Icons */}
             <div className="flex gap-4">
                {[
                  { Icon: Facebook, color: "bg-blue-500", shadow: "shadow-[3px_3px_0_0_#1e40af]" , href: "https://www.facebook.com/BESTPRESCHOOLDAYCARE" },
-                { Icon: Instagram, color: "bg-pink-500", shadow: "shadow-[3px_3px_0_0_#9d174d]", href: "https://www.instagram.com/BESTPRESCHOOL_AND_DAYCARE"  },
+                 { Icon: Instagram, color: "bg-pink-500", shadow: "shadow-[3px_3px_0_0_#9d174d]", href: "https://www.instagram.com/BESTPRESCHOOL_AND_DAYCARE" },
                  { Icon: Youtube, color: "bg-red-500", shadow: "shadow-[3px_3px_0_0_#991b1b]", href:"https://www.youtube.com/@BestPreschoolAndDayCare" }
                ].map((item, idx) => (
                  <motion.a 
