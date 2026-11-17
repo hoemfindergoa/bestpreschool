@@ -4,10 +4,10 @@ import React, { useState, useEffect } from "react";
 import { Menu, X, ArrowRight, Sparkles, Facebook, Instagram, Youtube, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; 
+import { usePathname } from "next/navigation";
 import { Luckiest_Guy, Nunito } from 'next/font/google';
 import Image from "next/image";
-import logo from "../../public/logonew.png";
+import logo from "../../public/newlogo.png";
 
 // --- FONTS ---
 const bubbleFont = Luckiest_Guy({ subsets: ['latin'], weight: ['400'] });
@@ -47,9 +47,9 @@ const Navbar = () => {
     { href: "/#programs", label: "Programs" },
     { href: "/Whyus", label: "Why Us" },
     { href: "/contact", label: "Contact" },
-     { href: "/admission", label: "Admission" },
-     { href: "/Ourcenters", label: "Our Centers" },
-      { href: "/franchise", label: "Franchise" },
+    { href: "/admission", label: "Admission" },
+    { href: "/Ourcenters", label: "Our Centers" },
+    { href: "/franchise", label: "Franchise" },
   ];
 
   const socialLinks = [
@@ -60,11 +60,10 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-white/90 backdrop-blur-lg py-2 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-b-4 border-[#6BCB77]"
-          : "bg-transparent py-6"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+        ? "bg-white/90 backdrop-blur-lg py-2 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-b-4 border-[#6BCB77]"
+        : "bg-transparent py-6"
+        }`}
     >
       <div className=" md:mx-[120px] mx-auto px-6">
         <div className="flex items-center justify-between">
@@ -99,7 +98,7 @@ const Navbar = () => {
                   `}>
                     {link.label}
                   </span>
-                  
+
                   {/* Active Bubble/Underline */}
                   <AnimatePresence>
                     {isActive && (
@@ -116,20 +115,20 @@ const Navbar = () => {
 
           {/* --- RIGHT ACTIONS --- */}
           <div className="flex items-center gap-4">
-            
+
             {/* Social Icons (Desktop) */}
             <div className="hidden lg:flex items-center gap-2 pr-4 border-r-2 border-slate-200">
-                {socialLinks.map((social, i) => (
-                    <motion.a 
-                    target="_blank"
-                        key={i} 
-                        href={social.href} 
-                        whileHover={{ scale: 1.2, rotate: 10 }}
-                        className={`p-2 rounded-xl bg-white border-2 border-black shadow-[3px_3px_0_0_#000] ${social.color}`}
-                    >
-                      <social.icon className="w-4 h-4" />
-                    </motion.a>
-                ))}
+              {socialLinks.map((social, i) => (
+                <motion.a
+                  target="_blank"
+                  key={i}
+                  href={social.href}
+                  whileHover={{ scale: 1.2, rotate: 10 }}
+                  className={`p-2 rounded-xl bg-white border-2 border-black shadow-[3px_3px_0_0_#000] ${social.color}`}
+                >
+                  <social.icon className="w-4 h-4" />
+                </motion.a>
+              ))}
             </div>
 
             {/* Redesigned 3D Enroll Button */}
@@ -180,23 +179,23 @@ const Navbar = () => {
 
             <div className="flex flex-col gap-4">
               {navLinks.map((link, i) => {
-                 const isActive = pathname === link.href || (pathname === "/" && activeSection === link.href);
-                 return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`
+                const isActive = pathname === link.href || (pathname === "/" && activeSection === link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`
                         p-5 rounded-3xl text-2xl border-2 border-black transition-all
                         ${bubbleFont.className}
                         ${isActive ? "bg-blue-400 text-white shadow-[6px_6px_0_0_#000]" : "bg-white text-slate-700 shadow-[4px_4px_0_0_#000]"}
                       `}
-                    >
-                      {link.label}
-                    </Link>
-                 );
+                  >
+                    {link.label}
+                  </Link>
+                );
               })}
-              
+
               <Link href="/admission" onClick={() => setMobileMenuOpen(false)} className="mt-4">
                 <button className={`w-full bg-[#6BCB77] text-white py-5 rounded-3xl border-2 border-black font-black text-2xl shadow-[8px_8px_0_0_#000] active:shadow-none flex justify-center items-center gap-3 ${bodyFont.className}`}>
                   Enroll Now <ArrowRight className="w-7 h-7" />

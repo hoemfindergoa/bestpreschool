@@ -11,15 +11,13 @@ import FaqSection from '@/components/Faqsection';
 export default function Page() {
   return (
     <div className="w-full  text-white  ">
-          <HeroNEW/>
+      <HeroNEW />
+      <ProgramsSection />
+      <Daycare />
+      <Programs />
+      <WhyChooseUs />
+      <FaqSection />
 
-      {/* <HeroNEW/> */}
-        <ProgramsSection/>
-        <Daycare/>
-              <Programs/>
-      <WhyChooseUs/>
-        <FaqSection/>  
- 
     </div>
   );
 }
